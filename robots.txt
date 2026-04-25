@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Interdire les pages à faible valeur SEO
+Disallow: /assets/
+
+# Sitemap
+Sitemap: https://patrimoine-expert.fr/sitemap.xml

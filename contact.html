@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Patrimoine Expert</title>
+  <meta name="description" content="Contactez l'équipe de Patrimoine Expert pour toute question sur nos articles, partenariat ou suggestion de sujet.">
+  <link rel="canonical" href="https://patrimoine-expert.fr/contact.html">
+  <meta property="og:title" content="Contact — Patrimoine Expert">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="logo"><div class="logo-icon">₿</div>Patrimoine<span>Expert</span></a>
+      <nav class="main-nav">
+        <a href="/" class="nav-link">Accueil</a>
+        <a href="a-propos.html" class="nav-link">À propos</a>
+        <a href="contact.html" class="nav-link active">Contact</a>
+      </nav>
+      <button id="burger" class="burger" aria-label="Menu" aria-expanded="false"><span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>
+    </div>
+  </div>
+  <nav id="mobileNav" class="mobile-nav"><a href="/">🏠 Accueil</a><a href="a-propos.html">👤 À propos</a><a href="contact.html">✉️ Contact</a></nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumb"><a href="/">Accueil</a><span class="breadcrumb-sep">›</span><span class="breadcrumb-current">Contact</span></nav>
+    <h1>Contactez-nous</h1>
+    <p>Une question, une suggestion d'article ou une opportunité de partenariat ? Écrivez-nous.</p>
+  </div>
+</section>
+
+<main class="section">
+  <div class="container" style="max-width:860px;">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;">
+
+      <div>
+        <h2>Envoyez-nous un message</h2>
+        <p style="color:var(--text-light);margin-bottom:2rem;">Nous répondons généralement sous 48 heures ouvrées. Pour des questions urgentes, privilégiez l'email direct.</p>
+
+        <!-- Formulaire via Formspree -->
+        <form action="https://formspree.io/f/VOTRE_FORMSPREE_ID" method="POST" data-feedback>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="nom">Prénom &amp; Nom *</label>
+              <input class="form-input" type="text" id="nom" name="nom" placeholder="Thomas Dupont" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Adresse email *</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="vous@email.fr" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sujet">Sujet *</label>
+            <select class="form-select" id="sujet" name="sujet" required>
+              <option value="">-- Sélectionnez un sujet --</option>
+              <option value="question-article">Question sur un article</option>
+              <option value="suggestion">Suggestion de sujet</option>
+              <option value="partenariat">Partenariat / Presse</option>
+              <option value="erreur">Signaler une erreur</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Votre message *</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="Décrivez votre demande en détail…" required></textarea>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-start;gap:.75rem;">
+            <input type="checkbox" id="rgpd" name="rgpd" required style="margin-top:.2rem;flex-shrink:0;">
+            <label for="rgpd" style="font-size:.85rem;color:var(--text-light);">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html">politique de confidentialité</a> de Patrimoine Expert.</label>
+          </div>
+          <button type="submit" class="btn btn-primary">✉️ Envoyer le message</button>
+        </form>
+      </div>
+
+      <div>
+        <h2>Coordonnées</h2>
+        <div style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:2rem;">
+          <div class="cert-item">
+            <div class="cert-icon">📧</div>
+            <div>
+              <div class="cert-name">Email</div>
+              <div class="cert-desc"><a href="mailto:contact@patrimoine-expert.fr">contact@patrimoine-expert.fr</a></div>
+            </div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">⏰</div>
+            <div>
+              <div class="cert-name">Délai de réponse</div>
+              <div class="cert-desc">48 heures ouvrées</div>
+            </div>
+          </div>
+          <div class="cert-item">
+            <div class="cert-icon">🌐</div>
+            <div>
+              <div class="cert-name">Langue</div>
+              <div class="cert-desc">Français uniquement</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box tip-box--warning">
+          <div class="tip-box-icon">⚠️</div>
+          <div class="tip-box-body">
+            <strong>Pas de conseil personnalisé par email</strong>
+            <p>Nous ne fournissons pas de conseil en investissement individuel par email. Pour un bilan patrimonial personnalisé, consultez un CGPI ou votre conseiller bancaire.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:2rem;">
+          <h3>Nous suivre</h3>
+          <div style="display:flex;gap:1rem;margin-top:1rem;">
+            <a href="https://twitter.com/PatrimoineExpert" target="_blank" rel="noopener" class="share-btn share-twitter">Twitter / X</a>
+            <a href="https://linkedin.com/company/patrimoine-expert" target="_blank" rel="noopener" class="share-btn share-linkedin">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="logo"><div class="logo-icon">₿</div>Patrimoine<span>Expert</span></a><p>Analyses patrimoniales indépendantes.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><nav class="footer-links"><a href="/">Accueil</a><a href="a-propos.html">À propos</a><a href="contact.html">Contact</a><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a></nav></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Patrimoine Expert.</span><span><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a></span></div>
+  </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner"><div class="cookie-title">🍪 Nous utilisons des cookies</div><p class="cookie-text">Ce site utilise des cookies. <a href="politique-confidentialite.html">En savoir plus</a>.</p><div class="cookie-actions"><button id="cookieAccept" class="cookie-btn cookie-accept">✓ Accepter</button><button id="cookieRefuse" class="cookie-btn cookie-refuse">✗ Refuser</button><button id="cookieCustomize" class="cookie-btn cookie-customize">⚙️ Personnaliser</button></div></div>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Normalise les fins de ligne en LF dans le dépôt
+* text=auto eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.xml  text eol=lf
+*.txt  text eol=lf
+*.md   text eol=lf

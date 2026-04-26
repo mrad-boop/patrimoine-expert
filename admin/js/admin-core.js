@@ -144,6 +144,7 @@
     ls(STORAGE_KEYS.auth, false);
     showLogin();
   }
+  window.WEAdmin.doLogin  = doLogin;
   window.WEAdmin.doLogout = doLogout;
 
   /* ── Navigation ────────────────────────────────────────── */

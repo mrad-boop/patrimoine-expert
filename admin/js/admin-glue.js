@@ -109,10 +109,33 @@ function showSEPanel(name, el) {
   document.querySelectorAll('.se-section-btn').forEach(function(b){ b.classList.remove('active'); });
   if (el) el.classList.add('active');
 
-  // Show the matching panel
+  // Show the matching panel (ids are "se-<name>")
   document.querySelectorAll('.se-panel').forEach(function(p){ p.style.display = 'none'; });
-  var panel = document.getElementById('se-panel-' + name);
+  var panel = document.getElementById('se-' + name);
   if (panel) panel.style.display = 'block';
+}
+
+/* ── Color picker sync ──────────────────────────────────── */
+function syncColor(colId, hexId, prevId) {
+  var col  = document.getElementById(colId);
+  var hex  = document.getElementById(hexId);
+  var prev = document.getElementById(prevId);
+  if (!col) return;
+  var v = col.value;
+  if (hex)  hex.value = v;
+  if (prev) prev.style.background = v;
+}
+
+function syncColorFromHex(hexId, colId, prevId) {
+  var hex  = document.getElementById(hexId);
+  var col  = document.getElementById(colId);
+  var prev = document.getElementById(prevId);
+  if (!hex) return;
+  var v = hex.value;
+  if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
+    if (col)  col.value = v;
+    if (prev) prev.style.background = v;
+  }
 }
 
 function saveSiteConfig()    { WEAdmin.saveSiteConfig(); }
@@ -120,15 +143,11 @@ function pushSiteConfig()    { WEAdmin.saveSiteConfig(); }
 
 function applyColorsLive() {
   var colorMap = {
-    'seColor-primary':      '--primary',
-    'seColor-primaryDark':  '--primary-dark',
-    'seColor-primaryLight': '--primary-light',
-    'seColor-gold':         '--gold',
-    'seColor-goldLight':    '--gold-light',
-    'seColor-green':        '--green',
-    'seColor-greenLight':   '--green-light',
-    'seColor-bg':           '--bg',
-    'seColor-text':         '--text'
+    'col-primary': '--primary',
+    'col-gold':    '--gold',
+    'col-green':   '--green',
+    'col-bg':      '--bg',
+    'col-text':    '--text'
   };
   Object.keys(colorMap).forEach(function(id) {
     var el = document.getElementById(id);

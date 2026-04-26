@@ -178,136 +178,135 @@
 
   function fillSiteEditorForm(cfg) {
     function set(id, val) { var el = document.getElementById(id); if (el && val != null) el.value = val; }
+    function setChk(id, val) { var el = document.getElementById(id); if (el) el.checked = !!val; }
     if (!cfg) return;
 
     // Brand
-    set('seBrandName',    cfg.brand && cfg.brand.name);
-    set('seBrandTagline', cfg.brand && cfg.brand.tagline);
-    set('seBrandLogo',    cfg.brand && cfg.brand.logoIcon);
-    set('seBrandDomain',  cfg.brand && cfg.brand.domain);
+    set('se-brandName', cfg.brand && cfg.brand.name);
+    set('se-tagline',   cfg.brand && cfg.brand.tagline);
+    set('se-logoIcon',  cfg.brand && cfg.brand.logoIcon);
+    set('se-domain',    cfg.brand && cfg.brand.domain);
+    set('se-domain2',   cfg.brand && cfg.brand.domain2);
 
-    // Colors
+    // Colors — ids are col-<key>, hex-<key>, preview-<key>
     if (cfg.colors) {
-      Object.keys(cfg.colors).forEach(function(key) {
-        set('seColor-' + key, cfg.colors[key]);
-        var preview = document.getElementById('seColorPreview-' + key);
-        if (preview) preview.style.background = cfg.colors[key];
+      ['primary','gold','green','bg','text'].forEach(function(key) {
+        var v = cfg.colors[key]; if (!v) return;
+        set('col-' + key, v);
+        set('hex-' + key, v);
+        var prev = document.getElementById('preview-' + key);
+        if (prev) prev.style.background = v;
       });
     }
 
     // Author
-    set('seAuthorName',   cfg.author && cfg.author.name);
-    set('seAuthorTitle',  cfg.author && cfg.author.title);
-    set('seAuthorAvatar', cfg.author && cfg.author.avatar);
-    set('seAuthorBio',    cfg.author && cfg.author.bio);
+    set('se-authorName',   cfg.author && cfg.author.name);
+    set('se-authorTitle',  cfg.author && cfg.author.title);
+    set('se-authorAvatar', cfg.author && cfg.author.avatar);
+    set('se-authorBio',    cfg.author && cfg.author.bio);
 
     // Hero
     if (cfg.hero) {
-      set('seHeroBadge', cfg.hero.badge);
+      set('se-heroBadge',    cfg.hero.badge);
+      set('se-heroTitle',    cfg.hero.title);
+      set('se-heroSubtitle', cfg.hero.subtitle);
       ['1','2','3'].forEach(function(n) {
-        set('seHeroStat' + n + 'Num',   cfg.hero['stat'+n] && cfg.hero['stat'+n].num);
-        set('seHeroStat' + n + 'Label', cfg.hero['stat'+n] && cfg.hero['stat'+n].label);
-      });
-    }
-
-    // Stats band
-    if (cfg.statsBand && Array.isArray(cfg.statsBand)) {
-      cfg.statsBand.forEach(function(s, i) {
-        set('seStat' + (i+1) + 'Num',   s.num);
-        set('seStat' + (i+1) + 'Label', s.label);
+        var s = cfg.hero['stat'+n]; if (!s) return;
+        set('se-stat' + n + 'num',   s.num);
+        set('se-stat' + n + 'label', s.label);
       });
     }
 
     // Newsletter
-    set('seNlSubscribers', cfg.newsletter && cfg.newsletter.subscribers);
-    set('seNlFormspree',   cfg.newsletter && cfg.newsletter.formspreeId);
+    set('se-nlSubscribers', cfg.newsletter && cfg.newsletter.subscribers);
+    set('se-formspreeId',   cfg.newsletter && cfg.newsletter.formspreeId);
 
     // Ads
     if (cfg.ads) {
-      set('seAdsenseId', cfg.ads.adsenseId);
-      var adsEnabled = document.getElementById('seAdsEnabled');
-      if (adsEnabled) adsEnabled.checked = !!cfg.ads.enabled;
+      set('se-adsenseId', cfg.ads.adsenseId);
+      setChk('se-adsEnabled', cfg.ads.enabled);
     }
 
     // Analytics
-    set('seGA4', cfg.analytics && cfg.analytics.ga4);
+    set('se-ga4', cfg.analytics && cfg.analytics.ga4);
+    setChk('se-localTrackerEnabled', cfg.analytics ? cfg.analytics.localTracker !== false : true);
 
     // Social
     if (cfg.brand && cfg.brand.social) {
       ['twitter','linkedin','facebook','instagram'].forEach(function(p) {
-        set('seSocial-' + p, cfg.brand.social[p]);
+        set('se-' + p, cfg.brand.social[p]);
       });
     }
 
     // Footer
-    set('seFooterTagline',    cfg.footer && cfg.footer.tagline);
-    set('seFooterDisclaimer', cfg.footer && cfg.footer.disclaimer);
+    set('se-footerTagline',    cfg.footer && cfg.footer.tagline);
+    set('se-footerDisclaimer', cfg.footer && cfg.footer.disclaimer);
+    set('se-copyright',        cfg.footer && cfg.footer.copyright);
+    set('se-hosting',          cfg.footer && cfg.footer.hosting);
+    set('se-hostingUrl',       cfg.footer && cfg.footer.hostingUrl);
   }
 
   function collectSiteEditorData() {
     function get(id) { var el = document.getElementById(id); return el ? el.value.trim() : null; }
-    function getBool(id) { var el = document.getElementById(id); return el ? el.checked : false; }
+    function getChk(id) { var el = document.getElementById(id); return el ? el.checked : false; }
 
     var cfg = JSON.parse(JSON.stringify(_siteConfig || {}));
 
     cfg.brand = cfg.brand || {};
-    cfg.brand.name    = get('seBrandName')    || cfg.brand.name;
-    cfg.brand.tagline = get('seBrandTagline') || cfg.brand.tagline;
-    cfg.brand.logoIcon = get('seBrandLogo')   || cfg.brand.logoIcon;
-    cfg.brand.domain   = get('seBrandDomain') || cfg.brand.domain;
+    cfg.brand.name    = get('se-brandName') || cfg.brand.name;
+    cfg.brand.tagline = get('se-tagline')   || cfg.brand.tagline;
+    cfg.brand.logoIcon = get('se-logoIcon') || cfg.brand.logoIcon;
+    cfg.brand.domain   = get('se-domain')  || cfg.brand.domain;
+    cfg.brand.domain2  = get('se-domain2') || cfg.brand.domain2;
 
     cfg.colors = cfg.colors || {};
-    var colorKeys = ['primary','primaryDark','primaryLight','gold','goldLight','green','greenLight','bg','text'];
-    colorKeys.forEach(function(k) {
-      var v = get('seColor-' + k);
+    ['primary','gold','green','bg','text'].forEach(function(k) {
+      var v = get('hex-' + k) || get('col-' + k);
       if (v) cfg.colors[k] = v;
     });
 
     cfg.author = cfg.author || {};
-    cfg.author.name   = get('seAuthorName')   || cfg.author.name;
-    cfg.author.title  = get('seAuthorTitle')  || cfg.author.title;
-    cfg.author.avatar = get('seAuthorAvatar') || cfg.author.avatar;
-    cfg.author.bio    = get('seAuthorBio')    || cfg.author.bio;
+    cfg.author.name   = get('se-authorName')   || cfg.author.name;
+    cfg.author.title  = get('se-authorTitle')  || cfg.author.title;
+    cfg.author.avatar = get('se-authorAvatar') || cfg.author.avatar;
+    cfg.author.bio    = get('se-authorBio')    || cfg.author.bio;
 
     cfg.hero = cfg.hero || {};
-    cfg.hero.badge = get('seHeroBadge') || cfg.hero.badge;
+    cfg.hero.badge    = get('se-heroBadge')    || cfg.hero.badge;
+    cfg.hero.title    = get('se-heroTitle')    || cfg.hero.title;
+    cfg.hero.subtitle = get('se-heroSubtitle') || cfg.hero.subtitle;
     ['1','2','3'].forEach(function(n) {
       cfg.hero['stat'+n] = cfg.hero['stat'+n] || {};
-      var num   = get('seHeroStat' + n + 'Num');
-      var label = get('seHeroStat' + n + 'Label');
+      var num   = get('se-stat' + n + 'num');
+      var label = get('se-stat' + n + 'label');
       if (num)   cfg.hero['stat'+n].num   = num;
       if (label) cfg.hero['stat'+n].label = label;
     });
 
-    cfg.statsBand = cfg.statsBand || [{},{},{},{}];
-    for (var i = 0; i < 4; i++) {
-      cfg.statsBand[i] = cfg.statsBand[i] || {};
-      var num   = get('seStat' + (i+1) + 'Num');
-      var label = get('seStat' + (i+1) + 'Label');
-      if (num)   cfg.statsBand[i].num   = num;
-      if (label) cfg.statsBand[i].label = label;
-    }
-
     cfg.newsletter = cfg.newsletter || {};
-    cfg.newsletter.subscribers = get('seNlSubscribers') || cfg.newsletter.subscribers;
-    cfg.newsletter.formspreeId = get('seNlFormspree')   || cfg.newsletter.formspreeId;
+    cfg.newsletter.subscribers = get('se-nlSubscribers') || cfg.newsletter.subscribers;
+    cfg.newsletter.formspreeId = get('se-formspreeId')   || cfg.newsletter.formspreeId;
 
     cfg.ads = cfg.ads || {};
-    cfg.ads.adsenseId = get('seAdsenseId') || cfg.ads.adsenseId;
-    cfg.ads.enabled   = getBool('seAdsEnabled');
+    cfg.ads.adsenseId = get('se-adsenseId') || cfg.ads.adsenseId;
+    cfg.ads.enabled   = getChk('se-adsEnabled');
 
     cfg.analytics = cfg.analytics || {};
-    cfg.analytics.ga4 = get('seGA4') || cfg.analytics.ga4;
+    cfg.analytics.ga4          = get('se-ga4')                   || cfg.analytics.ga4;
+    cfg.analytics.localTracker = getChk('se-localTrackerEnabled');
 
     cfg.brand.social = cfg.brand.social || {};
     ['twitter','linkedin','facebook','instagram'].forEach(function(p) {
-      var v = get('seSocial-' + p);
+      var v = get('se-' + p);
       if (v !== null) cfg.brand.social[p] = v;
     });
 
     cfg.footer = cfg.footer || {};
-    cfg.footer.tagline    = get('seFooterTagline')    || cfg.footer.tagline;
-    cfg.footer.disclaimer = get('seFooterDisclaimer') || cfg.footer.disclaimer;
+    cfg.footer.tagline    = get('se-footerTagline')    || cfg.footer.tagline;
+    cfg.footer.disclaimer = get('se-footerDisclaimer') || cfg.footer.disclaimer;
+    cfg.footer.copyright  = get('se-copyright')        || cfg.footer.copyright;
+    cfg.footer.hosting    = get('se-hosting')           || cfg.footer.hosting;
+    cfg.footer.hostingUrl = get('se-hostingUrl')        || cfg.footer.hostingUrl;
 
     return cfg;
   }
@@ -495,10 +494,9 @@
     if (btnLoadSE) btnLoadSE.addEventListener('click', loadSiteEditor);
     if (btnSaveSE) btnSaveSE.addEventListener('click', saveSiteConfig);
 
-    // Wire color pickers
-    var colorKeys = ['primary','primaryDark','primaryLight','gold','goldLight','green','greenLight','bg','text'];
-    colorKeys.forEach(function(k) {
-      syncColorPreview('seColor-' + k, 'seColorPreview-' + k);
+    // Wire color pickers (col-<key> → preview-<key>)
+    ['primary','gold','green','bg','text'].forEach(function(k) {
+      syncColorPreview('col-' + k, 'preview-' + k);
     });
 
     // When site-editor view becomes active, auto-load

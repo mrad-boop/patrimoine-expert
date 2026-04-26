@@ -223,6 +223,12 @@
 
   /* ── Manifest helpers ──────────────────────────────────── */
   async function loadManifest() {
+    // Try direct fetch first — works without GitHub PAT
+    try {
+      var r = await fetch('../articles/manifest.json?t=' + Date.now());
+      if (r.ok) return await r.json();
+    } catch (e) {}
+    // Fallback: GitHub API (requires PAT)
     try {
       var data = await ghRequest('/contents/articles/manifest.json');
       var json = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
@@ -757,64 +763,70 @@
     }
   }
 
-  function filterArticles() {
-    var search = ((document.getElementById('articleSearch') || {}).value || '').toLowerCase();
-    var cat    = ((document.getElementById('articleCatFilter') || {}).value || '');
-    var lang   = ((document.getElementById('articleLangFilter') || {}).value || '');
-    var container = document.getElementById('articlesGrid');
+  /* Normalize category values from old French names to English slugs */
+  function normalizeCat(cat) {
+    var map = { 'Placements':'investments','placements':'investments','Investments':'investments',
+                'Immobilier':'real-estate','immobilier':'real-estate','Real Estate':'real-estate',
+                'Fiscalité':'taxation','fiscalite':'taxation','fiscalité':'taxation','Taxation':'taxation' };
+    return map[cat] || (cat || 'investments').toLowerCase().replace(/\s+/g,'-');
+  }
+
+  function filterArticles(query) {
+    var search = (query !== undefined ? query : ((document.getElementById('searchArticles') || {}).value || '')).toLowerCase();
+    var cat    = ((document.getElementById('filterCat')  || {}).value || '');
+    var lang   = ((document.getElementById('filterLang') || {}).value || '');
+    var container = document.getElementById('articlesTableBody');
     if (!container) return;
+
+    var drafts   = ls(STORAGE_KEYS.drafts) || {};
+    var draftList = Object.values(drafts);
 
     var filtered = _manifest.filter(function(a) {
       var matchSearch = !search || (a.title || '').toLowerCase().includes(search) || (a.slug || '').includes(search);
-      var matchCat    = !cat  || a.category === cat;
-      var matchLang   = !lang || a.lang === lang;
+      var catNorm     = normalizeCat(a.category || a.categorySlug || '');
+      var matchCat    = !cat  || catNorm === cat.toLowerCase().replace(/\s+/g,'-') || (a.category||'') === cat;
+      var matchLang   = !lang || (a.lang || 'fr') === lang;
       return matchSearch && matchCat && matchLang;
     });
 
-    // Draft count
-    var drafts = ls(STORAGE_KEYS.drafts) || {};
-    var draftList = Object.values(drafts);
-
     if (!filtered.length && !draftList.length) {
-      container.innerHTML = '<div style="text-align:center;padding:3rem;color:rgba(255,255,255,.4)">No articles found.</div>';
+      container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)">No articles found.</div>';
       return;
     }
 
     var html = '';
 
-    // Drafts banner
+    // Drafts
     draftList.forEach(function(d) {
-      html += '<div class="article-card draft-card">'
-        + '<div class="article-card-header">'
-        + '<span class="article-emoji">' + (d.emoji || '📄') + '</span>'
-        + '<div class="article-card-meta">'
-        + '<span class="article-card-cat cat-' + (d.category||'investments') + '">' + (d.category||'') + '</span>'
-        + '<span class="article-card-lang">' + (d.lang||'en').toUpperCase() + '</span>'
-        + '<span style="background:rgba(255,165,0,.2);color:#ffa500;font-size:.7rem;padding:2px 8px;border-radius:99px">DRAFT</span>'
-        + '</div></div>'
-        + '<h3 class="article-card-title">' + escapeHtml(d.title||'Untitled') + '</h3>'
-        + '<p class="article-card-desc">' + escapeHtml(d.metaDesc||'') + '</p>'
-        + '<div class="article-card-actions">'
-        + '<button class="btn-sm btn-primary" onclick="WEAdmin.editArticle(\'' + escapeHtml(d.slug) + '\')">✏️ Edit</button>'
-        + '<button class="btn-sm btn-ghost" onclick="WEAdmin.deleteDraft(\'' + escapeHtml(d.slug) + '\')">🗑️</button>'
+      var slug = escapeHtml(d.slug || '');
+      html += '<div class="table-row">'
+        + '<div><span class="article-emoji-sm">' + (d.emoji||'📄') + '</span> <strong>' + escapeHtml(d.title||'Untitled') + '</strong>'
+        + ' <span class="badge badge-draft">DRAFT</span></div>'
+        + '<div>' + (d.category||'—') + '</div>'
+        + '<div>' + (d.lang||'—').toUpperCase() + '</div>'
+        + '<div>—</div>'
+        + '<div class="row-actions">'
+        + '<button class="btn btn-primary btn-sm" onclick="editArticle(\'' + slug + '\')">✏️ Edit</button>'
+        + '<button class="btn btn-outline btn-sm" onclick="deleteDraft(\'' + slug + '\')">🗑️</button>'
         + '</div></div>';
     });
 
     filtered.forEach(function(a) {
-      html += '<div class="article-card">'
-        + '<div class="article-card-header">'
-        + '<span class="article-emoji">' + (a.emoji || '📄') + '</span>'
-        + '<div class="article-card-meta">'
-        + '<span class="article-card-cat cat-' + (a.category||'investments') + '">' + (a.category||'') + '</span>'
-        + '<span class="article-card-lang">' + (a.lang||'en').toUpperCase() + '</span>'
-        + '</div></div>'
-        + '<h3 class="article-card-title">' + escapeHtml(a.title||a.slug) + '</h3>'
-        + '<p class="article-card-desc">' + escapeHtml(a.metaDesc||'') + '</p>'
-        + '<div class="article-card-footer"><small>' + (a.date||'') + ' · ' + (a.readTime||'?') + ' min</small></div>'
-        + '<div class="article-card-actions">'
-        + '<button class="btn-sm btn-primary" onclick="WEAdmin.editArticle(\'' + escapeHtml(a.slug) + '\')">✏️ Edit</button>'
-        + '<a class="btn-sm btn-ghost" href="../articles/' + escapeHtml(a.slug) + '.html" target="_blank">👁️ View</a>'
-        + '<button class="btn-sm btn-danger" onclick="WEAdmin.deleteArticle(\'' + escapeHtml(a.slug) + '\')">🗑️</button>'
+      var slug    = escapeHtml(a.slug || '');
+      var catNorm = normalizeCat(a.category || a.categorySlug || '');
+      var lang    = (a.lang || 'fr').toUpperCase();
+      var date    = a.date || '';
+      var rt      = a.readingTime || a.readTime || '?';
+      html += '<div class="table-row">'
+        + '<div><span class="article-emoji-sm">' + (a.emoji||'📄') + '</span> '
+        + '<a href="../articles/' + slug + '.html" target="_blank" style="color:var(--primary);font-weight:600">' + escapeHtml(a.title||slug) + '</a></div>'
+        + '<div><span class="badge badge-' + catNorm + '">' + (a.category||catNorm) + '</span></div>'
+        + '<div>' + lang + '</div>'
+        + '<div style="font-size:.8rem;color:var(--muted)">' + date + ' · ' + rt + ' min</div>'
+        + '<div class="row-actions">'
+        + '<button class="btn btn-primary btn-sm" onclick="editArticle(\'' + slug + '\')">✏️</button>'
+        + '<a class="btn btn-outline btn-sm" href="../articles/' + slug + '.html" target="_blank">👁️</a>'
+        + '<button class="btn btn-outline btn-sm" onclick="deleteArticle(\'' + slug + '\')">🗑️</button>'
         + '</div></div>';
     });
 

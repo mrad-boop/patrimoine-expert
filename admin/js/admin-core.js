@@ -449,26 +449,24 @@
 
   /* ── Editor helpers ────────────────────────────────────── */
   function updateSlug() {
-    var titleEl = document.getElementById('edTitle');
-    var slugEl  = document.getElementById('edSlug');
+    var titleEl = document.getElementById('artTitle');
+    var slugEl  = document.getElementById('artSlug');
     if (titleEl && slugEl && !slugEl.dataset.manual) {
       slugEl.value = slugify(titleEl.value);
     }
   }
 
   function updatePreview() {
-    var frame = document.getElementById('edPreviewFrame');
-    if (!frame) return;
-    var title   = (document.getElementById('edTitle')   || {}).value || '';
-    var content = (document.getElementById('edContent') || {}).value || '';
-    frame.srcdoc = '<html><body style="font-family:Georgia,serif;max-width:800px;margin:2rem auto;padding:0 1rem;line-height:1.7">'
-      + '<h1>' + escapeHtml(title) + '</h1>'
-      + content
-      + '</body></html>';
+    var div   = document.getElementById('previewContent');
+    if (!div) return;
+    var title   = (document.getElementById('artTitle')    || {}).value || '';
+    var content = (document.getElementById('articleBody') || {}).value || '';
+    div.innerHTML = '<h1 style="font-size:1.5rem;font-weight:800;margin-bottom:1rem">'
+      + escapeHtml(title) + '</h1>' + content;
   }
 
   function insertTag(open, close) {
-    var ta = document.getElementById('edContent');
+    var ta = document.getElementById('articleBody');
     if (!ta) return;
     var start = ta.selectionStart, end = ta.selectionEnd;
     var sel = ta.value.substring(start, end);
@@ -481,7 +479,7 @@
 
   function insertTable() {
     var tbl = '<table>\n  <thead><tr><th>Column 1</th><th>Column 2</th><th>Column 3</th></tr></thead>\n  <tbody>\n    <tr><td>Data</td><td>Data</td><td>Data</td></tr>\n    <tr><td>Data</td><td>Data</td><td>Data</td></tr>\n  </tbody>\n</table>';
-    var ta = document.getElementById('edContent');
+    var ta = document.getElementById('articleBody');
     if (!ta) return;
     var pos = ta.selectionStart;
     ta.value = ta.value.substring(0, pos) + tbl + ta.value.substring(pos);
@@ -499,21 +497,23 @@
   function collectEditorData() {
     function val(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; }
     return {
-      title:    val('edTitle'),
-      slug:     val('edSlug'),
-      category: val('edCategory'),
-      lang:     val('edLang'),
-      emoji:    val('edEmoji'),
-      readTime: val('edReadTime'),
-      metaDesc: val('edMetaDesc'),
-      keyword:  val('edKeyword'),
-      tags:     val('edTags'),
-      content:  val('edContent')
+      title:    val('artTitle'),
+      slug:     val('artSlug'),
+      category: val('artCategory'),
+      lang:     val('artLang'),
+      emoji:    val('artEmoji'),
+      readTime: val('artReadingTime'),
+      metaDesc: val('artMeta'),
+      keyword:  val('artFocusKw'),
+      tags:     val('artTags'),
+      content:  val('articleBody')
     };
   }
 
   function extractArticleBody(html) {
-    var si = html.indexOf('class="article-body"');
+    // Try both class names used across articles
+    var si = html.indexOf('class="article-content"');
+    if (si === -1) si = html.indexOf('class="article-body"');
     if (si === -1) return '';
     var tagEnd = html.indexOf('>', si) + 1;
     var depth = 1, i = tagEnd;
@@ -965,12 +965,12 @@
     // Nav items use inline onclick="showView(...)" — nothing to wire here
 
     // Wire editor events
-    var edTitle = document.getElementById('edTitle');
-    var edSlug  = document.getElementById('edSlug');
-    var edContent = document.getElementById('edContent');
-    if (edTitle)   edTitle.addEventListener('input', updateSlug);
-    if (edSlug)    edSlug.addEventListener('input', function(){ edSlug.dataset.manual = '1'; });
-    if (edContent) edContent.addEventListener('input', updatePreview);
+    var artTitle = document.getElementById('artTitle');
+    var artSlug  = document.getElementById('artSlug');
+    var articleBody = document.getElementById('articleBody');
+    if (artTitle)   artTitle.addEventListener('input', updateSlug);
+    if (artSlug)    artSlug.addEventListener('input', function(){ artSlug.dataset.manual = '1'; });
+    if (articleBody) articleBody.addEventListener('input', updatePreview);
 
     // Wire chart tabs
     document.querySelectorAll('.chart-tab').forEach(function(t) {

@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Patrimoine Expert</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & VARIABLES ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1B3A6B; --primary-light: #2A5298; --gold: #C9A84C;
+      --green: #16A34A; --red: #DC2626; --orange: #EA580C;
+      --bg: #F1F5F9; --surface: #FFFFFF; --surface2: #F8FAFC;
+      --border: #E2E8F0; --text: #1E293B; --muted: #64748B;
+      --radius: 8px; --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.1);
+      --font: 'Inter', system-ui, sans-serif;
+    }
+    html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--text); font-size: 14px; }
+
+    /* ===== LOGIN ===== */
+    #loginScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+    .login-box {
+      background: #fff; border-radius: 16px; padding: 2.5rem; width: 380px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    }
+    .login-logo { text-align: center; margin-bottom: 2rem; }
+    .login-logo .icon { width: 56px; height: 56px; background: var(--gold); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: .75rem; }
+    .login-logo h1 { font-size: 1.25rem; font-weight: 800; color: var(--primary); }
+    .login-logo p { font-size: .8rem; color: var(--muted); }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-weight: 600; font-size: .8rem; margin-bottom: .4rem; color: var(--text); text-transform: uppercase; letter-spacing: .05em; }
+    .form-group input { width: 100%; padding: .7rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius); font-size: .9rem; outline: none; font-family: var(--font); transition: border-color .2s; }
+    .form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,58,107,.1); }
+    .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .6rem 1.25rem; border-radius: 99px; font-weight: 600; font-size: .85rem; cursor: pointer; border: none; transition: all .2s; font-family: var(--font); }
+    .btn-primary { background: var(--primary); color: #fff; width: 100%; justify-content: center; padding: .8rem; font-size: .95rem; }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-green { background: var(--green); color: #fff; }
+    .btn-green:hover { opacity: .9; }
+    .btn-red { background: var(--red); color: #fff; }
+    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+    .btn-gold { background: var(--gold); color: #fff; }
+    .btn-sm { padding: .4rem .9rem; font-size: .8rem; }
+    #loginError { background: #FEF2F2; border: 1px solid #FECACA; color: var(--red); padding: .6rem 1rem; border-radius: var(--radius); font-size: .85rem; margin-top: 1rem; display: none; }
+
+    /* ===== APP LAYOUT ===== */
+    #app { display: none; height: 100vh; overflow: hidden; }
+    #app.visible { display: flex; }
+    .sidebar {
+      width: 220px; flex-shrink: 0; background: var(--primary); color: #fff;
+      display: flex; flex-direction: column; height: 100vh; overflow-y: auto;
+    }
+    .sidebar-brand { padding: 1.25rem 1rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+    .sidebar-brand .name { font-weight: 800; font-size: .95rem; color: #fff; }
+    .sidebar-brand .sub { font-size: .72rem; color: rgba(255,255,255,.5); margin-top: .15rem; }
+    .sidebar-nav { padding: .75rem 0; flex: 1; }
+    .nav-section { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.4); padding: .8rem 1rem .3rem; }
+    .nav-item { display: flex; align-items: center; gap: .6rem; padding: .6rem 1rem; font-size: .85rem; color: rgba(255,255,255,.75); cursor: pointer; transition: all .2s; border-left: 3px solid transparent; }
+    .nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+    .nav-item.active { background: rgba(255,255,255,.12); color: #fff; border-left-color: var(--gold); font-weight: 600; }
+    .nav-item .icon { font-size: 1rem; }
+    .sidebar-footer { padding: 1rem; border-top: 1px solid rgba(255,255,255,.1); }
+    .sidebar-footer a { font-size: .8rem; color: rgba(255,255,255,.5); display: block; margin-bottom: .3rem; cursor: pointer; }
+    .sidebar-footer a:hover { color: #fff; }
+
+    .main-area { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100vh; overflow: hidden; }
+    .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: .75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .topbar-title { font-weight: 700; font-size: 1rem; color: var(--text); }
+    .topbar-actions { display: flex; gap: .5rem; }
+    .content { flex: 1; overflow-y: auto; padding: 1.5rem; }
+
+    /* ===== VIEWS ===== */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* Dashboard */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card { background: var(--surface); border-radius: var(--radius); padding: 1.25rem; border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .stat-card .num { font-size: 1.75rem; font-weight: 800; color: var(--primary); }
+    .stat-card .label { font-size: .75rem; color: var(--muted); margin-top: .25rem; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+    .stat-card .trend { font-size: .75rem; color: var(--green); font-weight: 600; margin-top: .5rem; }
+
+    /* Article list */
+    .article-table { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: var(--shadow); }
+    .table-header { display: grid; grid-template-columns: 3fr 1fr 1fr 1fr 120px; gap: 1rem; padding: .75rem 1rem; background: var(--surface2); border-bottom: 1px solid var(--border); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+    .table-row { display: grid; grid-template-columns: 3fr 1fr 1fr 1fr 120px; gap: 1rem; padding: .875rem 1rem; border-bottom: 1px solid var(--border); align-items: center; transition: background .15s; }
+    .table-row:last-child { border-bottom: none; }
+    .table-row:hover { background: var(--surface2); }
+    .article-title-cell { display: flex; align-items: center; gap: .75rem; }
+    .article-emoji { width: 32px; height: 32px; border-radius: 6px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .article-name { font-weight: 600; font-size: .85rem; color: var(--text); line-height: 1.3; }
+    .article-name .slug { font-weight: 400; color: var(--muted); font-size: .75rem; display: block; margin-top: .1rem; }
+    .badge { display: inline-flex; align-items: center; padding: .2rem .6rem; border-radius: 99px; font-size: .72rem; font-weight: 700; }
+    .badge-placements { background: rgba(27,58,107,.1); color: var(--primary); }
+    .badge-immobilier { background: rgba(22,163,74,.1); color: var(--green); }
+    .badge-fiscalite  { background: rgba(201,168,76,.15); color: #92751B; }
+    .action-btns { display: flex; gap: .35rem; }
+
+    /* ===== EDITOR ===== */
+    .editor-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; height: calc(100vh - 120px); }
+    .editor-form { overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+    .editor-preview { overflow-y: auto; background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 1.5rem; }
+    .editor-preview-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border); }
+
+    .field-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 1.1rem; box-shadow: var(--shadow); }
+    .field-card-title { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .875rem; }
+    .field-group { margin-bottom: .875rem; }
+    .field-group:last-child { margin-bottom: 0; }
+    .field-label { display: block; font-weight: 600; font-size: .8rem; margin-bottom: .35rem; color: var(--text); }
+    .field-label .required { color: var(--red); margin-left: 2px; }
+    .field-input { width: 100%; padding: .55rem .875rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: .875rem; outline: none; font-family: var(--font); color: var(--text); transition: border-color .2s; background: #fff; }
+    .field-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(27,58,107,.08); }
+    .field-textarea { min-height: 80px; resize: vertical; }
+    .field-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right .875rem center; padding-right: 2.5rem; cursor: pointer; }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .875rem; }
+    .char-count { font-size: .72rem; color: var(--muted); text-align: right; margin-top: .25rem; }
+    .char-count.warn { color: var(--orange); }
+    .char-count.bad  { color: var(--red); }
+
+    /* Toolbar */
+    .toolbar { display: flex; flex-wrap: wrap; gap: .25rem; padding: .5rem; background: var(--surface2); border: 1.5px solid var(--border); border-bottom: none; border-radius: 6px 6px 0 0; }
+    .toolbar-btn { padding: .3rem .6rem; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: .8rem; color: var(--text); font-family: var(--font); transition: all .15s; }
+    .toolbar-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .toolbar-sep { width: 1px; background: var(--border); margin: 0 .15rem; }
+    #articleBody { border-radius: 0 0 6px 6px; font-family: 'Courier New', monospace; font-size: .82rem; line-height: 1.7; min-height: 350px; }
+
+    /* Settings */
+    .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .settings-card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); padding: 1.5rem; box-shadow: var(--shadow); }
+    .settings-card h3 { font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: 1.25rem; padding-bottom: .75rem; border-bottom: 1px solid var(--border); }
+
+    /* Toast */
+    #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #1E293B; color: #fff; padding: .75rem 1.25rem; border-radius: var(--radius); font-size: .875rem; font-weight: 500; z-index: 9999; transform: translateY(100px); opacity: 0; transition: all .3s ease; box-shadow: var(--shadow-md); max-width: 320px; }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { background: var(--green); }
+    #toast.error   { background: var(--red); }
+    #toast.warning { background: var(--orange); }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1000; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 12px; padding: 2rem; width: min(90vw, 480px); box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: .75rem; }
+    .modal p { font-size: .875rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .modal-actions { display: flex; gap: .75rem; justify-content: flex-end; }
+
+    /* Spinner */
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Status badge */
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: .35rem; }
+    .status-dot.online { background: var(--green); }
+    .status-dot.offline { background: var(--red); }
+
+    /* Newsletter section */
+    .newsletter-card { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: #fff; border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; }
+    .newsletter-card h3 { color: #fff; font-size: 1rem; margin-bottom: .5rem; }
+    .newsletter-card p { color: rgba(255,255,255,.8); font-size: .85rem; margin-bottom: 1rem; }
+
+    .preview-article h1 { font-size: 1.4rem; font-weight: 800; color: var(--primary); margin-bottom: .75rem; font-family: 'Inter', serif; }
+    .preview-article h2 { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin: 1.25rem 0 .5rem; border-left: 3px solid var(--gold); padding-left: .75rem; }
+    .preview-article h3 { font-size: .95rem; font-weight: 700; color: #334155; margin: 1rem 0 .4rem; }
+    .preview-article p  { font-size: .875rem; line-height: 1.7; margin-bottom: .75rem; color: #334155; }
+    .preview-article blockquote { border-left: 3px solid var(--gold); background: rgba(201,168,76,.07); padding: .75rem 1rem; border-radius: 0 6px 6px 0; font-style: italic; margin: 1rem 0; font-size: .875rem; color: var(--primary); }
+    .preview-article ul, .preview-article ol { padding-left: 1.5rem; margin-bottom: .75rem; font-size: .875rem; }
+    .preview-article ul { list-style: disc; }
+    .preview-article ol { list-style: decimal; }
+    .preview-article strong { font-weight: 700; }
+    .preview-article em { font-style: italic; }
+    .preview-article table { width: 100%; border-collapse: collapse; font-size: .8rem; margin: 1rem 0; }
+    .preview-article th { background: var(--primary); color: #fff; padding: .5rem .75rem; text-align: left; font-size: .75rem; }
+    .preview-article td { padding: .5rem .75rem; border-bottom: 1px solid var(--border); }
+    .preview-article tr:nth-child(even) td { background: #F8FAFC; }
+  </style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="icon">₿</div>
+      <h1>Patrimoine Expert</h1>
+      <p>Interface d'administration</p>
+    </div>
+    <div class="form-group">
+      <label>Mot de passe admin</label>
+      <input type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="btn btn-primary" onclick="login()">Se connecter</button>
+    <div id="loginError">Mot de passe incorrect.</div>
+    <p style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:1rem;">Mot de passe par défaut : <strong>admin2026</strong><br>À changer dans Paramètres.</p>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="name">₿ Patrimoine Expert</div>
+      <div class="sub">Administration</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Principal</div>
+      <div class="nav-item active" onclick="showView('dashboard')" id="nav-dashboard">
+        <span class="icon">📊</span> Tableau de bord
+      </div>
+      <div class="nav-item" onclick="showView('articles')" id="nav-articles">
+        <span class="icon">📝</span> Articles
+      </div>
+      <div class="nav-item" onclick="showView('editor')" id="nav-editor">
+        <span class="icon">✏️</span> Nouvel article
+      </div>
+      <div class="nav-section">Outils</div>
+      <div class="nav-item" onclick="showView('newsletter')" id="nav-newsletter">
+        <span class="icon">📬</span> Newsletter
+      </div>
+      <div class="nav-item" onclick="showView('seo')" id="nav-seo">
+        <span class="icon">🔍</span> SEO & Sitemap
+      </div>
+      <div class="nav-section">Système</div>
+      <div class="nav-item" onclick="showView('settings')" id="nav-settings">
+        <span class="icon">⚙️</span> Paramètres
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <a onclick="window.open('../index.html','_blank')">🌐 Voir le site →</a>
+      <a onclick="logout()" style="color:rgba(255,100,100,.7);">🚪 Déconnexion</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Tableau de bord</div>
+      <div class="topbar-actions" id="topbarActions"></div>
+    </div>
+
+    <div class="content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="view active" id="view-dashboard">
+        <div class="stat-grid" id="statsGrid"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div>
+            <h3 style="font-size:.85rem;font-weight:700;margin-bottom:.875rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Articles récents</h3>
+            <div id="recentArticles" class="article-table"></div>
+          </div>
+          <div>
+            <h3 style="font-size:.85rem;font-weight:700;margin-bottom:.875rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Publication rapide</h3>
+            <div class="field-card">
+              <div class="field-card-title">Créer un article en 30 secondes</div>
+              <div class="field-group">
+                <label class="field-label">Titre de l'article</label>
+                <input class="field-input" id="quickTitle" placeholder="Ex: Comment investir en SCPI en 2026…">
+              </div>
+              <div class="field-group">
+                <label class="field-label">Catégorie</label>
+                <select class="field-input field-select" id="quickCat">
+                  <option value="Placements">📈 Placements</option>
+                  <option value="Immobilier">🏡 Immobilier</option>
+                  <option value="Fiscalité">📋 Fiscalité</option>
+                </select>
+              </div>
+              <button class="btn btn-primary" onclick="quickCreate()" style="width:100%;margin-top:.25rem;">✏️ Ouvrir l'éditeur</button>
+            </div>
+
+            <div style="margin-top:1.5rem;">
+              <h3 style="font-size:.85rem;font-weight:700;margin-bottom:.875rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">Statut GitHub</h3>
+              <div class="field-card" id="githubStatus">
+                <p style="font-size:.8rem;color:var(--muted);">Configurez votre token GitHub dans <a onclick="showView('settings')" style="color:var(--primary);cursor:pointer;">Paramètres</a> pour activer la publication automatique.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ARTICLES LIST ===== -->
+      <div class="view" id="view-articles">
+        <div style="display:flex;gap:.75rem;margin-bottom:1.25rem;align-items:center;">
+          <input class="field-input" id="searchArticles" placeholder="🔍 Rechercher un article…" style="max-width:300px;" oninput="filterArticles(this.value)">
+          <select class="field-input field-select" id="filterCat" style="max-width:180px;" onchange="filterArticles(document.getElementById('searchArticles').value)">
+            <option value="">Toutes catégories</option>
+            <option value="Placements">Placements</option>
+            <option value="Immobilier">Immobilier</option>
+            <option value="Fiscalité">Fiscalité</option>
+          </select>
+          <button class="btn btn-green btn-sm" onclick="showView('editor')">+ Nouvel article</button>
+        </div>
+        <div class="article-table">
+          <div class="table-header">
+            <div>Article</div><div>Catégorie</div><div>Date</div><div>Lecture</div><div>Actions</div>
+          </div>
+          <div id="articlesTableBody"></div>
+        </div>
+      </div>
+
+      <!-- ===== EDITOR ===== -->
+      <div class="view" id="view-editor">
+        <div class="editor-layout">
+          <!-- Form -->
+          <div class="editor-form" id="editorForm">
+
+            <div class="field-card">
+              <div class="field-card-title">🎯 Informations principales</div>
+              <div class="field-group">
+                <label class="field-label">Titre de l'article <span class="required">*</span></label>
+                <input class="field-input" id="artTitle" placeholder="Ex: Investir en SCPI en 2026 : guide complet" oninput="updateSlug();updatePreview();updateCharCount('artTitle','titleCount',60,70)">
+                <div class="char-count" id="titleCount">0 / 70 caractères (SEO idéal : 50-60)</div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Slug URL (auto-généré)</label>
+                <input class="field-input" id="artSlug" placeholder="investir-scpi-2026" style="font-family:monospace;font-size:.8rem;">
+              </div>
+              <div class="field-grid">
+                <div class="field-group">
+                  <label class="field-label">Catégorie <span class="required">*</span></label>
+                  <select class="field-input field-select" id="artCategory" onchange="updatePreview()">
+                    <option value="Placements">📈 Placements</option>
+                    <option value="Immobilier">🏡 Immobilier</option>
+                    <option value="Fiscalité">📋 Fiscalité</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label">Emoji représentatif</label>
+                  <input class="field-input" id="artEmoji" value="📈" maxlength="4" oninput="updatePreview()" style="font-size:1.2rem;text-align:center;">
+                </div>
+              </div>
+            </div>
+
+            <div class="field-card">
+              <div class="field-card-title">🔍 SEO</div>
+              <div class="field-group">
+                <label class="field-label">Meta description <span class="required">*</span></label>
+                <textarea class="field-input field-textarea" id="artMeta" rows="2" placeholder="Description de 150-160 caractères pour les moteurs de recherche…" oninput="updateCharCount('artMeta','metaCount',150,160)" style="min-height:60px;"></textarea>
+                <div class="char-count" id="metaCount">0 / 160 caractères (SEO idéal : 150-160)</div>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Tags (séparés par des virgules)</label>
+                <input class="field-input" id="artTags" placeholder="ETF, Bourse, PEA, Investissement">
+              </div>
+            </div>
+
+            <div class="field-card">
+              <div class="field-card-title">📝 Contenu de l'article</div>
+              <p style="font-size:.75rem;color:var(--muted);margin-bottom:.75rem;">Écrivez en HTML. Utilisez la barre d'outils ou les raccourcis ci-dessous.</p>
+              <div class="toolbar" id="toolbar">
+                <button class="toolbar-btn" onclick="insert('<h2 id=\"\">', '</h2>')" title="Titre H2">H2</button>
+                <button class="toolbar-btn" onclick="insert('<h3>', '</h3>')" title="Titre H3">H3</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="insert('<strong>', '</strong>')" title="Gras"><b>G</b></button>
+                <button class="toolbar-btn" onclick="insert('<em>', '</em>')" title="Italique"><i>I</i></button>
+                <button class="toolbar-btn" onclick="insert('<a href=\"\">', '</a>')" title="Lien">🔗</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="insert('<ul>\n  <li>', '</li>\n  <li></li>\n</ul>')" title="Liste">• Liste</button>
+                <button class="toolbar-btn" onclick="insert('<ol>\n  <li>', '</li>\n  <li></li>\n</ol>')" title="Numérotée">1. Liste</button>
+                <button class="toolbar-btn" onclick="insert('<blockquote>', '</blockquote>')" title="Citation">❝</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="insertTable()" title="Tableau">⊞ Tableau</button>
+                <button class="toolbar-btn" onclick="insertTipBox('info')" title="Info">ℹ️ Info</button>
+                <button class="toolbar-btn" onclick="insertTipBox('warning')" title="Attention">⚠️ Attention</button>
+                <button class="toolbar-btn" onclick="insertTipBox('success')" title="Conseil">✅ Conseil</button>
+                <div class="toolbar-sep"></div>
+                <button class="toolbar-btn" onclick="insertDisclaimer()" title="Avertissement légal" style="background:#FEF2F2;border-color:#FECACA;color:var(--red);">⚠️ Disclaimer</button>
+              </div>
+              <textarea class="field-input field-textarea" id="articleBody" rows="20" placeholder="<p>Commencez à rédiger votre article ici...</p>" oninput="updatePreview()"></textarea>
+            </div>
+
+          </div>
+
+          <!-- Preview -->
+          <div class="editor-preview">
+            <div class="editor-preview-label">👁️ Aperçu en temps réel</div>
+            <div id="previewContent" class="preview-article"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== NEWSLETTER ===== -->
+      <div class="view" id="view-newsletter">
+        <div class="newsletter-card">
+          <h3>📬 Système de Newsletter — Brevo (recommandé)</h3>
+          <p>Brevo (ex-Sendinblue) est la meilleure solution gratuite pour la France : 300 emails/jour gratuits, RGPD natif, interface française.</p>
+          <button class="btn btn-gold btn-sm" onclick="window.open('https://www.brevo.com/fr/','_blank')">Créer un compte Brevo gratuit →</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+          <div class="field-card">
+            <div class="field-card-title">🚀 Configuration Brevo — 5 étapes</div>
+            <ol style="list-style:decimal;padding-left:1.25rem;line-height:2.2;font-size:.85rem;color:var(--text);">
+              <li>Créez un compte sur <strong>brevo.com</strong></li>
+              <li>Allez dans <strong>Contacts → Formulaires</strong> → Créez un formulaire</li>
+              <li>Copiez le code embed HTML fourni</li>
+              <li>Collez-le dans le champ ci-contre</li>
+              <li>Cliquez <strong>Sauvegarder et déployer</strong></li>
+            </ol>
+            <div style="margin-top:1rem;padding:.75rem;background:#F0FDF4;border-radius:6px;border-left:3px solid var(--green);">
+              <p style="font-size:.8rem;color:#166534;margin:0;"><strong>💡 Plan gratuit Brevo :</strong> 300 emails/jour, contacts illimités, double opt-in, statistiques de base. Suffisant pour démarrer.</p>
+            </div>
+          </div>
+
+          <div class="field-card">
+            <div class="field-card-title">📋 Code du formulaire Brevo</div>
+            <div class="field-group">
+              <label class="field-label">Collez votre code embed Brevo ici</label>
+              <textarea class="field-input" id="brevoCode" rows="6" placeholder="<!-- BEGIN - Brevo Form -->\n<div id=\"sib-form-container\">\n  ...\n</div>\n<!-- END - Brevo Form -->" style="font-family:monospace;font-size:.75rem;"></textarea>
+            </div>
+            <button class="btn btn-green btn-sm" onclick="saveBrevoCode()">💾 Sauvegarder le code</button>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="field-card">
+            <div class="field-card-title">✉️ Envoyer une campagne newsletter</div>
+            <div class="field-group">
+              <label class="field-label">Objet de l'email</label>
+              <input class="field-input" id="nlSubject" placeholder="[Patrimoine Expert] Nouvel article : ETF 2026">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Article à mettre en avant</label>
+              <select class="field-input field-select" id="nlArticle">
+                <option value="">Sélectionner un article…</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Message personnalisé (optionnel)</label>
+              <textarea class="field-input" rows="3" id="nlMessage" placeholder="Bonjour, cette semaine nous abordons…" style="min-height:70px;"></textarea>
+            </div>
+            <div style="background:#FEF9EC;border:1px solid #FCD34D;border-radius:6px;padding:.75rem;margin-bottom:.875rem;">
+              <p style="font-size:.78rem;color:#92400E;margin:0;">⚠️ L'envoi de la campagne se fait directement depuis l'interface Brevo. Ce bouton génère le contenu HTML de l'email.</p>
+            </div>
+            <button class="btn btn-gold btn-sm" onclick="generateNewsletterHTML()">📧 Générer le HTML de l'email</button>
+          </div>
+
+          <div class="field-card">
+            <div class="field-card-title">📊 Statistiques (depuis Brevo)</div>
+            <div style="text-align:center;padding:2rem;color:var(--muted);">
+              <div style="font-size:2rem;margin-bottom:.5rem;">📊</div>
+              <p style="font-size:.85rem;">Consultez vos statistiques directement sur</p>
+              <a onclick="window.open('https://app.brevo.com','_blank')" style="color:var(--primary);font-weight:700;cursor:pointer;font-size:.85rem;">app.brevo.com →</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="nlPreview" style="display:none;margin-top:1.5rem;" class="field-card">
+          <div class="field-card-title">📧 Aperçu HTML de l'email</div>
+          <div id="nlPreviewContent" style="border:1px solid var(--border);border-radius:6px;padding:1rem;"></div>
+          <button class="btn btn-outline btn-sm" style="margin-top:.75rem;" onclick="copyNLHTML()">📋 Copier le HTML</button>
+        </div>
+      </div>
+
+      <!-- ===== SEO ===== -->
+      <div class="view" id="view-seo">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <div class="field-card">
+            <div class="field-card-title">🗺️ Sitemap XML</div>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">Régénérez le sitemap.xml après chaque publication d'article.</p>
+            <button class="btn btn-green btn-sm" onclick="regenerateSitemap()">🔄 Régénérer sitemap.xml</button>
+            <div id="sitemapOutput" style="margin-top:1rem;"></div>
+          </div>
+          <div class="field-card">
+            <div class="field-card-title">🔍 Google Search Console</div>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">Après chaque publication, soumettez votre sitemap pour une indexation rapide.</p>
+            <div style="display:flex;flex-direction:column;gap:.5rem;">
+              <button class="btn btn-outline btn-sm" onclick="window.open('https://search.google.com/search-console','_blank')">🌐 Ouvrir Search Console →</button>
+              <div style="font-size:.78rem;color:var(--muted);padding:.75rem;background:var(--surface2);border-radius:6px;">
+                URL du sitemap à soumettre :<br>
+                <code style="font-size:.8rem;background:#E2E8F0;padding:.15rem .4rem;border-radius:4px;">https://votre-domaine.fr/sitemap.xml</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div class="view" id="view-settings">
+        <div class="settings-grid">
+
+          <div class="settings-card">
+            <h3>🔑 GitHub — Publication automatique</h3>
+            <div class="field-group">
+              <label class="field-label">Nom d'utilisateur GitHub</label>
+              <input class="field-input" id="ghUser" placeholder="mrad-boop">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Nom du dépôt</label>
+              <input class="field-input" id="ghRepo" placeholder="patrimoine-expert">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Token d'accès personnel (PAT)
+                <a onclick="window.open('https://github.com/settings/tokens/new?scopes=repo&description=Patrimoine+Expert+Admin','_blank')" style="color:var(--primary);font-size:.75rem;cursor:pointer;margin-left:.5rem;">Générer →</a>
+              </label>
+              <input class="field-input" id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+            </div>
+            <button class="btn btn-green btn-sm" onclick="saveGitHubSettings()">💾 Sauvegarder</button>
+            <button class="btn btn-outline btn-sm" onclick="testGitHub()" style="margin-left:.5rem;">🧪 Tester la connexion</button>
+            <div id="ghTestResult" style="margin-top:.75rem;font-size:.8rem;"></div>
+          </div>
+
+          <div class="settings-card">
+            <h3>🔒 Sécurité</h3>
+            <div class="field-group">
+              <label class="field-label">Mot de passe actuel</label>
+              <input class="field-input" type="password" id="currentPwd" placeholder="••••••••">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Nouveau mot de passe</label>
+              <input class="field-input" type="password" id="newPwd" placeholder="••••••••">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Confirmer</label>
+              <input class="field-input" type="password" id="confirmPwd" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="changePassword()">🔐 Changer le mot de passe</button>
+          </div>
+
+          <div class="settings-card">
+            <h3>✍️ Auteur par défaut</h3>
+            <div class="field-group">
+              <label class="field-label">Nom de l'auteur</label>
+              <input class="field-input" id="authorName" placeholder="Thomas Mercier">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Titre / Fonction</label>
+              <input class="field-input" id="authorTitle" placeholder="Conseiller en Gestion de Patrimoine Indépendant (CGPI)">
+            </div>
+            <div class="field-group">
+              <label class="field-label">URL du site</label>
+              <input class="field-input" id="siteUrl" placeholder="https://patrimoine-expert.fr">
+            </div>
+            <button class="btn btn-green btn-sm" onclick="saveAuthorSettings()">💾 Sauvegarder</button>
+          </div>
+
+          <div class="settings-card">
+            <h3>📦 Données locales</h3>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">Exportez ou réinitialisez les paramètres stockés localement.</p>
+            <div style="display:flex;flex-direction:column;gap:.5rem;">
+              <button class="btn btn-outline btn-sm" onclick="exportSettings()">📤 Exporter les paramètres</button>
+              <button class="btn btn-red btn-sm" onclick="confirmReset()">🗑️ Réinitialiser</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="modalTitle">Confirmer</h3>
+    <p id="modalMsg"></p>
+    <div class="modal-actions">
+      <button class="btn btn-outline btn-sm" onclick="closeModal()">Annuler</button>
+      <button class="btn btn-red btn-sm" id="modalConfirmBtn">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+let ARTICLES = [];
+let editingSlug = null;
+
+/* ============================================================
+   AUTH
+   ============================================================ */
+function login() {
+  const pwd = document.getElementById('passwordInput').value;
+  const stored = localStorage.getItem('pe_admin_pwd') || 'admin2026';
+  if (pwd === stored) {
+    localStorage.setItem('pe_auth', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    init();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('pe_auth');
+  location.reload();
+}
+
+document.getElementById('passwordInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+if (localStorage.getItem('pe_auth') === '1') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  document.addEventListener('DOMContentLoaded', () => {});
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+async function init() {
+  await loadArticles();
+  renderDashboard();
+  renderArticlesList();
+  loadSettings();
+  populateNLArticles();
+  document.getElementById('brevoCode').value = localStorage.getItem('pe_brevo_code') || '';
+}
+
+async function loadArticles() {
+  try {
+    const r = await fetch('../articles/manifest.json?t=' + Date.now());
+    ARTICLES = await r.json();
+  } catch {
+    ARTICLES = [];
+  }
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+
+  const titles = { dashboard:'Tableau de bord', articles:'Articles', editor: editingSlug ? 'Modifier l\'article' : 'Nouvel article', newsletter:'Newsletter', seo:'SEO & Sitemap', settings:'Paramètres' };
+  document.getElementById('topbarTitle').textContent = titles[name] || name;
+
+  const actions = document.getElementById('topbarActions');
+  actions.innerHTML = '';
+  if (name === 'editor') {
+    actions.innerHTML = `
+      <button class="btn btn-outline btn-sm" onclick="resetEditor()">🔄 Réinitialiser</button>
+      <button class="btn btn-gold btn-sm" onclick="saveDraft()">💾 Brouillon</button>
+      <button class="btn btn-green btn-sm" id="publishBtn" onclick="publishArticle()">🚀 Publier sur GitHub</button>`;
+  }
+  if (name === 'articles') {
+    actions.innerHTML = `<button class="btn btn-green btn-sm" onclick="showView('editor')">+ Nouvel article</button>`;
+  }
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function renderDashboard() {
+  const byCategory = ARTICLES.reduce((acc, a) => { acc[a.category] = (acc[a.category]||0)+1; return acc; }, {});
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card"><div class="num">${ARTICLES.length}</div><div class="label">Articles publiés</div><div class="trend">↑ Actif</div></div>
+    <div class="stat-card"><div class="num">${byCategory['Placements']||0}</div><div class="label">Placements</div></div>
+    <div class="stat-card"><div class="num">${byCategory['Immobilier']||0}</div><div class="label">Immobilier</div></div>
+    <div class="stat-card"><div class="num">${byCategory['Fiscalité']||0}</div><div class="label">Fiscalité</div></div>`;
+
+  const recent = [...ARTICLES].sort((a,b) => new Date(b.date)-new Date(a.date)).slice(0,5);
+  document.getElementById('recentArticles').innerHTML = recent.map(a => `
+    <div class="table-row" style="grid-template-columns:1fr auto auto;">
+      <div class="article-title-cell">
+        <div class="article-emoji">${a.emoji}</div>
+        <div class="article-name">${a.title}<span class="slug">${a.slug}</span></div>
+      </div>
+      <span class="badge badge-${a.categorySlug}">${a.category}</span>
+      <span style="font-size:.75rem;color:var(--muted);">${formatDate(a.date)}</span>
+    </div>`).join('');
+
+  const gh = getGitHubConfig();
+  if (gh.token) {
+    document.getElementById('githubStatus').innerHTML = `
+      <div style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;">
+        <span class="status-dot online"></span>
+        <strong>Connecté</strong> à github.com/${gh.user}/${gh.repo}
+      </div>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:.4rem;">La publication automatique est activée. Chaque article publié sera committé directement sur GitHub → Render redéployera automatiquement.</p>`;
+  }
+}
+
+/* ============================================================
+   ARTICLES LIST
+   ============================================================ */
+function renderArticlesList(filter='', cat='') {
+  let list = ARTICLES;
+  if (filter) list = list.filter(a => a.title.toLowerCase().includes(filter.toLowerCase()) || a.slug.includes(filter.toLowerCase()));
+  if (cat) list = list.filter(a => a.category === cat);
+  list = [...list].sort((a,b) => new Date(b.date)-new Date(a.date));
+
+  document.getElementById('articlesTableBody').innerHTML = list.map(a => `
+    <div class="table-row">
+      <div class="article-title-cell">
+        <div class="article-emoji">${a.emoji}</div>
+        <div class="article-name">${a.title}<span class="slug">${a.slug}.html</span></div>
+      </div>
+      <span class="badge badge-${a.categorySlug}">${a.category}</span>
+      <span style="font-size:.8rem;color:var(--muted);">${formatDate(a.date)}</span>
+      <span style="font-size:.8rem;color:var(--muted);">${a.readingTime} min</span>
+      <div class="action-btns">
+        <button class="btn btn-outline btn-sm" onclick="window.open('../articles/${a.slug}.html','_blank')" title="Voir">👁️</button>
+        <button class="btn btn-outline btn-sm" onclick="editArticle('${a.slug}')" title="Modifier">✏️</button>
+        <button class="btn btn-red btn-sm" onclick="confirmDelete('${a.slug}')" title="Supprimer">🗑️</button>
+      </div>
+    </div>`).join('') || '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.875rem;">Aucun article trouvé.</div>';
+}
+
+function filterArticles(q) {
+  const cat = document.getElementById('filterCat').value;
+  renderArticlesList(q, cat);
+}
+
+/* ============================================================
+   EDITOR
+   ============================================================ */
+function updateSlug() {
+  const title = document.getElementById('artTitle').value;
+  const slug = slugify(title);
+  document.getElementById('artSlug').value = slug;
+}
+
+function slugify(str) {
+  return str.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim().replace(/\s+/g, '-')
+    .replace(/-+/g, '-').slice(0, 80);
+}
+
+function updateCharCount(inputId, countId, ideal, max) {
+  const len = document.getElementById(inputId).value.length;
+  const el = document.getElementById(countId);
+  el.textContent = `${len} / ${max} caractères (SEO idéal : ${ideal}-${max})`;
+  el.className = 'char-count' + (len > max ? ' bad' : len > ideal * 0.9 ? '' : '');
+}
+
+function updatePreview() {
+  const title = document.getElementById('artTitle').value || 'Titre de l\'article';
+  const body  = document.getElementById('articleBody').value || '';
+  const cat   = document.getElementById('artCategory').value;
+  const emoji = document.getElementById('artEmoji').value || '📝';
+  const catClass = { 'Placements':'badge-placements','Immobilier':'badge-immobilier','Fiscalité':'badge-fiscalite' }[cat] || '';
+
+  document.getElementById('previewContent').innerHTML = `
+    <span class="badge ${catClass}" style="margin-bottom:.75rem;display:inline-flex;">${emoji} ${cat}</span>
+    <h1>${title}</h1>
+    <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--border);padding-bottom:.875rem;">
+      <span>✍️ ${getSetting('authorName','Thomas Mercier')}</span>
+      <span>📅 ${new Date().toLocaleDateString('fr-FR')}</span>
+      <span>⏱️ ~${Math.max(1,Math.ceil(body.replace(/<[^>]+>/g,'').split(/\s+/).length/220))} min de lecture</span>
+    </div>
+    ${body}`;
+}
+
+/* Toolbar helpers */
+function insert(before, after) {
+  const ta = document.getElementById('articleBody');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const selected = ta.value.substring(s, e);
+  ta.value = ta.value.substring(0, s) + before + selected + after + ta.value.substring(e);
+  ta.selectionStart = s + before.length;
+  ta.selectionEnd = s + before.length + selected.length;
+  ta.focus();
+  updatePreview();
+}
+
+function insertTable() {
+  const html = `\n<div class="table-wrap">\n  <table>\n    <thead><tr><th>Colonne 1</th><th>Colonne 2</th><th>Colonne 3</th></tr></thead>\n    <tbody>\n      <tr><td>Valeur A</td><td>Valeur B</td><td>Valeur C</td></tr>\n      <tr><td>Valeur D</td><td>Valeur E</td><td>Valeur F</td></tr>\n    </tbody>\n  </table>\n</div>\n`;
+  const ta = document.getElementById('articleBody');
+  const s = ta.selectionStart;
+  ta.value = ta.value.substring(0, s) + html + ta.value.substring(s);
+  ta.focus(); updatePreview();
+}
+
+function insertTipBox(type) {
+  const icons = { info:'ℹ️', warning:'⚠️', success:'✅', danger:'🚨' };
+  const html = `\n<div class="tip-box tip-box--${type}">\n  <div class="tip-box-icon">${icons[type]}</div>\n  <div class="tip-box-body">\n    <strong>Titre</strong>\n    <p>Votre texte ici.</p>\n  </div>\n</div>\n`;
+  const ta = document.getElementById('articleBody');
+  const s = ta.selectionStart;
+  ta.value = ta.value.substring(0, s) + html + ta.value.substring(s);
+  ta.focus(); updatePreview();
+}
+
+function insertDisclaimer() {
+  const html = `\n<div class="disclaimer">\n  <strong>⚠️ Avertissement :</strong> Ce contenu est fourni à titre informatif uniquement et ne constitue pas un conseil en investissement. Les performances passées ne garantissent pas les performances futures. Consultez un professionnel agréé.\n</div>\n`;
+  const ta = document.getElementById('articleBody');
+  ta.value += html;
+  ta.focus(); updatePreview();
+}
+
+function quickCreate() {
+  const title = document.getElementById('quickTitle').value.trim();
+  const cat   = document.getElementById('quickCat').value;
+  if (!title) { showToast('Entrez un titre', 'warning'); return; }
+  document.getElementById('artTitle').value = title;
+  document.getElementById('artCategory').value = cat;
+  updateSlug();
+  updatePreview();
+  showView('editor');
+}
+
+function resetEditor() {
+  editingSlug = null;
+  ['artTitle','artSlug','artMeta','artTags','articleBody'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('artEmoji').value = '📈';
+  document.getElementById('artCategory').value = 'Placements';
+  updatePreview();
+}
+
+function editArticle(slug) {
+  const art = ARTICLES.find(a => a.slug === slug);
+  if (!art) return;
+  editingSlug = slug;
+  document.getElementById('artTitle').value = art.title;
+  document.getElementById('artSlug').value = art.slug;
+  document.getElementById('artMeta').value = art.excerpt || '';
+  document.getElementById('artTags').value = (art.tags || []).join(', ');
+  document.getElementById('artCategory').value = art.category;
+  document.getElementById('artEmoji').value = art.emoji;
+  document.getElementById('articleBody').value = '<!-- Chargez le contenu depuis le fichier HTML existant -->';
+  updatePreview();
+  showView('editor');
+  showToast('Article chargé. Modifiez le contenu dans l\'éditeur.', 'success');
+}
+
+function saveDraft() {
+  const data = collectFormData();
+  localStorage.setItem('pe_draft_' + data.slug, JSON.stringify(data));
+  showToast('Brouillon sauvegardé localement ✓', 'success');
+}
+
+function collectFormData() {
+  return {
+    title:    document.getElementById('artTitle').value.trim(),
+    slug:     document.getElementById('artSlug').value.trim() || slugify(document.getElementById('artTitle').value),
+    meta:     document.getElementById('artMeta').value.trim(),
+    tags:     document.getElementById('artTags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    category: document.getElementById('artCategory').value,
+    emoji:    document.getElementById('artEmoji').value,
+    body:     document.getElementById('articleBody').value,
+    author:   getSetting('authorName','Thomas Mercier'),
+    date:     new Date().toISOString().split('T')[0],
+  };
+}
+
+/* ============================================================
+   PUBLISH TO GITHUB
+   ============================================================ */
+async function publishArticle() {
+  const data = collectFormData();
+  if (!data.title) { showToast('Le titre est obligatoire', 'error'); return; }
+  if (!data.slug)  { showToast('Le slug est obligatoire', 'error'); return; }
+  if (!data.body)  { showToast('Le contenu est vide', 'error'); return; }
+
+  const gh = getGitHubConfig();
+  if (!gh.token) {
+    showToast('Configurez votre token GitHub dans Paramètres', 'warning');
+    showView('settings');
+    return;
+  }
+
+  const btn = document.getElementById('publishBtn');
+  btn.innerHTML = '<span class="spinner"></span> Publication…';
+  btn.disabled = true;
+
+  try {
+    const html = generateArticleHTML(data);
+    const articlePath = `articles/${data.slug}.html`;
+
+    // Check if file exists (get SHA for update)
+    const existingSHA = await getFileSHA(gh, articlePath);
+
+    // Push article HTML
+    await pushFile(gh, articlePath, html, `article: ${data.title}`, existingSHA);
+
+    // Update manifest.json
+    await updateManifest(gh, data);
+
+    showToast(`✓ Article publié ! Render redéploie dans ~60s`, 'success');
+    await loadArticles();
+    renderDashboard();
+    renderArticlesList();
+    populateNLArticles();
+    resetEditor();
+    showView('articles');
+
+  } catch(err) {
+    console.error(err);
+    showToast('Erreur GitHub : ' + err.message, 'error');
+  } finally {
+    btn.innerHTML = '🚀 Publier sur GitHub';
+    btn.disabled = false;
+  }
+}
+
+async function getFileSHA(gh, path) {
+  try {
+    const r = await fetch(`https://api.github.com/repos/${gh.user}/${gh.repo}/contents/${path}`, {
+      headers: { 'Authorization': `token ${gh.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (r.ok) { const d = await r.json(); return d.sha; }
+  } catch {}
+  return null;
+}
+
+async function pushFile(gh, path, content, message, sha = null) {
+  const body = {
+    message,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: 'main'
+  };
+  if (sha) body.sha = sha;
+
+  const r = await fetch(`https://api.github.com/repos/${gh.user}/${gh.repo}/contents/${path}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `token ${gh.token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github.v3+json'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const err = await r.json();
+    throw new Error(err.message || r.statusText);
+  }
+  return r.json();
+}
+
+async function updateManifest(gh, data) {
+  const sha = await getFileSHA(gh, 'articles/manifest.json');
+
+  // Fetch current manifest
+  let manifest = [...ARTICLES];
+  const idx = manifest.findIndex(a => a.slug === data.slug);
+  const entry = {
+    slug: data.slug, title: data.title, excerpt: data.meta,
+    category: data.category,
+    categorySlug: { 'Placements':'placements','Immobilier':'immobilier','Fiscalité':'fiscalite' }[data.category] || 'placements',
+    emoji: data.emoji, author: data.author, date: data.date,
+    readingTime: Math.max(1, Math.ceil(data.body.replace(/<[^>]+>/g,'').split(/\s+/).length/220)),
+    featured: false, tags: data.tags
+  };
+
+  if (idx >= 0) manifest[idx] = entry;
+  else manifest.unshift(entry);
+
+  await pushFile(gh, 'articles/manifest.json', JSON.stringify(manifest, null, 2), `manifest: update for ${data.slug}`, sha);
+}
+
+/* ============================================================
+   ARTICLE HTML GENERATOR
+   ============================================================ */
+function generateArticleHTML(data) {
+  const catClass = { 'Placements':'cat-placements','Immobilier':'cat-immobilier','Fiscalité':'cat-fiscalite' }[data.category] || 'cat-placements';
+  const catEmoji = { 'Placements':'📈','Immobilier':'🏡','Fiscalité':'📋' }[data.category] || '📝';
+  const siteUrl  = getSetting('siteUrl','https://patrimoine-expert.fr');
+  const author   = data.author;
+  const readingTime = Math.max(1, Math.ceil(data.body.replace(/<[^>]+>/g,'').split(/\s+/).length / 220));
+  const dateFormatted = new Date(data.date).toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric'});
+  const tags = data.tags || [];
+  const tagLinks = tags.map(t => `<a href="/#" class="tag">${t}</a>`).join('');
+
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${escapeHtml(data.title)} | Patrimoine Expert</title>
+  <meta name="description" content="${escapeHtml(data.meta)}">
+  <link rel="canonical" href="${siteUrl}/articles/${data.slug}.html">
+  <meta property="og:title" content="${escapeHtml(data.title)}">
+  <meta property="og:description" content="${escapeHtml(data.meta)}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="${siteUrl}/articles/${data.slug}.html">
+  <meta property="og:site_name" content="Patrimoine Expert">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${escapeHtml(data.title)}">
+  <meta name="twitter:description" content="${escapeHtml(data.meta)}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "${escapeHtml(data.title)}",
+    "description": "${escapeHtml(data.meta)}",
+    "author": { "@type": "Person", "name": "${author}", "url": "${siteUrl}/a-propos.html" },
+    "publisher": { "@type": "Organization", "name": "Patrimoine Expert", "url": "${siteUrl}" },
+    "datePublished": "${data.date}",
+    "dateModified": "${data.date}",
+    "mainEntityOfPage": "${siteUrl}/articles/${data.slug}.html"
+  }
+  <\/script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "${siteUrl}/" },
+      { "@type": "ListItem", "position": 2, "name": "${data.category}", "item": "${siteUrl}/#${data.category.toLowerCase()}" },
+      { "@type": "ListItem", "position": 3, "name": "${escapeHtml(data.title)}" }
+    ]
+  }
+  <\/script>
+</head>
+<body>
+
+<div id="readingProgress" class="reading-progress"></div>
+
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <a href="/" class="logo"><div class="logo-icon">₿</div>Patrimoine<span>Expert</span></a>
+      <nav class="main-nav">
+        <a href="/" class="nav-link">Accueil</a>
+        <div class="nav-dropdown"><a href="/#placements" class="nav-link${data.category==='Placements'?' active':''}">Placements ▾</a><div class="nav-dropdown-menu"><a href="investir-bourse-debutants.html">Bourse débutants</a><a href="etf-investir.html">ETF</a><a href="assurance-vie-comparatif.html">Assurance-vie</a><a href="livret-a-ldds-lep.html">Livrets 2026</a></div></div>
+        <div class="nav-dropdown"><a href="/#immobilier" class="nav-link${data.category==='Immobilier'?' active':''}">Immobilier ▾</a><div class="nav-dropdown-menu"><a href="credit-immobilier-negocier.html">Crédit immobilier</a><a href="revenus-locatifs-declaration.html">Revenus locatifs</a><a href="crowdfunding-immobilier.html">Crowdfunding</a></div></div>
+        <div class="nav-dropdown"><a href="/#fiscalite" class="nav-link${data.category==='Fiscalité'?' active':''}">Fiscalité ▾</a><div class="nav-dropdown-menu"><a href="fiscalite-cryptomonnaies.html">Crypto</a><a href="loi-pinel-2026.html">Pinel 2026</a><a href="per-plan-epargne-retraite.html">PER</a><a href="succession-donation.html">Succession</a></div></div>
+        <a href="../a-propos.html" class="nav-link">À propos</a>
+      </nav>
+      <button id="burger" class="burger" aria-label="Menu" aria-expanded="false"><span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>
+    </div>
+  </div>
+  <nav id="mobileNav" class="mobile-nav"><a href="/">🏠 Accueil</a><a href="/#placements">📈 Placements</a><a href="/#immobilier">🏡 Immobilier</a><a href="/#fiscalite">📋 Fiscalité</a></nav>
+</header>
+
+<main>
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Fil d'Ariane">
+      <a href="/">Accueil</a><span class="breadcrumb-sep">›</span>
+      <a href="/#${data.category.toLowerCase()}">${data.category}</a><span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">${escapeHtml(data.title)}</span>
+    </nav>
+  </div>
+
+  <div class="container section">
+    <div class="article-layout">
+      <article class="article-main">
+        <header class="article-header">
+          <span class="card-category ${catClass}">${catEmoji} ${data.category}</span>
+          <h1 class="article-title">${escapeHtml(data.title)}</h1>
+          <div class="article-meta">
+            <span class="article-updated">🔄 Mis à jour en ${new Date(data.date).toLocaleDateString('fr-FR',{month:'long',year:'numeric'})}</span>
+            <span class="article-meta-item">✍️ <a href="../a-propos.html">${author}</a></span>
+            <span class="article-meta-item">📅 ${dateFormatted}</span>
+            <span class="article-meta-item" id="readingTime">⏱️ ${readingTime} min de lecture</span>
+          </div>
+          <div class="article-author-block">
+            <div class="author-avatar">👨‍💼</div>
+            <div>
+              <div class="author-name">${author}</div>
+              <div class="author-title">${getSetting('authorTitle','Conseiller en Gestion de Patrimoine Indépendant (CGPI) · Certifié AMF')}</div>
+            </div>
+          </div>
+        </header>
+
+        <div class="article-img" style="font-size:5rem;height:320px;">${data.emoji}</div>
+
+        <!-- Bloc AdSense - Emplacement sous le titre -->
+        <div class="ad adsense-title">
+          <!-- Remplacez par votre code AdSense après approbation -->
+        </div>
+
+        <div class="article-content">
+${data.body}
+        </div>
+
+        <!-- Bloc AdSense - Fin d'article -->
+        <div class="ad adsense-end">
+          <!-- Remplacez par votre code AdSense après approbation -->
+        </div>
+
+        <div class="social-share">
+          <span class="social-share-label">Partager :</span>
+          <button class="share-btn share-twitter" data-share="twitter">🐦 Twitter</button>
+          <button class="share-btn share-linkedin" data-share="linkedin">💼 LinkedIn</button>
+          <button class="share-btn share-facebook" data-share="facebook">📘 Facebook</button>
+          <button class="share-btn share-copy" data-share="copy">🔗 Copier le lien</button>
+        </div>
+
+        ${tags.length ? `<div style="margin-top:1.5rem;"><div class="tag-list">${tagLinks}</div></div>` : ''}
+      </article>
+
+      <aside class="sidebar">
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-title">Table des matières</div>
+          <nav class="sidebar-toc" id="tocNav">
+            <a href="#" class="toc-link" style="color:var(--text-muted);font-size:.8rem;">Générée automatiquement…</a>
+          </nav>
+        </div>
+
+        <!-- Bloc AdSense - Sidebar -->
+        <div class="ad adsense-sidebar">
+          <!-- Remplacez par votre code AdSense après approbation -->
+        </div>
+
+        <div class="sidebar-widget">
+          <div class="sidebar-widget-title">Newsletter</div>
+          <p style="font-size:.875rem;color:var(--text-muted);margin-bottom:1rem;">Recevez nos meilleures analyses chaque semaine.</p>
+          <form class="newsletter-form" action="https://formspree.io/f/VOTRE_ID" method="POST">
+            <input type="email" name="email" placeholder="votre@email.fr" required style="color:var(--text);">
+            <button type="submit" class="btn btn-primary btn-sm">S'inscrire</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="/" class="logo"><div class="logo-icon">₿</div>Patrimoine<span>Expert</span></a><p>Analyses patrimoniales indépendantes. Contenu informatif uniquement.</p></div>
+      <div class="footer-col"><h4>Navigation</h4><nav class="footer-links"><a href="/">Accueil</a><a href="../a-propos.html">À propos</a><a href="../mentions-legales.html">Mentions légales</a><a href="../politique-confidentialite.html">Confidentialité</a></nav></div>
+    </div>
+    <div class="footer-bottom"><span>© ${new Date().getFullYear()} Patrimoine Expert.</span><span><a href="../mentions-legales.html">Mentions légales</a> · <a href="../politique-confidentialite.html">Confidentialité</a></span></div>
+  </div>
+</footer>
+
+<div id="cookieBanner" class="cookie-banner"><div class="cookie-title">🍪 Cookies</div><p class="cookie-text">Nous utilisons des cookies publicitaires (AdSense). <a href="../politique-confidentialite.html">En savoir plus</a>.</p><div class="cookie-actions"><button id="cookieAccept" class="cookie-btn cookie-accept">✓ Accepter</button><button id="cookieRefuse" class="cookie-btn cookie-refuse">✗ Refuser</button><button id="cookieCustomize" class="cookie-btn cookie-customize">⚙️ Personnaliser</button></div></div>
+<div id="adAnchor" class="ad-anchor"><span class="ad-anchor-label">Publicité</span><div style="flex:1;text-align:center;font-size:.75rem;color:var(--text-muted);">Espace publicitaire</div><button id="adAnchorClose" class="ad-anchor-close">✕</button></div>
+
+<script src="../assets/js/main.js"><\/script>
+<script>
+// Auto-generate TOC from headings
+document.addEventListener('DOMContentLoaded', () => {
+  const headings = document.querySelectorAll('.article-content h2, .article-content h3');
+  const toc = document.getElementById('tocNav');
+  if (!toc || !headings.length) return;
+  toc.innerHTML = '';
+  headings.forEach(h => {
+    if (!h.id) h.id = h.textContent.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').slice(0,50);
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.className = 'toc-link' + (h.tagName === 'H3' ? ' toc-h3' : '');
+    a.textContent = h.textContent;
+    toc.appendChild(a);
+  });
+});
+<\/script>
+</body>
+</html>`;
+}
+
+function escapeHtml(str) {
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ============================================================
+   NEWSLETTER
+   ============================================================ */
+function populateNLArticles() {
+  const sel = document.getElementById('nlArticle');
+  sel.innerHTML = '<option value="">Sélectionner un article…</option>' +
+    [...ARTICLES].sort((a,b) => new Date(b.date)-new Date(a.date))
+    .map(a => `<option value="${a.slug}">${a.emoji} ${a.title}</option>`).join('');
+}
+
+function saveBrevoCode() {
+  localStorage.setItem('pe_brevo_code', document.getElementById('brevoCode').value);
+  showToast('Code Brevo sauvegardé ✓', 'success');
+}
+
+function generateNewsletterHTML() {
+  const subject = document.getElementById('nlSubject').value;
+  const slug    = document.getElementById('nlArticle').value;
+  const message = document.getElementById('nlMessage').value;
+  const article = ARTICLES.find(a => a.slug === slug);
+  const siteUrl = getSetting('siteUrl','https://patrimoine-expert.fr');
+
+  if (!slug) { showToast('Sélectionnez un article', 'warning'); return; }
+
+  const html = `<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><title>${subject}</title></head>
+<body style="margin:0;background:#F1F5F9;font-family:Open Sans,sans-serif;">
+<div style="max-width:600px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.1);">
+  <div style="background:linear-gradient(135deg,#1B3A6B,#2A5298);padding:2rem;text-align:center;">
+    <div style="font-size:2rem;font-weight:800;color:#C9A84C;">₿ Patrimoine Expert</div>
+    <div style="color:rgba(255,255,255,.7);font-size:.85rem;margin-top:.5rem;">Votre lettre patrimoniale hebdomadaire</div>
+  </div>
+  ${message ? `<div style="padding:1.5rem 2rem;background:#FEF9EC;border-bottom:1px solid #FCD34D;"><p style="margin:0;color:#92400E;font-size:.9rem;">${message}</p></div>` : ''}
+  <div style="padding:2rem;">
+    <div style="font-size:3rem;text-align:center;margin-bottom:1rem;">${article.emoji}</div>
+    <h2 style="color:#1B3A6B;font-family:Merriweather,serif;font-size:1.2rem;margin:0 0 .75rem;">${article.title}</h2>
+    <p style="color:#475569;line-height:1.7;font-size:.9rem;margin:0 0 1.5rem;">${article.excerpt}</p>
+    <div style="text-align:center;">
+      <a href="${siteUrl}/articles/${article.slug}.html" style="background:#1B3A6B;color:#fff;padding:.75rem 2rem;border-radius:99px;font-weight:700;font-size:.9rem;text-decoration:none;">Lire l'article complet →</a>
+    </div>
+  </div>
+  <div style="background:#F8FAFC;padding:1.25rem 2rem;border-top:1px solid #E2E8F0;text-align:center;">
+    <p style="font-size:.75rem;color:#94A3B8;margin:0;">Vous recevez cet email car vous êtes abonné à Patrimoine Expert.<br>
+    <a href="{{unsubscribe}}" style="color:#C9A84C;">Se désabonner</a> | <a href="${siteUrl}" style="color:#94A3B8;">Voir le site</a></p>
+  </div>
+</div>
+</body></html>`;
+
+  document.getElementById('nlPreviewContent').innerHTML = `<iframe srcdoc="${html.replace(/"/g,'&quot;')}" style="width:100%;height:500px;border:none;border-radius:6px;"></iframe>`;
+  document.getElementById('nlPreview').style.display = 'block';
+  document.getElementById('nlPreview')._html = html;
+  showToast('Email généré ✓ Copiez-le dans Brevo', 'success');
+}
+
+function copyNLHTML() {
+  const html = document.getElementById('nlPreview')._html;
+  if (html) {
+    navigator.clipboard.writeText(html).then(() => showToast('HTML copié !', 'success'));
+  }
+}
+
+/* ============================================================
+   SEO — SITEMAP REGENERATION
+   ============================================================ */
+async function regenerateSitemap() {
+  const siteUrl = getSetting('siteUrl','https://patrimoine-expert.fr');
+  const today = new Date().toISOString().split('T')[0];
+
+  const staticPages = [
+    { url: '/', priority: '1.0', freq: 'weekly' },
+    { url: '/a-propos.html', priority: '0.8', freq: 'monthly' },
+    { url: '/contact.html', priority: '0.6', freq: 'monthly' },
+    { url: '/plan-du-site.html', priority: '0.4', freq: 'monthly' },
+    { url: '/mentions-legales.html', priority: '0.3', freq: 'yearly' },
+    { url: '/politique-confidentialite.html', priority: '0.3', freq: 'yearly' },
+  ];
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n\n  <!-- Pages principales -->\n`;
+  staticPages.forEach(p => {
+    xml += `  <url>\n    <loc>${siteUrl}${p.url}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${p.freq}</changefreq>\n    <priority>${p.priority}</priority>\n  </url>\n`;
+  });
+  xml += `\n  <!-- Articles -->\n`;
+  ARTICLES.forEach(a => {
+    xml += `  <url>\n    <loc>${siteUrl}/articles/${a.slug}.html</loc>\n    <lastmod>${a.date || today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
+  });
+  xml += `\n</urlset>`;
+
+  const gh = getGitHubConfig();
+  if (gh.token) {
+    const sha = await getFileSHA(gh, 'sitemap.xml');
+    await pushFile(gh, 'sitemap.xml', xml, `SEO: regenerate sitemap.xml (${ARTICLES.length} articles)`, sha);
+    showToast(`Sitemap regeneré (${ARTICLES.length} articles) et poussé sur GitHub ✓`, 'success');
+  } else {
+    document.getElementById('sitemapOutput').innerHTML = `<textarea class="field-input" rows="10" style="font-family:monospace;font-size:.75rem;">${xml}</textarea><p style="font-size:.75rem;color:var(--muted);margin-top:.5rem;">Configurez GitHub pour auto-push, ou copiez ce XML dans votre fichier sitemap.xml.</p>`;
+    showToast('GitHub non configuré — copiez le sitemap manuellement', 'warning');
+  }
+}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+function getGitHubConfig() {
+  return {
+    user:  localStorage.getItem('pe_gh_user')  || '',
+    repo:  localStorage.getItem('pe_gh_repo')  || '',
+    token: localStorage.getItem('pe_gh_token') || ''
+  };
+}
+
+function getSetting(key, def='') {
+  return localStorage.getItem('pe_' + key) || def;
+}
+
+function setSetting(key, val) {
+  localStorage.setItem('pe_' + key, val);
+}
+
+function loadSettings() {
+  const gh = getGitHubConfig();
+  document.getElementById('ghUser').value  = gh.user;
+  document.getElementById('ghRepo').value  = gh.repo;
+  document.getElementById('ghToken').value = gh.token;
+  document.getElementById('authorName').value  = getSetting('authorName','Thomas Mercier');
+  document.getElementById('authorTitle').value = getSetting('authorTitle','Conseiller en Gestion de Patrimoine Indépendant (CGPI) · Certifié AMF');
+  document.getElementById('siteUrl').value     = getSetting('siteUrl','https://patrimoine-expert.fr');
+}
+
+function saveGitHubSettings() {
+  setSetting('gh_user',  document.getElementById('ghUser').value.trim());
+  setSetting('gh_repo',  document.getElementById('ghRepo').value.trim());
+  setSetting('gh_token', document.getElementById('ghToken').value.trim());
+  showToast('Paramètres GitHub sauvegardés ✓', 'success');
+  renderDashboard();
+}
+
+async function testGitHub() {
+  const gh = getGitHubConfig();
+  if (!gh.token) { showToast('Entrez un token d\'abord', 'warning'); return; }
+  const el = document.getElementById('ghTestResult');
+  el.textContent = 'Test en cours…';
+  try {
+    const r = await fetch(`https://api.github.com/repos/${gh.user}/${gh.repo}`, {
+      headers: { 'Authorization': `token ${gh.token}` }
+    });
+    if (r.ok) {
+      el.innerHTML = '<span style="color:var(--green);">✓ Connexion réussie ! Dépôt accessible.</span>';
+    } else {
+      el.innerHTML = `<span style="color:var(--red);">✗ Erreur ${r.status} — vérifiez user/repo/token.</span>`;
+    }
+  } catch {
+    el.innerHTML = '<span style="color:var(--red);">✗ Erreur réseau.</span>';
+  }
+}
+
+function saveAuthorSettings() {
+  setSetting('authorName',  document.getElementById('authorName').value.trim());
+  setSetting('authorTitle', document.getElementById('authorTitle').value.trim());
+  setSetting('siteUrl',     document.getElementById('siteUrl').value.trim());
+  showToast('Paramètres auteur sauvegardés ✓', 'success');
+}
+
+function changePassword() {
+  const cur  = document.getElementById('currentPwd').value;
+  const nw   = document.getElementById('newPwd').value;
+  const conf = document.getElementById('confirmPwd').value;
+  const stored = localStorage.getItem('pe_admin_pwd') || 'admin2026';
+  if (cur !== stored) { showToast('Mot de passe actuel incorrect', 'error'); return; }
+  if (nw !== conf)    { showToast('Les mots de passe ne correspondent pas', 'error'); return; }
+  if (nw.length < 6)  { showToast('Minimum 6 caractères', 'warning'); return; }
+  localStorage.setItem('pe_admin_pwd', nw);
+  showToast('Mot de passe changé ✓', 'success');
+  ['currentPwd','newPwd','confirmPwd'].forEach(id => document.getElementById(id).value = '');
+}
+
+function exportSettings() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith('pe_') && k !== 'pe_auth') data[k] = localStorage.getItem(k);
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'patrimoine-expert-settings.json';
+  a.click();
+}
+
+function confirmReset() {
+  openModal('Réinitialiser les paramètres', 'Tous les paramètres locaux seront effacés. Cette action est irréversible.', () => {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('pe_')) keys.push(k);
+    }
+    keys.forEach(k => localStorage.removeItem(k));
+    showToast('Réinitialisation effectuée', 'success');
+    setTimeout(() => location.reload(), 1500);
+  });
+}
+
+function confirmDelete(slug) {
+  openModal('Supprimer l\'article', `Supprimer "${slug}" ? Cette action ne supprime pas encore le fichier sur GitHub.`, async () => {
+    const gh = getGitHubConfig();
+    if (gh.token) {
+      try {
+        const sha = await getFileSHA(gh, `articles/${slug}.html`);
+        if (sha) {
+          await fetch(`https://api.github.com/repos/${gh.user}/${gh.repo}/contents/articles/${slug}.html`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `token ${gh.token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: `delete: ${slug}`, sha, branch: 'main' })
+          });
+        }
+        // Remove from manifest
+        const newManifest = ARTICLES.filter(a => a.slug !== slug);
+        const msha = await getFileSHA(gh, 'articles/manifest.json');
+        await pushFile(gh, 'articles/manifest.json', JSON.stringify(newManifest, null, 2), `manifest: remove ${slug}`, msha);
+        ARTICLES = newManifest;
+        renderDashboard();
+        renderArticlesList();
+        showToast('Article supprimé ✓', 'success');
+      } catch(e) { showToast('Erreur : ' + e.message, 'error'); }
+    } else {
+      showToast('GitHub non configuré — supprimez manuellement le fichier', 'warning');
+    }
+  });
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openModal(title, msg, onConfirm) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalMsg').textContent = msg;
+  document.getElementById('confirmModal').classList.add('open');
+  document.getElementById('modalConfirmBtn').onclick = () => { closeModal(); onConfirm(); };
+}
+function closeModal() { document.getElementById('confirmModal').classList.remove('open'); }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimeout;
+function showToast(msg, type='') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => el.className = '', 3500);
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function formatDate(d) {
+  return new Date(d).toLocaleDateString('fr-FR', { day:'numeric', month:'short', year:'numeric' });
+}
+</script>
+</body>
+</html>

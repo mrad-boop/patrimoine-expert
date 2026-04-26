@@ -752,9 +752,9 @@
   var _manifest = [];
 
   async function renderArticlesList() {
-    var container = document.getElementById('articlesGrid');
+    var container = document.getElementById('articlesTableBody');
     if (!container) return;
-    container.innerHTML = '<div style="text-align:center;padding:3rem;color:rgba(255,255,255,.4)">Loading articles…</div>';
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)">Loading articles…</div>';
     try {
       _manifest = await loadManifest();
       filterArticles();

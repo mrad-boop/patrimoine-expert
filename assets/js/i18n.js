@@ -145,6 +145,86 @@
     var t = await loadTranslations(lang);
     applyToDOM(t);
     applyArticleLabels();
+
+    // Translate full page content (article body, headings, etc.) via Google Translate
+    gtTranslatePage(lang);
+  }
+
+  /* ── Google Translate silent integration ───────────────── */
+  // Translates the entire page body (including article text) via Google Translate.
+  // The existing i18n system handles UI elements; GT handles the prose content.
+
+  function gtInitOnce() {
+    if (window._gtInited) return;
+    window._gtInited = true;
+
+    // Hidden mount point
+    var div = document.createElement('div');
+    div.id = 'google_translate_element';
+    div.style.cssText = 'display:none;position:absolute;width:1px;height:1px;overflow:hidden';
+    document.body.appendChild(div);
+
+    // Suppress Google's floating toolbar entirely
+    var css = document.createElement('style');
+    css.textContent = [
+      '.goog-te-banner-frame{display:none!important}',
+      '.goog-te-ftab-float{display:none!important}',
+      '.goog-te-gadget{display:none!important}',
+      '#goog-gt-tt{display:none!important}',
+      'body{top:0!important;position:static!important}'
+    ].join('');
+    document.head.appendChild(css);
+
+    // Init callback
+    window.googleTranslateElementInit = function () {
+      try {
+        new google.translate.TranslateElement({
+          pageLanguage: 'fr',
+          includedLanguages: 'en,fr,ar,es,de',
+          autoDisplay: false
+        }, 'google_translate_element');
+      } catch (e) {}
+    };
+
+    // Load GT script
+    var sc = document.createElement('script');
+    sc.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    sc.async = true;
+    document.head.appendChild(sc);
+  }
+
+  function gtTranslatePage(lang) {
+    // FR is the source language — restore original
+    if (lang === 'fr') {
+      gtRestoreOriginal();
+      return;
+    }
+    gtInitOnce();
+
+    // GT maps directly to ISO codes we use
+    function doTrigger() {
+      var combo = document.querySelector('.goog-te-combo');
+      if (!combo) return false;
+      combo.value = lang;
+      combo.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    }
+    if (!doTrigger()) {
+      var tries = 0;
+      var iv = setInterval(function () {
+        if (doTrigger() || ++tries > 40) clearInterval(iv);
+      }, 250);
+    }
+  }
+
+  function gtRestoreOriginal() {
+    var wasTranslated = /translated/.test(document.documentElement.className);
+    if (!wasTranslated) return;
+    // Clear GT cookie and reload to show original French content
+    ['', '.' + location.hostname].forEach(function (d) {
+      document.cookie = 'googtrans=; path=/; domain=' + d + '; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    });
+    window.location.reload();
   }
 
   function buildSwitcher(container) {
@@ -215,6 +295,9 @@
 
     // Apply article-level i18n for pages without data-i18n
     applyArticleLabels();
+
+    // If stored language is non-FR, init GT immediately so body content gets translated on load
+    if (_lang !== 'fr') gtTranslatePage(_lang);
 
     // Click handlers for any [data-lang] buttons added after
     document.addEventListener('click', function (e) {

@@ -855,15 +855,16 @@ Sitemap: https://smartwealthblog.com/sitemap.xml</textarea>
         <div class="settings-grid">
           <div class="settings-card">
             <h3>🔑 GitHub — Auto-publish</h3>
-            <div class="field-group"><label class="field-label">GitHub username</label><input class="field-input" id="ghUser" placeholder="mrad-boop"></div>
-            <div class="field-group"><label class="field-label">Repository name</label><input class="field-input" id="ghRepo" placeholder="smartwealthblog"></div>
+            <div class="field-group"><label class="field-label">GitHub username</label><input class="field-input" id="settingsGHUser" placeholder="mrad-boop"></div>
+            <div class="field-group"><label class="field-label">Repository name</label><input class="field-input" id="settingsGHRepo" placeholder="patrimoine-expert"></div>
+            <div class="field-group"><label class="field-label">Branch</label><input class="field-input" id="settingsGHBranch" placeholder="main" value="main"></div>
             <div class="field-group">
               <label class="field-label">Personal Access Token (PAT) <a onclick="window.open('https://github.com/settings/tokens/new?scopes=repo','_blank')" style="color:var(--primary);font-size:.72rem;cursor:pointer;margin-left:.5rem">Generate →</a></label>
-              <input class="field-input" id="ghToken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+              <input class="field-input" id="settingsGHPAT" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
             </div>
             <div style="display:flex;gap:.5rem">
               <button class="btn btn-green btn-sm" onclick="saveGitHubSettings()">💾 Save</button>
-              <button class="btn btn-outline btn-sm" onclick="testGitHub()">🧪 Test</button>
+              <button class="btn btn-outline btn-sm" id="btnTestGH" onclick="testGitHub()">🧪 Test</button>
             </div>
             <div id="ghTestResult" style="margin-top:.75rem;font-size:.8rem"></div>
           </div>
@@ -873,21 +874,21 @@ Sitemap: https://smartwealthblog.com/sitemap.xml</textarea>
             <div class="field-group">
               <label class="field-label">Admin access token (URL protection)</label>
               <div class="access-url-display" id="currentAccessUrl">Loading…</div>
-              <input class="field-input" id="newAccessToken" placeholder="New token (alphanumeric)">
+              <input class="field-input" id="settingsAccessToken" placeholder="New token (alphanumeric)">
               <div style="font-size:.72rem;color:var(--muted);margin-top:.3rem">Admin URL: <code>/admin/?access=YOUR_TOKEN</code></div>
             </div>
             <button class="btn btn-gold btn-sm" onclick="saveAccessToken()">🔑 Update token</button>
             <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
-            <div class="field-group"><label class="field-label">Current password</label><input class="field-input" type="password" id="currentPwd" placeholder="••••••••"></div>
-            <div class="field-group"><label class="field-label">New password</label><input class="field-input" type="password" id="newPwd" placeholder="••••••••"></div>
-            <div class="field-group"><label class="field-label">Confirm</label><input class="field-input" type="password" id="confirmPwd" placeholder="••••••••"></div>
+            <div class="field-group"><label class="field-label">Current password</label><input class="field-input" type="password" id="settingsCurPW" placeholder="••••••••"></div>
+            <div class="field-group"><label class="field-label">New password</label><input class="field-input" type="password" id="settingsNewPW" placeholder="••••••••"></div>
+            <div class="field-group"><label class="field-label">Confirm</label><input class="field-input" type="password" id="settingsConfPW" placeholder="••••••••"></div>
             <button class="btn btn-primary btn-sm" onclick="changePassword()">🔐 Change password</button>
           </div>
 
           <div class="settings-card">
             <h3>🤖 AI API Keys</h3>
-            <div class="field-group"><label class="field-label">Anthropic API Key</label><input class="field-input" id="savedAnthropicKey" type="password" placeholder="sk-ant-..."></div>
-            <div class="field-group"><label class="field-label">OpenAI API Key (optional)</label><input class="field-input" id="savedOpenAIKey" type="password" placeholder="sk-..."></div>
+            <div class="field-group"><label class="field-label">Anthropic API Key</label><input class="field-input" id="settingsAnthropicKey" type="password" placeholder="sk-ant-..."></div>
+            <div class="field-group"><label class="field-label">OpenAI API Key (optional)</label><input class="field-input" id="settingsOpenAIKey" type="password" placeholder="sk-..."></div>
             <button class="btn btn-green btn-sm" onclick="saveAIKeys()">💾 Save API keys</button>
             <div class="info-box info" style="margin-top:.75rem">API keys stored in localStorage only — never transmitted to third parties.</div>
           </div>

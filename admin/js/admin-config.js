@@ -453,22 +453,29 @@
   }
 
   async function testGitHubConnection() {
+    // Auto-save fields before testing so user doesn't have to click Save first
+    var ghLive = {
+      user:   ((document.getElementById('settingsGHUser')   || {}).value || '').trim(),
+      repo:   ((document.getElementById('settingsGHRepo')   || {}).value || '').trim(),
+      branch: ((document.getElementById('settingsGHBranch') || {}).value || 'main').trim(),
+      pat:    ((document.getElementById('settingsGHPAT')    || {}).value || '').trim()
+    };
+    if (ghLive.user && ghLive.repo && ghLive.pat) {
+      localStorage.setItem('we_github', JSON.stringify(ghLive));
+    }
+
     var btn = document.getElementById('btnTestGH');
     if (btn) { btn.disabled = true; btn.textContent = 'Testing…'; }
+    var out = document.getElementById('ghTestResult');
     try {
       var data = await WEAdmin.ghRequest('');
-      var out = document.getElementById('ghTestResult');
-      if (out) {
-        out.style.color = '#2D9B6F';
-        out.textContent = '✅ Connected: ' + data.full_name + ' (' + (data.default_branch || 'main') + ')';
-      }
+      if (out) { out.style.color = '#2D9B6F'; out.textContent = '✅ Connected: ' + data.full_name + ' (' + (data.default_branch || 'main') + ')'; }
       WEAdmin.toast('GitHub connection OK!', 'success');
     } catch (e) {
-      var out = document.getElementById('ghTestResult');
       if (out) { out.style.color = '#ff6b6b'; out.textContent = '❌ ' + e.message; }
       WEAdmin.toast(e.message, 'error');
     } finally {
-      if (btn) { btn.disabled = false; btn.textContent = '🔌 Test Connection'; }
+      if (btn) { btn.disabled = false; btn.textContent = '🧪 Test Connection'; }
     }
   }
 

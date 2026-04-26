@@ -254,150 +254,169 @@
 
   /* ── Article HTML generator ────────────────────────────── */
   function generateArticleHTML(data) {
-    var gh       = getGithub();
-    var domain   = (window.WEConfig && window.WEConfig.brand && window.WEConfig.brand.domain) || 'https://smartwealthblog.com';
-    var authorName  = (window.WEConfig && window.WEConfig.author && window.WEConfig.author.name) || 'Thomas Mercier';
-    var authorTitle = (window.WEConfig && window.WEConfig.author && window.WEConfig.author.title) || 'Wealth Advisor';
-    var siteName    = (window.WEConfig && window.WEConfig.brand && window.WEConfig.brand.name)   || 'Smart Wealth Blog';
-    var category    = data.category || 'investments';
-    var lang        = data.lang || 'en';
+    var domain      = (window.WEConfig && window.WEConfig.brand && window.WEConfig.brand.domain) || 'https://smartwealthblog.com';
+    var authorName  = (window.WEConfig && window.WEConfig.author && window.WEConfig.author.name)  || 'Thomas Mercier';
+    var authorTitle = (window.WEConfig && window.WEConfig.author && window.WEConfig.author.title) || 'Independent Wealth Management Advisor (CGPI) · AMF Certified';
+    var siteName    = (window.WEConfig && window.WEConfig.brand && window.WEConfig.brand.name)    || 'Smart Wealth Blog';
+    var lang        = data.lang || 'fr';
     var slug        = data.slug;
-    var title       = escapeHtml(data.title);
-    var metaDesc    = escapeHtml(data.metaDesc || data.title);
+    // Base slug = slug without language suffix
+    var baseSlug    = slug.replace(/-(en|fr|ar|es|de)$/, '');
+    var category    = data.category || 'investments';
+    var catSlug     = category.toLowerCase().replace(/\s+/g,'-').replace('é','e');
+    var title       = data.title || '';
+    var metaDesc    = data.metaDesc || title;
     var readTime    = data.readTime || '8';
     var dateStr     = new Date().toISOString().split('T')[0];
     var content     = data.content || '';
     var tags        = (data.tags || '').split(',').map(function(t){return t.trim();}).filter(Boolean);
     var canonical   = domain + '/articles/' + slug + '.html';
-    var tagsHtml    = tags.map(function(t){ return '<span class="article-tag">' + escapeHtml(t) + '</span>'; }).join('');
-    var schemaJson  = JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": data.title,
-      "description": data.metaDesc || data.title,
-      "author": { "@type": "Person", "name": authorName },
-      "publisher": { "@type": "Organization", "name": siteName, "url": domain },
-      "datePublished": dateStr,
-      "dateModified": dateStr,
-      "mainEntityOfPage": { "@type": "WebPage", "@id": canonical },
+    var tagsHtml    = tags.map(function(t){ return '<span class="article-tag">' + escHtml(t) + '</span>'; }).join('');
+    var dir         = lang === 'ar' ? 'rtl' : 'ltr';
+
+    function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    var schemaJson = JSON.stringify({
+      "@context": "https://schema.org", "@type": "Article",
+      "headline": title, "description": metaDesc,
+      "author": {"@type":"Person","name":authorName},
+      "publisher": {"@type":"Organization","name":siteName,"url":domain},
+      "datePublished": dateStr, "dateModified": dateStr,
+      "mainEntityOfPage": {"@type":"WebPage","@id":canonical},
       "inLanguage": lang
     }, null, 2);
 
-    return `<!DOCTYPE html>
-<html lang="${lang}" dir="${lang === 'ar' ? 'rtl' : 'ltr'}">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} — ${escapeHtml(siteName)}</title>
-  <meta name="description" content="${metaDesc}">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="${canonical}">
-  <!-- Open Graph -->
-  <meta property="og:type"        content="article">
-  <meta property="og:title"       content="${title}">
-  <meta property="og:description" content="${metaDesc}">
-  <meta property="og:url"         content="${canonical}">
-  <meta property="og:site_name"   content="${escapeHtml(siteName)}">
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="${title}">
-  <meta name="twitter:description" content="${metaDesc}">
-  <!-- Schema.org -->
-  <script type="application/ld+json">${schemaJson}</script>
-  <!-- Styles -->
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/article.css">
-</head>
-<body class="page-article" data-lang="${lang}">
+    // hreflang alternates for other language versions
+    var hreflangLinks = ['fr','en','ar','es','de'].map(function(l) {
+      var lSlug = l === 'fr' ? baseSlug : baseSlug + '-' + l;
+      return '  <link rel="alternate" hreflang="' + l + '" href="' + domain + '/articles/' + lSlug + '.html">';
+    }).join('\n');
 
-  <!-- ── Nav (populated by site-config.js) ── -->
-  <header id="siteHeader">
-    <nav class="navbar container">
-      <a href="../" class="logo">
-        <span class="logo-icon">💰</span>
-        <span class="logo-brand-name">${escapeHtml(siteName)}</span>
-      </a>
-      <div class="nav-links" id="navLinks"></div>
-      <div class="nav-actions">
-        <div class="lang-switcher" id="langSwitcher"></div>
-      </div>
-    </nav>
-  </header>
-
-  <main class="article-main container">
-    <article class="article-content" itemscope itemtype="https://schema.org/Article">
-
-      <header class="article-header">
-        <div class="article-meta-top">
-          <span class="article-category cat-${category}" data-i18n="categories.${category}">${category}</span>
-          <span class="article-reading-time">${readTime} <span data-i18n="article.min-read">min read</span></span>
-        </div>
-        <h1 class="article-title" itemprop="headline">${title}</h1>
-        <div class="article-byline">
-          <span class="author-avatar-val">👨‍💼</span>
-          <div>
-            <span class="author-name-val" itemprop="author">${escapeHtml(authorName)}</span>
-            <span class="article-date">
-              <span data-i18n="article.updated">Updated</span>
-              <time datetime="${dateStr}" itemprop="datePublished">${formatDate(dateStr)}</time>
-            </span>
-          </div>
-        </div>
-        ${tagsHtml ? '<div class="article-tags">' + tagsHtml + '</div>' : ''}
-      </header>
-
-      <!-- ── AdSense top ── -->
-      <div class="ad-slot ad-top" aria-label="Advertisement">
-        <ins class="adsbygoogle" style="display:block" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      </div>
-
-      <!-- ── Article body ── -->
-      <div class="article-body" itemprop="articleBody">
-        ${content}
-      </div>
-
-      <!-- ── Disclaimer ── -->
-      <div class="article-disclaimer" data-i18n-html="article.disclaimer">
-        ⚠️ Disclaimer: This content is for informational purposes only and does not constitute investment advice.
-      </div>
-
-      <!-- ── Share ── -->
-      <div class="article-share">
-        <span data-i18n="article.share">Share:</span>
-        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(canonical)}&text=${encodeURIComponent(data.title)}" target="_blank" rel="noopener" class="share-btn twitter" data-i18n="article.twitter">🐦 Twitter</a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonical)}" target="_blank" rel="noopener" class="share-btn linkedin" data-i18n="article.linkedin">💼 LinkedIn</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonical)}" target="_blank" rel="noopener" class="share-btn facebook" data-i18n="article.facebook">📘 Facebook</a>
-        <button onclick="navigator.clipboard.writeText('${canonical}').then(function(){WEAdmin&&WEAdmin.toast('Link copied!','success')})" class="share-btn copy" data-i18n="article.copy">🔗 Copy link</button>
-      </div>
-
-      <!-- ── AdSense bottom ── -->
-      <div class="ad-slot ad-bottom" aria-label="Advertisement">
-        <ins class="adsbygoogle" style="display:block" data-ad-format="auto" data-full-width-responsive="true"></ins>
-      </div>
-
-    </article>
-
-    <!-- ── Sidebar ── -->
-    <aside class="article-sidebar">
-      <div class="toc-box">
-        <h3 data-i18n="article.toc">Table of Contents</h3>
-        <nav id="articleToc"></nav>
-      </div>
-    </aside>
-  </main>
-
-  <!-- ── Footer (same as home) ── -->
-  <footer id="siteFooter"></footer>
-
-  <!-- ── Cookie banner ── -->
-  <div id="cookieBanner" style="display:none"></div>
-
-  <script src="../assets/js/site-config.js"></script>
-  <script src="../assets/js/i18n.js"></script>
-  <script src="../assets/js/tracker.js"></script>
-  <script src="../assets/js/article.js"></script>
-</body>
-</html>`;
+    return '<!DOCTYPE html>\n'
++ '<html lang="' + lang + '" dir="' + dir + '">\n'
++ '<head>\n'
++ '  <meta charset="UTF-8">\n'
++ '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
++ '  <title>' + escHtml(title) + ' | ' + escHtml(siteName) + '</title>\n'
++ '  <meta name="description" content="' + escHtml(metaDesc) + '">\n'
++ '  <link rel="canonical" href="' + canonical + '">\n'
++ hreflangLinks + '\n'
++ '  <meta property="og:type" content="article">\n'
++ '  <meta property="og:title" content="' + escHtml(title) + '">\n'
++ '  <meta property="og:description" content="' + escHtml(metaDesc) + '">\n'
++ '  <meta property="og:url" content="' + canonical + '">\n'
++ '  <meta name="twitter:card" content="summary_large_image">\n'
++ '  <script type="application/ld+json">' + schemaJson + '</script>\n'
++ '  <link rel="preconnect" href="https://fonts.googleapis.com">\n'
++ '  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">\n'
++ '  <link rel="stylesheet" href="../assets/css/style.css">\n'
++ '</head>\n'
++ '<body data-lang="' + lang + '" data-slug="' + slug + '" data-base-slug="' + baseSlug + '">\n'
++ '\n'
++ '<header class="site-header" role="banner" id="siteHeader">\n'
++ '  <div class="container"><div class="header-inner">\n'
++ '    <a href="../" class="logo" aria-label="' + escHtml(siteName) + ' — Home">\n'
++ '      <div class="logo-icon">💰</div> Smart Wealth<span>Blog</span>\n'
++ '    </a>\n'
++ '    <nav class="main-nav" aria-label="Main navigation">\n'
++ '      <a href="../" class="nav-link" data-i18n="nav.home">Home</a>\n'
++ '      <div class="nav-dropdown"><a href="../#investments" class="nav-link" data-i18n="nav.investments">Investments ▾</a>\n'
++ '        <div class="nav-dropdown-menu">\n'
++ '          <a href="../articles/investir-bourse-debutants.html" data-i18n="nav.sub.beginners">Stock Market for Beginners</a>\n'
++ '          <a href="../articles/etf-investir.html" data-i18n="nav.sub.etf">ETF — How to Invest</a>\n'
++ '          <a href="../articles/assurance-vie-comparatif.html" data-i18n="nav.sub.life-insurance">Life Insurance</a>\n'
++ '          <a href="../articles/livret-a-ldds-lep.html" data-i18n="nav.sub.savings">Savings Accounts 2026</a>\n'
++ '          <a href="../articles/devenir-rentier-dividendes.html" data-i18n="nav.sub.dividends">Dividend Income</a>\n'
++ '        </div></div>\n'
++ '      <div class="nav-dropdown"><a href="../#real-estate" class="nav-link" data-i18n="nav.real-estate">Real Estate ▾</a>\n'
++ '        <div class="nav-dropdown-menu">\n'
++ '          <a href="../articles/credit-immobilier-negocier.html" data-i18n="nav.sub.mortgage">Mortgage &amp; Rates</a>\n'
++ '          <a href="../articles/revenus-locatifs-declaration.html" data-i18n="nav.sub.rental">Rental Income</a>\n'
++ '          <a href="../articles/crowdfunding-immobilier.html" data-i18n="nav.sub.crowdfunding">Real Estate Crowdfunding</a>\n'
++ '        </div></div>\n'
++ '      <div class="nav-dropdown"><a href="../#taxation" class="nav-link" data-i18n="nav.taxation">Taxation ▾</a>\n'
++ '        <div class="nav-dropdown-menu">\n'
++ '          <a href="../articles/fiscalite-cryptomonnaies.html" data-i18n="nav.sub.crypto">Crypto Tax Guide</a>\n'
++ '          <a href="../articles/loi-pinel-2026.html" data-i18n="nav.sub.tax-breaks">Tax Breaks 2026</a>\n'
++ '          <a href="../articles/per-plan-epargne-retraite.html" data-i18n="nav.sub.retirement">Retirement Savings Plan</a>\n'
++ '          <a href="../articles/succession-donation.html" data-i18n="nav.sub.inheritance">Inheritance &amp; Gifts</a>\n'
++ '        </div></div>\n'
++ '      <a href="../a-propos.html" class="nav-link" data-i18n="nav.about">About</a>\n'
++ '    </nav>\n'
++ '    <div class="header-right">\n'
++ '      <div class="lang-switcher" id="langSwitcher" aria-label="Language selector"></div>\n'
++ '      <button id="burger" class="burger" aria-label="Mobile menu" aria-expanded="false" aria-controls="mobileNav"><span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>\n'
++ '    </div>\n'
++ '  </div></div>\n'
++ '  <nav id="mobileNav" class="mobile-nav" aria-label="Mobile menu">\n'
++ '    <a href="../">Home</a>\n'
++ '    <a href="../articles/investir-bourse-debutants.html">Stock Market for Beginners</a>\n'
++ '    <a href="../articles/etf-investir.html">ETF</a>\n'
++ '    <a href="../articles/assurance-vie-comparatif.html">Life Insurance</a>\n'
++ '    <a href="../articles/livret-a-ldds-lep.html">Savings Accounts</a>\n'
++ '    <a href="../articles/devenir-rentier-dividendes.html">Dividend Income</a>\n'
++ '    <a href="../articles/credit-immobilier-negocier.html">Mortgage</a>\n'
++ '    <a href="../articles/revenus-locatifs-declaration.html">Rental Income</a>\n'
++ '    <a href="../articles/crowdfunding-immobilier.html">Crowdfunding</a>\n'
++ '    <a href="../articles/fiscalite-cryptomonnaies.html">Crypto Tax</a>\n'
++ '    <a href="../articles/loi-pinel-2026.html">Tax Breaks 2026</a>\n'
++ '    <a href="../articles/per-plan-epargne-retraite.html">Retirement Plan</a>\n'
++ '    <a href="../articles/succession-donation.html">Inheritance</a>\n'
++ '    <a href="../a-propos.html">About</a>\n'
++ '  </nav>\n'
++ '</header>\n'
++ '\n'
++ '<div class="reading-progress" id="readingProgress"></div>\n'
++ '\n'
++ '<main>\n'
++ '  <div class="container article-layout">\n'
++ '    <article class="article-main">\n'
++ '      <header class="article-header">\n'
++ '        <span class="card-category cat-' + catSlug + '" data-i18n="categories.' + catSlug + '">' + escHtml(category) + '</span>\n'
++ '        <h1 class="article-title">' + escHtml(title) + '</h1>\n'
++ '        <div class="article-meta">\n'
++ '          <span>✍️ <a href="../a-propos.html">' + escHtml(authorName) + '</a></span>\n'
++ '          <span>📅 ' + dateStr + '</span>\n'
++ '          <span>⏱️ ' + readTime + ' <span data-i18n="article.min-read">min read</span></span>\n'
++ '        </div>\n'
++ (tagsHtml ? '        <div class="article-tags">' + tagsHtml + '</div>\n' : '')
++ '      </header>\n'
++ '\n'
++ '      <div class="article-content">\n'
++ content + '\n'
++ '      </div>\n'
++ '\n'
++ '      <div class="article-disclaimer" data-i18n-html="article.disclaimer">\n'
++ '        ⚠️ Disclaimer: This content is for informational purposes only and does not constitute investment advice.\n'
++ '      </div>\n'
++ '\n'
++ '      <div class="article-share">\n'
++ '        <span data-i18n="article.share">Share:</span>\n'
++ '        <a href="https://twitter.com/intent/tweet?url=' + encodeURIComponent(canonical) + '" target="_blank" rel="noopener" data-i18n="article.twitter">🐦 Twitter</a>\n'
++ '        <a href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(canonical) + '" target="_blank" rel="noopener" data-i18n="article.linkedin">💼 LinkedIn</a>\n'
++ '        <button onclick="navigator.clipboard.writeText(\'' + canonical + '\')" data-i18n="article.copy">🔗 Copy link</button>\n'
++ '      </div>\n'
++ '    </article>\n'
++ '\n'
++ '    <aside class="article-sidebar">\n'
++ '      <div class="sidebar-toc"><h3 data-i18n="article.toc">Table of Contents</h3><nav id="tocNav"></nav></div>\n'
++ '    </aside>\n'
++ '  </div>\n'
++ '</main>\n'
++ '\n'
++ '<footer class="site-footer">\n'
++ '  <div class="container">\n'
++ '    <div class="footer-bottom"><span>© 2026 ' + escHtml(siteName) + '.</span>\n'
++ '      <span><a href="../mentions-legales.html">Legal Notice</a> · <a href="../politique-confidentialite.html">Privacy</a></span></div>\n'
++ '  </div>\n'
++ '</footer>\n'
++ '\n'
++ '<script src="../assets/js/site-config.js"></script>\n'
++ '<script src="../assets/js/i18n.js"></script>\n'
++ '<script src="../assets/js/tracker.js"></script>\n'
++ '<script src="../assets/js/main.js"></script>\n'
++ '</body>\n'
++ '</html>';
   }
   window.WEAdmin.generateArticleHTML = generateArticleHTML;
 
@@ -413,11 +432,13 @@
       var html = generateArticleHTML(data);
       var path = 'articles/' + data.slug + '.html';
       await pushFile(path, html, 'Publish article: ' + data.slug);
+      var baseSlug = data.slug.replace(/-(en|fr|ar|es|de)$/, '');
       await updateManifest({
         slug:     data.slug,
+        baseSlug: baseSlug,
         title:    data.title,
         category: data.category,
-        lang:     data.lang,
+        lang:     data.lang || 'fr',
         date:     new Date().toISOString().split('T')[0],
         readTime: data.readTime,
         emoji:    data.emoji,

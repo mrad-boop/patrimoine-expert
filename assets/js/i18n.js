@@ -129,10 +129,29 @@
     });
   }
 
+  async function tryArticleRedirect(lang) {
+    if (!window.location.pathname.includes('/articles/')) return;
+    var match = window.location.pathname.match(/\/articles\/([^.]+)\.html/);
+    if (!match) return;
+    var currentSlug = match[1];
+    // Use data-base-slug on <body> if available, otherwise strip suffix
+    var baseSlug = document.body.getAttribute('data-base-slug')
+                   || currentSlug.replace(/-(en|fr|ar|es|de)$/, '');
+    var targetSlug = (lang === 'fr') ? baseSlug : baseSlug + '-' + lang;
+    if (targetSlug === currentSlug) return; // already on correct version
+    try {
+      var r = await fetch(targetSlug + '.html', { method: 'HEAD' });
+      if (r.ok) { window.location.href = targetSlug + '.html'; }
+    } catch (e) {}
+  }
+
   async function setLanguage(lang) {
     if (!LANGS.includes(lang)) return;
     _lang = lang;
     localStorage.setItem('we_lang', lang);
+
+    // On article pages, redirect to translated version if it exists
+    await tryArticleRedirect(lang);
 
     // Update URL without reload
     try {

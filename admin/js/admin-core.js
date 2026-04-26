@@ -872,6 +872,7 @@
     showView('editor');
   }
   window.WEAdmin.quickPublishFromDashboard = quickPublishFromDashboard;
+  window.WEAdmin.initApp = function() { initApp(); };
 
   /* ── Init ──────────────────────────────────────────────── */
   function initApp() {

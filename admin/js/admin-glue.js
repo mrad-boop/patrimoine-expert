@@ -9,10 +9,26 @@ function adminLogin() {
   var pw  = document.getElementById('passwordInput');
   var err = document.getElementById('loginError');
   if (!pw) return;
-  var ok = WEAdmin.doLogin(pw.value);
-  if (ok) {
+
+  // Self-contained: read password directly from localStorage
+  var stored;
+  try { stored = JSON.parse(localStorage.getItem('we_admin_password') || '"admin2026"'); }
+  catch(e) { stored = 'admin2026'; }
+
+  if (pw.value === stored) {
+    localStorage.setItem('we_admin_auth', 'true');
     pw.value = '';
     if (err) err.style.display = 'none';
+    // Show app panel
+    var login = document.getElementById('loginScreen');
+    var app   = document.getElementById('app');
+    if (login) login.style.display = 'none';
+    if (app)   app.style.display   = 'flex';
+    // Init app and show dashboard
+    if (window.WEAdmin) {
+      if (window.WEAdmin.initApp)  window.WEAdmin.initApp();
+      if (window.WEAdmin.showView) window.WEAdmin.showView('dashboard');
+    }
   } else {
     if (err) { err.textContent = 'Incorrect password.'; err.style.display = 'block'; }
     pw.value = '';

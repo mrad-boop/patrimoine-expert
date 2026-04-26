@@ -522,21 +522,39 @@
     }
     toast('Loading article…', 'success');
 
+    function extractArticleBody(html) {
+      // Find <div class="article-body"> then count nested divs to find its matching </div>
+      var startMarker = 'class="article-body"';
+      var si = html.indexOf(startMarker);
+      if (si === -1) return '';
+      var tagEnd = html.indexOf('>', si) + 1;
+      var depth = 1, i = tagEnd;
+      while (i < html.length && depth > 0) {
+        var no = html.indexOf('<div', i);
+        var nc = html.indexOf('</div', i);
+        if (nc === -1) break;
+        if (no !== -1 && no < nc) { depth++; i = no + 4; }
+        else { depth--; if (depth === 0) return html.substring(tagEnd, nc).trim(); i = nc + 5; }
+      }
+      return html.substring(tagEnd).trim();
+    }
+
     function extractFields(html) {
-      var bodyM    = html.match(/<div class="article-body"[^>]*>([\s\S]*?)<\/div>\s*(?:<!--|\s*<(?:div|section|aside))/);
-      var content  = bodyM ? bodyM[1].trim() : html;
+      var content  = extractArticleBody(html);
       var titleM   = html.match(/<h1[^>]*class="article-title"[^>]*>([\s\S]*?)<\/h1>/);
       var title    = titleM ? titleM[1].replace(/<[^>]+>/g,'').trim() : slug;
       var descM    = html.match(/<meta\s+name="description"\s+content="([^"]+)"/);
-      var emojiM   = html.match(/<span[^>]*class="article-emoji[^"]*"[^>]*>([^<]+)<\/span>/);
-      var catM     = html.match(/class="[^"]*cat-(\w[\w-]*)"/);
+      var emojiM   = html.match(/<span[^>]*class="[^"]*article-emoji[^"]*"[^>]*>([^<]+)<\/span>/);
+      var catM     = html.match(/class="[^"]*cat-([\w-]+)"/);
+      var rtM      = html.match(/(\d+)\s*min/i);
       return {
         slug:     slug,
         title:    title,
-        content:  content,
+        content:  content || '(Could not extract body — edit full HTML manually)',
         metaDesc: descM  ? descM[1]  : '',
         emoji:    emojiM ? emojiM[1].trim() : '📄',
-        category: catM   ? catM[1]   : ''
+        category: catM   ? catM[1]   : '',
+        readTime: rtM    ? rtM[1]    : ''
       };
     }
 

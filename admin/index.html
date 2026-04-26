@@ -682,22 +682,21 @@ Sitemap: https://smartwealthblog.com/sitemap.xml</textarea>
       <div class="view" id="view-translations">
         <div class="trans-layout">
           <div class="trans-sidebar">
-            <div style="padding:.5rem .875rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.25rem">Language to edit</div>
-            <button class="trans-lang-btn active" onclick="loadTranslationsEditor('fr',this)">🇫🇷 Français</button>
-            <button class="trans-lang-btn" onclick="loadTranslationsEditor('ar',this)">🇸🇦 العربية</button>
-            <button class="trans-lang-btn" onclick="loadTranslationsEditor('es',this)">🇪🇸 Español</button>
-            <button class="trans-lang-btn" onclick="loadTranslationsEditor('de',this)">🇩🇪 Deutsch</button>
-            <div style="padding:.75rem .875rem .25rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:.5rem">English (base)</div>
-            <div style="padding:.25rem .875rem;font-size:.78rem;color:var(--muted);line-height:1.5">English is the base. Translations are compared against it.</div>
+            <div style="padding:.5rem .875rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.25rem">Translate to</div>
+            <button class="trans-lang-btn active" data-lang="en" onclick="loadTranslationsEditor('en',this)">🇬🇧 English</button>
+            <button class="trans-lang-btn" data-lang="ar" onclick="loadTranslationsEditor('ar',this)">🇸🇦 العربية</button>
+            <button class="trans-lang-btn" data-lang="es" onclick="loadTranslationsEditor('es',this)">🇪🇸 Español</button>
+            <button class="trans-lang-btn" data-lang="de" onclick="loadTranslationsEditor('de',this)">🇩🇪 Deutsch</button>
+            <div style="padding:.75rem .875rem .25rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:.5rem">🇫🇷 Source</div>
+            <div style="padding:.25rem .875rem;font-size:.78rem;color:var(--muted);line-height:1.5">French is the original language. All translations are compared against it.</div>
             <div style="margin-top:1rem;padding:.5rem;display:flex;flex-direction:column;gap:.35rem">
-              <button class="btn btn-green btn-sm" onclick="saveTranslations()">💾 Save translations</button>
-              <button class="btn btn-outline btn-sm" onclick="pushTranslations()">🚀 Push to GitHub</button>
+              <button class="btn btn-green btn-sm" onclick="saveTranslations()">💾 Save &amp; Push</button>
             </div>
           </div>
           <div class="trans-content" id="translationsContent">
             <div style="text-align:center;padding:3rem;color:var(--muted)">
               <div style="font-size:2rem;margin-bottom:.75rem">🌐</div>
-              <p style="font-size:.875rem">Select a language on the left to edit its translations.</p>
+              <p style="font-size:.875rem">Select a language on the left to start translating.</p>
             </div>
           </div>
         </div>

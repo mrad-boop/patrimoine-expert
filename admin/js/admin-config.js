@@ -6,47 +6,45 @@
   'use strict';
 
   /* ── Translations editor ───────────────────────────────── */
-  var _transLang   = 'fr';
-  var _transBase   = null;
-  var _transTarget = null;
+  // Source language = French (site was written in French).
+  // Target languages = EN, AR, ES, DE.
+  var _transLang   = 'en';   // default target
+  var _transSource = null;   // fr.json  — the original French text
+  var _transTarget = null;   // {lang}.json — current translation being edited
   var _transKeys   = [];
 
-  var LANGS = ['fr', 'ar', 'es', 'de'];
-  var LANG_NAMES = { fr: 'French', ar: 'Arabic (RTL)', es: 'Spanish', de: 'German' };
+  var TRANS_LANGS = ['en', 'ar', 'es', 'de'];
+  var TRANS_NAMES = { en: 'English', ar: 'Arabic (RTL)', es: 'Español', de: 'Deutsch' };
+  var TRANS_FLAGS = { en: '🇬🇧', ar: '🇸🇦', es: '🇪🇸', de: '🇩🇪' };
 
   function setTransLang(lang) {
     _transLang = lang;
     document.querySelectorAll('.trans-lang-btn').forEach(function(b) {
       b.classList.toggle('active', b.dataset.lang === lang);
     });
-    loadTranslations();
+    loadTransEditor();
   }
 
-  async function loadTranslations() {
-    var container = document.getElementById('translationsEditor');
+  async function loadTransEditor() {
+    var container = document.getElementById('translationsContent');
     if (!container) return;
-    container.innerHTML = '<div style="text-align:center;padding:2rem;color:rgba(255,255,255,.4)">Loading…</div>';
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted)">Loading…</div>';
 
     try {
-      // Load EN base
-      if (!_transBase) {
-        var enRes = await fetch('../assets/i18n/en.json?t=' + Date.now());
-        _transBase = await enRes.json();
-      }
+      // Always reload French source
+      var frRes = await fetch('../assets/i18n/fr.json?t=' + Date.now());
+      _transSource = frRes.ok ? await frRes.json() : {};
 
-      // Load target language
+      // Load target language (may be empty/missing — that's OK)
       try {
-        var targetRes = await fetch('../assets/i18n/' + _transLang + '.json?t=' + Date.now());
-        _transTarget = await targetRes.json();
-      } catch(e) {
-        _transTarget = {};
-      }
+        var tRes = await fetch('../assets/i18n/' + _transLang + '.json?t=' + Date.now());
+        _transTarget = tRes.ok ? await tRes.json() : {};
+      } catch(e) { _transTarget = {}; }
 
-      // Flatten keys
-      _transKeys = flattenKeys(_transBase);
-      renderTranslationRows(_transKeys, _transBase, _transTarget);
+      _transKeys = flattenKeys(_transSource);
+      renderTranslationRows(_transKeys, _transSource, _transTarget);
     } catch (e) {
-      container.innerHTML = '<div style="color:#ff6b6b">Error: ' + e.message + '</div>';
+      container.innerHTML = '<div style="color:#ff6b6b;padding:2rem">Error: ' + e.message + '</div>';
     }
   }
 
@@ -71,7 +69,7 @@
       if (cur == null) return '';
       cur = cur[parts[i]];
     }
-    return cur == null ? '' : cur;
+    return (cur == null || typeof cur === 'object') ? '' : String(cur);
   }
 
   function setNestedVal(obj, path, val) {
@@ -84,43 +82,58 @@
     cur[parts[parts.length - 1]] = val;
   }
 
-  function renderTranslationRows(keys, base, target) {
-    var container = document.getElementById('translationsEditor');
+  function renderTranslationRows(keys, source, target) {
+    var container = document.getElementById('translationsContent');
     if (!container) return;
-    var langName = LANG_NAMES[_transLang] || _transLang.toUpperCase();
+    var langName = TRANS_NAMES[_transLang] || _transLang.toUpperCase();
+    var langFlag = TRANS_FLAGS[_transLang] || '';
 
-    var html = '<div class="trans-header-row">'
-      + '<span>Key</span>'
-      + '<span>English (base)</span>'
-      + '<span>' + langName + '</span>'
+    // Toolbar
+    var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding:.5rem 0;border-bottom:1px solid var(--border)">'
+      + '<div style="display:flex;align-items:center;gap:.75rem">'
+      + '<span style="font-weight:700;font-size:.9rem">' + langFlag + ' Translating into: ' + langName + '</span>'
+      + '<span id="transMissingCount" style="font-size:.78rem;color:var(--muted)"></span>'
+      + '</div>'
+      + '<button id="transFilterMissing" class="btn btn-outline btn-sm" data-active="0">🔍 Missing only</button>'
       + '</div>';
 
+    // Header row
+    html += '<div class="trans-header-row">'
+      + '<span style="flex:0 0 200px">Key</span>'
+      + '<span style="flex:1">🇫🇷 French (original)</span>'
+      + '<span style="flex:1">' + langFlag + ' ' + langName + ' (your translation)</span>'
+      + '</div>';
+
+    var missing = 0;
     keys.forEach(function(key) {
-      var baseVal   = getNestedVal(base, key)   || '';
+      var srcVal    = getNestedVal(source, key) || '';
       var targetVal = getNestedVal(target, key) || '';
       var isEmpty   = !targetVal.trim();
+      if (isEmpty) missing++;
       html += '<div class="trans-row' + (isEmpty ? ' trans-missing' : '') + '">'
-        + '<span class="trans-key">' + key + '</span>'
-        + '<span class="trans-base">' + escapeHtml(baseVal) + '</span>'
-        + '<span class="trans-input"><input type="text" value="' + escapeHtml(targetVal) + '" data-key="' + key + '" class="trans-field" placeholder="' + escapeHtml(baseVal) + '"></span>'
+        + '<span class="trans-key" style="flex:0 0 200px;font-size:.72rem;color:var(--muted);word-break:break-all">' + escapeHtml(key) + '</span>'
+        + '<span class="trans-base" style="flex:1">' + escapeHtml(srcVal) + '</span>'
+        + '<span class="trans-input" style="flex:1"><input type="text" value="' + escapeHtml(targetVal) + '" data-key="' + key + '" class="trans-field" placeholder="' + escapeHtml(srcVal) + '"></span>'
         + '</div>';
     });
 
     container.innerHTML = html;
 
-    // Filter missing only
-    var filterBtn = document.getElementById('transFilterMissing');
+    // Missing count
+    var mc = container.querySelector('#transMissingCount');
+    if (mc) mc.textContent = missing + ' of ' + keys.length + ' missing';
+
+    // Filter toggle
+    var filterBtn = container.querySelector('#transFilterMissing');
     if (filterBtn) {
-      filterBtn.onclick = function() {
-        var rows = container.querySelectorAll('.trans-row');
-        var showMissingOnly = filterBtn.dataset.active === '1';
-        filterBtn.dataset.active = showMissingOnly ? '0' : '1';
-        filterBtn.textContent = showMissingOnly ? '🔍 Show missing only' : '🔍 Show all';
-        rows.forEach(function(r) {
-          if (!showMissingOnly) r.style.display = '';
-          else r.style.display = r.classList.contains('trans-missing') ? '' : 'none';
+      filterBtn.addEventListener('click', function() {
+        var showMissing = filterBtn.dataset.active !== '1';
+        filterBtn.dataset.active = showMissing ? '1' : '0';
+        filterBtn.textContent    = showMissing ? '📋 Show all' : '🔍 Missing only';
+        container.querySelectorAll('.trans-row').forEach(function(r) {
+          r.style.display = showMissing ? (r.classList.contains('trans-missing') ? '' : 'none') : '';
         });
-      };
+      });
     }
   }
 
@@ -129,34 +142,36 @@
   }
 
   function collectTranslations() {
-    var result = JSON.parse(JSON.stringify(_transBase || {})); // start from base structure
-    var fields = document.querySelectorAll('.trans-field');
-    fields.forEach(function(inp) {
+    // Start from existing target translations, apply edits on top
+    var result = JSON.parse(JSON.stringify(_transTarget || {}));
+    document.querySelectorAll('.trans-field').forEach(function(inp) {
       var key = inp.dataset.key;
-      var val = inp.value;
+      var val = inp.value.trim();
       if (val) setNestedVal(result, key, val);
     });
     return result;
   }
 
   async function saveTranslations() {
-    var btn = document.getElementById('btnSaveTrans');
-    if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+    if (!_transLang) { WEAdmin.toast('Select a language first.', 'error'); return; }
+    var btns = document.querySelectorAll('[onclick="saveTranslations()"],[onclick="pushTranslations()"]');
+    btns.forEach(function(b){ b.disabled = true; });
     try {
       var data = collectTranslations();
       var json = JSON.stringify(data, null, 2);
       await WEAdmin.pushFile('assets/i18n/' + _transLang + '.json', json, 'Update ' + _transLang + ' translations');
       _transTarget = data;
-      WEAdmin.toast('Translations saved!', 'success');
+      WEAdmin.toast('✅ ' + (TRANS_NAMES[_transLang]||_transLang) + ' translations saved & pushed!', 'success');
     } catch (e) {
       WEAdmin.toast(e.message, 'error');
     } finally {
-      if (btn) { btn.disabled = false; btn.textContent = '💾 Save & Push'; }
+      btns.forEach(function(b){ b.disabled = false; });
     }
   }
 
   window.WEAdmin.setTransLang      = setTransLang;
-  window.WEAdmin.loadTranslations  = loadTranslations;
+  window.WEAdmin.loadTransEditor   = loadTransEditor;
+  window.WEAdmin.loadTranslations  = loadTransEditor;   // alias for glue
   window.WEAdmin.saveTranslations  = saveTranslations;
 
   /* ── Site Editor ───────────────────────────────────────── */
@@ -468,22 +483,20 @@
 
   /* ── Wire events ───────────────────────────────────────── */
   document.addEventListener('DOMContentLoaded', function () {
-    // Translations
+    // Translations: each button carries data-lang
     document.querySelectorAll('.trans-lang-btn').forEach(function(b) {
-      b.addEventListener('click', function() { setTransLang(b.dataset.lang); });
+      b.addEventListener('click', function() { setTransLang(b.dataset.lang || b.getAttribute('data-lang') || 'en'); });
     });
-    var btnSaveTrans = document.getElementById('btnSaveTrans');
-    if (btnSaveTrans) btnSaveTrans.addEventListener('click', saveTranslations);
 
-    // When translations view becomes active, load
+    // Auto-load translations view when it becomes visible (first time)
     var transView = document.getElementById('view-translations');
     if (transView) {
-      var observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(m) {
-          if (m.attributeName === 'style' && transView.style.display !== 'none' && !_transBase) {
-            loadTranslations();
-          }
-        });
+      var transLoaded = false;
+      var observer = new MutationObserver(function() {
+        if (transView.style.display !== 'none' && !transLoaded) {
+          transLoaded = true;
+          setTransLang(_transLang); // load default target lang
+        }
       });
       observer.observe(transView, { attributes: true });
     }
@@ -500,14 +513,14 @@
     });
 
     // When site-editor view becomes active, auto-load
-    var seView = document.getElementById('view-site-editor');
+    var seView = document.getElementById('view-siteeditor');
     if (seView) {
-      var seObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(m) {
-          if (m.attributeName === 'style' && seView.style.display !== 'none' && !_siteConfig) {
-            loadSiteEditor();
-          }
-        });
+      var seLoaded = false;
+      var seObserver = new MutationObserver(function() {
+        if (seView.style.display !== 'none' && !seLoaded) {
+          seLoaded = true;
+          loadSiteEditor();
+        }
       });
       seObserver.observe(seView, { attributes: true });
     }

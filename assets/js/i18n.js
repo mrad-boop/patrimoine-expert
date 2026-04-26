@@ -51,6 +51,27 @@
     return (typeof v === 'string') ? v : key;
   }
 
+  function updateNavLinks(lang) {
+    // Add ?lang=XX to all internal links (same origin) so language is preserved when navigating
+    var origin = window.location.origin;
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      var href = a.getAttribute('href');
+      // Skip: anchors, external, mailto, javascript, admin, already has data-no-lang
+      if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('javascript') || a.hasAttribute('data-no-lang')) return;
+      // Skip external links
+      try {
+        var abs = new URL(href, window.location.href);
+        if (abs.origin !== origin) return;
+        // Skip admin pages
+        if (abs.pathname.includes('/admin/')) return;
+        // Set or remove lang param
+        if (lang !== DEFAULT_LANG) abs.searchParams.set('lang', lang);
+        else abs.searchParams.delete('lang');
+        a.setAttribute('href', abs.pathname + (abs.search || '') + (abs.hash || ''));
+      } catch (e) {}
+    });
+  }
+
   function applyToDOM(t) {
     _translations = t;
 
@@ -99,6 +120,9 @@
 
     // Dispatch event
     document.dispatchEvent(new CustomEvent('i18n:ready', { detail: { lang: _lang, t: t } }));
+
+    // Update all internal nav links to carry ?lang=XX
+    updateNavLinks(_lang);
   }
 
   function updateHreflang() {
@@ -234,6 +258,9 @@
 
     // Apply article-level i18n for pages without data-i18n
     applyArticleLabels();
+
+    // Stamp nav links with current lang on first load
+    updateNavLinks(_lang);
 
     // Click handlers for any [data-lang] buttons added after
     document.addEventListener('click', function (e) {

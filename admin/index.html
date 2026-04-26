@@ -468,6 +468,12 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
               </div>
               <textarea class="field-input field-textarea" id="articleBody" rows="20" placeholder="<p>Start writing your article here...</p>" oninput="updatePreview()"></textarea>
             </div>
+
+            <!-- Editor action bar -->
+            <div style="display:flex;gap:.75rem;padding:1rem 0 .5rem;border-top:1px solid var(--border);margin-top:.5rem">
+              <button class="btn btn-outline" onclick="saveDraft()" style="flex:1">💾 Save Draft</button>
+              <button class="btn btn-primary" id="btnPublish" onclick="publishArticle()" style="flex:2">🚀 Publish to GitHub</button>
+            </div>
           </div>
 
           <div class="editor-preview">

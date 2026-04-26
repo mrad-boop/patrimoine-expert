@@ -1,0 +1,19 @@
+# Render.com clean URL rules
+# Hide .html extensions from the URL bar
+
+# Admin (always redirect to directory index, hide /index.html)
+/admin              /admin/index.html   200
+/admin/             /admin/index.html   200
+
+# Static pages
+/about              /about.html         200
+/contact            /contact.html       200
+/legal              /legal.html         200
+/privacy            /privacy.html       200
+/sitemap            /sitemap.xml        200
+
+# Articles: /articles/slug → /articles/slug.html
+/articles/:slug     /articles/:slug.html   200
+
+# Home
+/                   /index.html         200

@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Patrimoine Expert — Investissement, Fiscalité & Épargne pour les 25-45 ans</title>
-  <meta name="description" content="Le blog de référence pour gérer votre patrimoine, investir intelligemment, optimiser vos impôts et préparer votre retraite. Conseils experts actualisés en 2026.">
+  <title>Smart Wealth Blog — Investments, Taxation &amp; Savings</title>
+  <meta name="description" content="The reference blog for managing your wealth, investing intelligently, optimizing your taxes and preparing for retirement. Expert advice updated for 2026.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://patrimoine-expert.fr/">
+  <link rel="canonical" href="https://smartwealthblog.com/">
+
+  <!-- hreflang alternates (managed by i18n.js) -->
+  <link rel="alternate" hreflang="en" href="https://smartwealthblog.com/">
+  <link rel="alternate" hreflang="fr" href="https://smartwealthblog.com/?lang=fr">
+  <link rel="alternate" hreflang="ar" href="https://smartwealthblog.com/?lang=ar">
+  <link rel="alternate" hreflang="es" href="https://smartwealthblog.com/?lang=es">
+  <link rel="alternate" hreflang="de" href="https://smartwealthblog.com/?lang=de">
+  <link rel="alternate" hreflang="x-default" href="https://smartwealthblog.com/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Patrimoine Expert — Investissement, Fiscalité & Épargne">
-  <meta property="og:description" content="Le blog de référence pour gérer votre patrimoine, investir intelligemment et optimiser vos impôts.">
-  <meta property="og:url" content="https://patrimoine-expert.fr/">
-  <meta property="og:site_name" content="Patrimoine Expert">
-  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Smart Wealth Blog — Investments, Taxation &amp; Savings">
+  <meta property="og:description" content="The reference blog for managing your wealth, investing intelligently and optimizing your taxes.">
+  <meta property="og:url" content="https://smartwealthblog.com/">
+  <meta property="og:site_name" content="Wealth Expert">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Patrimoine Expert — Investissement & Fiscalité">
-  <meta name="twitter:description" content="Conseils experts en investissement, fiscalité et épargne pour les 25-45 ans.">
+  <meta name="twitter:title" content="Smart Wealth Blog — Investments &amp; Taxation">
+  <meta name="twitter:description" content="Expert advice on investments, taxation and savings for 25–45 year olds.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,110 +36,128 @@
 
   <link rel="stylesheet" href="assets/css/style.css">
 
+  <!-- Lang switcher styles -->
+  <style>
+    .lang-switcher { position: relative; display: inline-flex; }
+    .lang-current { display: flex; align-items: center; gap: .35rem; padding: .3rem .7rem; border-radius: 99px; border: 1.5px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: rgba(255,255,255,.9); font-size: .78rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: all .2s; white-space: nowrap; }
+    .lang-current:hover { border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.15); }
+    .lang-dropdown { display: none; position: absolute; top: calc(100% + .4rem); right: 0; background: #fff; border: 1px solid #E5E7EB; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.15); z-index: 200; min-width: 140px; padding: .35rem; overflow: hidden; }
+    .lang-dropdown.open { display: block; }
+    .lang-option { display: flex; align-items: center; gap: .5rem; width: 100%; padding: .45rem .75rem; border: none; background: none; font-size: .82rem; font-weight: 500; color: #334155; cursor: pointer; border-radius: 6px; font-family: inherit; transition: background .15s; }
+    .lang-option:hover { background: #F1F5F9; }
+    .lang-option.active { background: rgba(27,58,107,.08); color: var(--primary); font-weight: 700; }
+    [dir="rtl"] .lang-dropdown { right: auto; left: 0; }
+  </style>
+
   <!-- Schema.org Organization -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Patrimoine Expert",
-    "url": "https://patrimoine-expert.fr",
-    "logo": "https://patrimoine-expert.fr/assets/images/logo.png",
-    "description": "Blog spécialisé en finances personnelles, investissement et fiscalité",
-    "sameAs": ["https://twitter.com/PatrimoineExpert", "https://linkedin.com/company/patrimoine-expert"]
+    "name": "Smart Wealth Blog",
+    "url": "https://smartwealthblog.com",
+    "logo": "https://smartwealthblog.com/assets/images/logo.png",
+    "description": "Expert blog on personal finance, investments and taxation",
+    "sameAs": []
   }
   </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Patrimoine Expert",
-    "url": "https://patrimoine-expert.fr",
+    "name": "Smart Wealth Blog",
+    "url": "https://smartwealthblog.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://patrimoine-expert.fr/?s={search_term_string}",
+      "target": "https://smartwealthblog.com/?s={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
   </script>
 </head>
-<body>
+<body class="page-home">
 
-<!-- Barre de progression lecture -->
+<!-- Reading progress bar -->
 <div id="readingProgress" class="reading-progress"></div>
 
 <!-- ======== HEADER ======== -->
 <header class="site-header" role="banner">
   <div class="container">
     <div class="header-inner">
-      <a href="/" class="logo" aria-label="Patrimoine Expert — accueil">
-        <div class="logo-icon">₿</div>
-        Patrimoine<span>Expert</span>
+      <a href="/" class="logo" aria-label="Smart Wealth Blog — Home">
+        <div class="logo-icon">💰</div>
+        Smart Wealth<span>Blog</span>
       </a>
 
-      <nav class="main-nav" aria-label="Navigation principale">
-        <a href="/" class="nav-link active">Accueil</a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link active" data-i18n="nav.home">Home</a>
         <div class="nav-dropdown">
-          <a href="#placements" class="nav-link">Placements ▾</a>
+          <a href="#investments" class="nav-link" data-i18n="nav.investments">Investments ▾</a>
           <div class="nav-dropdown-menu">
-            <a href="articles/investir-bourse-debutants.html">Bourse pour débutants</a>
-            <a href="articles/etf-investir.html">ETF — Comment investir</a>
-            <a href="articles/assurance-vie-comparatif.html">Assurance-vie comparatif</a>
-            <a href="articles/livret-a-ldds-lep.html">Livrets réglementés 2026</a>
-            <a href="articles/devenir-rentier-dividendes.html">Devenir rentier</a>
+            <a href="articles/investir-bourse-debutants.html" data-i18n="nav.sub.beginners">Stock Market for Beginners</a>
+            <a href="articles/etf-investir.html" data-i18n="nav.sub.etf">ETF — How to Invest</a>
+            <a href="articles/assurance-vie-comparatif.html" data-i18n="nav.sub.life-insurance">Life Insurance Comparison</a>
+            <a href="articles/livret-a-ldds-lep.html" data-i18n="nav.sub.savings">Savings Accounts 2026</a>
+            <a href="articles/devenir-rentier-dividendes.html" data-i18n="nav.sub.dividends">Dividend Income Strategy</a>
           </div>
         </div>
         <div class="nav-dropdown">
-          <a href="#immobilier" class="nav-link">Immobilier ▾</a>
+          <a href="#real-estate" class="nav-link" data-i18n="nav.real-estate">Real Estate ▾</a>
           <div class="nav-dropdown-menu">
-            <a href="articles/credit-immobilier-negocier.html">Crédit immobilier</a>
-            <a href="articles/revenus-locatifs-declaration.html">Revenus locatifs</a>
-            <a href="articles/crowdfunding-immobilier.html">Crowdfunding immobilier</a>
+            <a href="articles/credit-immobilier-negocier.html" data-i18n="nav.sub.mortgage">Mortgage &amp; Rates</a>
+            <a href="articles/revenus-locatifs-declaration.html" data-i18n="nav.sub.rental">Rental Income Declaration</a>
+            <a href="articles/crowdfunding-immobilier.html" data-i18n="nav.sub.crowdfunding">Real Estate Crowdfunding</a>
           </div>
         </div>
         <div class="nav-dropdown">
-          <a href="#fiscalite" class="nav-link">Fiscalité ▾</a>
+          <a href="#taxation" class="nav-link" data-i18n="nav.taxation">Taxation ▾</a>
           <div class="nav-dropdown-menu">
-            <a href="articles/fiscalite-cryptomonnaies.html">Fiscalité crypto</a>
-            <a href="articles/loi-pinel-2026.html">Loi Pinel 2026</a>
-            <a href="articles/per-plan-epargne-retraite.html">Plan d'Épargne Retraite</a>
-            <a href="articles/succession-donation.html">Succession & Donation</a>
+            <a href="articles/fiscalite-cryptomonnaies.html" data-i18n="nav.sub.crypto">Crypto Tax Guide</a>
+            <a href="articles/loi-pinel-2026.html" data-i18n="nav.sub.tax-breaks">Tax Breaks 2026</a>
+            <a href="articles/per-plan-epargne-retraite.html" data-i18n="nav.sub.retirement">Retirement Savings Plan</a>
+            <a href="articles/succession-donation.html" data-i18n="nav.sub.inheritance">Inheritance &amp; Gifts</a>
           </div>
         </div>
-        <a href="a-propos.html" class="nav-link">À propos</a>
+        <a href="a-propos.html" class="nav-link" data-i18n="nav.about">About</a>
       </nav>
 
-      <div class="header-search" role="search">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="search" placeholder="Rechercher…" aria-label="Rechercher un article" data-open-search readonly>
-      </div>
+      <div class="header-right">
+        <!-- Language switcher -->
+        <div class="lang-switcher" id="langSwitcher" aria-label="Language selector"></div>
 
-      <button id="burger" class="burger" aria-label="Menu mobile" aria-expanded="false" aria-controls="mobileNav">
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-        <span class="burger-line"></span>
-      </button>
+        <div class="header-search" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="search" data-i18n-placeholder="nav.search" placeholder="Search an article…" aria-label="Search" data-open-search readonly>
+        </div>
+
+        <button id="burger" class="burger" aria-label="Mobile menu" aria-expanded="false" aria-controls="mobileNav">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <nav id="mobileNav" class="mobile-nav" aria-label="Menu mobile">
-    <a href="/">🏠 Accueil</a>
-    <span class="mobile-nav-section">Placements</span>
-    <a href="articles/investir-bourse-debutants.html">📈 Bourse pour débutants</a>
-    <a href="articles/etf-investir.html">🌍 ETF — Comment investir</a>
-    <a href="articles/assurance-vie-comparatif.html">🛡️ Assurance-vie comparatif</a>
-    <a href="articles/livret-a-ldds-lep.html">💰 Livrets réglementés</a>
-    <a href="articles/devenir-rentier-dividendes.html">💸 Devenir rentier</a>
-    <span class="mobile-nav-section">Immobilier</span>
-    <a href="articles/credit-immobilier-negocier.html">🏡 Crédit immobilier</a>
-    <a href="articles/revenus-locatifs-declaration.html">🏘️ Revenus locatifs</a>
-    <a href="articles/crowdfunding-immobilier.html">🏗️ Crowdfunding immobilier</a>
-    <span class="mobile-nav-section">Fiscalité</span>
-    <a href="articles/fiscalite-cryptomonnaies.html">₿ Fiscalité crypto</a>
-    <a href="articles/loi-pinel-2026.html">📋 Loi Pinel 2026</a>
-    <a href="articles/per-plan-epargne-retraite.html">🧓 PER Retraite</a>
-    <a href="articles/succession-donation.html">📜 Succession</a>
-    <a href="a-propos.html">👤 À propos</a>
-    <a href="contact.html">✉️ Contact</a>
+  <nav id="mobileNav" class="mobile-nav" aria-label="Mobile menu">
+    <a href="/">🏠 <span data-i18n="nav.home">Home</span></a>
+    <span class="mobile-nav-section" data-i18n="mobile-nav.investments">Investments</span>
+    <a href="articles/investir-bourse-debutants.html">📈 <span data-i18n="nav.sub.beginners">Stock Market for Beginners</span></a>
+    <a href="articles/etf-investir.html">🌍 <span data-i18n="nav.sub.etf">ETF — How to Invest</span></a>
+    <a href="articles/assurance-vie-comparatif.html">🛡️ <span data-i18n="nav.sub.life-insurance">Life Insurance Comparison</span></a>
+    <a href="articles/livret-a-ldds-lep.html">💰 <span data-i18n="nav.sub.savings">Savings Accounts 2026</span></a>
+    <a href="articles/devenir-rentier-dividendes.html">💸 <span data-i18n="nav.sub.dividends">Dividend Income Strategy</span></a>
+    <span class="mobile-nav-section" data-i18n="mobile-nav.real-estate">Real Estate</span>
+    <a href="articles/credit-immobilier-negocier.html">🏡 <span data-i18n="nav.sub.mortgage">Mortgage &amp; Rates</span></a>
+    <a href="articles/revenus-locatifs-declaration.html">🏘️ <span data-i18n="nav.sub.rental">Rental Income Declaration</span></a>
+    <a href="articles/crowdfunding-immobilier.html">🏗️ <span data-i18n="nav.sub.crowdfunding">Real Estate Crowdfunding</span></a>
+    <span class="mobile-nav-section" data-i18n="mobile-nav.taxation">Taxation</span>
+    <a href="articles/fiscalite-cryptomonnaies.html">₿ <span data-i18n="nav.sub.crypto">Crypto Tax Guide</span></a>
+    <a href="articles/loi-pinel-2026.html">📋 <span data-i18n="nav.sub.tax-breaks">Tax Breaks 2026</span></a>
+    <a href="articles/per-plan-epargne-retraite.html">🧓 <span data-i18n="nav.sub.retirement">Retirement Savings Plan</span></a>
+    <a href="articles/succession-donation.html">📜 <span data-i18n="nav.sub.inheritance">Inheritance &amp; Gifts</span></a>
+    <a href="a-propos.html">👤 <span data-i18n="nav.about">About</span></a>
+    <a href="contact.html">✉️ <span data-i18n="nav.contact">Contact</span></a>
   </nav>
 </header>
 
@@ -140,41 +166,41 @@
   <div class="container">
     <div class="hero-inner">
       <div>
-        <div class="hero-badge">🎯 Nouveau — Édition 2026</div>
-        <h1>Votre patrimoine, enfin sous contrôle</h1>
-        <p class="hero-sub">Investissement, fiscalité, immobilier, retraite : des analyses concrètes et actionnables pour les 25-45 ans qui veulent faire fructifier leur argent, légalement et intelligemment.</p>
+        <div class="hero-badge" id="heroBadge" data-i18n="hero.badge">🎯 New — 2026 Edition</div>
+        <h1 data-i18n="hero.title">Your wealth, finally under control</h1>
+        <p class="hero-sub" data-i18n="hero.subtitle">Investments, taxation, real estate, retirement: concrete and actionable analyses for 25–45 year olds who want to grow their money, legally and intelligently.</p>
         <div class="hero-cta">
-          <a href="#articles" class="btn btn-primary">📚 Lire les articles</a>
-          <a href="a-propos.html" class="btn btn-outline">Qui sommes-nous ?</a>
+          <a href="#articles" class="btn btn-primary" data-i18n="hero.cta-primary">📚 Read Articles</a>
+          <a href="a-propos.html" class="btn btn-outline" data-i18n="hero.cta-secondary">Who are we?</a>
         </div>
         <div class="hero-stats">
-          <div class="hero-stat"><span class="hero-stat-num">12</span><span class="hero-stat-label">Guides piliers</span></div>
-          <div class="hero-stat"><span class="hero-stat-num">2026</span><span class="hero-stat-label">Mis à jour</span></div>
-          <div class="hero-stat"><span class="hero-stat-num">100%</span><span class="hero-stat-label">Gratuit</span></div>
+          <div class="hero-stat"><span class="hero-stat-num" id="heroStat1Num">12</span><span class="hero-stat-label" id="heroStat1Label" data-i18n="hero.stat1">Pillar guides</span></div>
+          <div class="hero-stat"><span class="hero-stat-num" id="heroStat2Num">2026</span><span class="hero-stat-label" id="heroStat2Label" data-i18n="hero.stat2">Updated</span></div>
+          <div class="hero-stat"><span class="hero-stat-num" id="heroStat3Num">100%</span><span class="hero-stat-label" id="heroStat3Label" data-i18n="hero.stat3">Free</span></div>
         </div>
       </div>
       <div class="hero-visual">
         <div class="hero-card">
-          <div class="hero-card-title">Thèmes couverts</div>
-          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(45,155,111,.2);">📈</div><div class="hero-topic-text">Bourse, ETF & Dividendes</div></div>
-          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(201,168,76,.2);">🏡</div><div class="hero-topic-text">Immobilier & Crédit</div></div>
-          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(255,100,100,.15);">📋</div><div class="hero-topic-text">Fiscalité & Optimisation</div></div>
-          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(150,100,200,.15);">🛡️</div><div class="hero-topic-text">Assurance-vie & PER</div></div>
-          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(100,180,255,.2);">₿</div><div class="hero-topic-text">Crypto & Nouveaux actifs</div></div>
+          <div class="hero-card-title" data-i18n="hero.topics-title">Topics covered</div>
+          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(45,155,111,.2);">📈</div><div class="hero-topic-text" data-i18n="hero.topic1">Stocks, ETFs &amp; Dividends</div></div>
+          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(201,168,76,.2);">🏡</div><div class="hero-topic-text" data-i18n="hero.topic2">Real Estate &amp; Mortgages</div></div>
+          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(255,100,100,.15);">📋</div><div class="hero-topic-text" data-i18n="hero.topic3">Taxation &amp; Optimization</div></div>
+          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(150,100,200,.15);">🛡️</div><div class="hero-topic-text" data-i18n="hero.topic4">Life Insurance &amp; Retirement</div></div>
+          <div class="hero-topic"><div class="hero-topic-icon" style="background:rgba(100,180,255,.2);">₿</div><div class="hero-topic-text" data-i18n="hero.topic5">Crypto &amp; New Assets</div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Bande stats -->
+<!-- Stats band -->
 <div class="stats-band">
   <div class="container">
     <div class="stats-inner">
-      <div class="stat-item"><span class="stat-num">3,2 M€</span><span class="stat-label">Montant médian patrimoine visé à 50 ans</span></div>
-      <div class="stat-item"><span class="stat-num">30 %</span><span class="stat-label">Flat tax sur les revenus du capital</span></div>
-      <div class="stat-item"><span class="stat-num">3,5 %</span><span class="stat-label">Taux du Livret A en 2026</span></div>
-      <div class="stat-item"><span class="stat-num">152 500 €</span><span class="stat-label">Abattement assurance-vie par bénéficiaire</span></div>
+      <div class="stat-item"><span class="stat-num" data-i18n="stats.s1-num">$3.2M</span><span class="stat-label" data-i18n="stats.s1-label">Median target wealth at 50</span></div>
+      <div class="stat-item"><span class="stat-num" data-i18n="stats.s2-num">30%</span><span class="stat-label" data-i18n="stats.s2-label">Flat tax on capital income</span></div>
+      <div class="stat-item"><span class="stat-num" data-i18n="stats.s3-num">3.5%</span><span class="stat-label" data-i18n="stats.s3-label">Savings account rate 2026</span></div>
+      <div class="stat-item"><span class="stat-num" data-i18n="stats.s4-num">$152,500</span><span class="stat-label" data-i18n="stats.s4-label">Life insurance allowance per beneficiary</span></div>
     </div>
   </div>
 </div>
@@ -183,221 +209,218 @@
 <section class="section" id="articles">
   <div class="container">
 
-    <!-- Adsense bloc sous hero -->
-    <!-- Bloc AdSense - Emplacement bannière sous le héros -->
+    <!-- AdSense banner under hero -->
     <div class="ad adsense-title">
-      <!-- Remplacez par votre code AdSense après approbation -->
+      <!-- Replace with your AdSense code after approval -->
     </div>
 
     <div class="section-header">
-      <span class="section-label">Articles piliers</span>
-      <h2 class="section-title">Tout ce qu'il faut savoir pour investir en 2026</h2>
-      <p class="section-desc">Des guides complets, rédigés par un expert certifié, pour vous aider à prendre les bonnes décisions financières.</p>
+      <span class="section-label" data-i18n="sections.label">Pillar articles</span>
+      <h2 class="section-title" data-i18n="sections.title">Everything you need to know to invest in 2026</h2>
+      <p class="section-desc" data-i18n="sections.desc">Comprehensive guides, written by a certified expert, to help you make the right financial decisions.</p>
     </div>
 
     <div class="categories-strip">
-      <a href="#articles" class="cat-pill active">🗂️ Tous les articles</a>
-      <a href="#placements" class="cat-pill">📈 Placements</a>
-      <a href="#immobilier" class="cat-pill">🏡 Immobilier</a>
-      <a href="#fiscalite" class="cat-pill">📋 Fiscalité</a>
+      <a href="#articles" class="cat-pill active" data-i18n="sections.all">🗂️ All articles</a>
+      <a href="#investments" class="cat-pill" data-i18n="nav.investments">📈 Investments</a>
+      <a href="#real-estate" class="cat-pill" data-i18n="nav.real-estate">🏡 Real Estate</a>
+      <a href="#taxation" class="cat-pill" data-i18n="nav.taxation">📋 Taxation</a>
     </div>
 
-    <!-- Article vedette -->
+    <!-- Featured article -->
     <div class="articles-grid" style="margin-bottom:2rem;">
       <article class="card card--featured">
         <div class="card-img">📈</div>
         <div class="card-body">
-          <span class="card-category cat-placements">⭐ Article vedette · Placements</span>
-          <h2 class="card-title"><a href="articles/investir-bourse-debutants.html">Investir en bourse pour les débutants : le guide complet 2026</a></h2>
-          <p class="card-excerpt">PEA, CTO, ETF, dividendes… Vous ne savez pas par où commencer ? Ce guide exhaustif vous accompagne pas à pas, de l'ouverture de votre premier compte titres jusqu'à la construction d'un portefeuille solide et diversifié. Avec des exemples concrets et des chiffres à jour pour 2026.</p>
+          <span class="card-category cat-placements" data-i18n="sections.featured-badge">⭐ Featured · Investments</span>
+          <h2 class="card-title"><a href="articles/investir-bourse-debutants.html">Stock Market for Beginners: The Complete 2026 Guide</a></h2>
+          <p class="card-excerpt">Stocks, ETFs, dividends, PEA account… This comprehensive guide walks you through every step, from opening your first brokerage account to building a solid, diversified portfolio. With concrete examples and up-to-date figures for 2026.</p>
           <div class="card-meta">
-            <span class="card-meta-item">✍️ Thomas Mercier</span>
-            <span class="card-meta-item">📅 Avril 2026</span>
-            <span class="card-meta-item">⏱️ 12 min de lecture</span>
+            <span class="card-meta-item">✍️ <span class="author-name-val">Thomas Mercier</span></span>
+            <span class="card-meta-item">📅 April 2026</span>
+            <span class="card-meta-item">⏱️ 12 min read</span>
           </div>
-          <a href="articles/investir-bourse-debutants.html" class="card-read-more">Lire l'article complet →</a>
+          <a href="articles/investir-bourse-debutants.html" class="card-read-more" data-i18n="sections.read-more">Read full article →</a>
         </div>
       </article>
     </div>
 
-    <!-- Grille placements -->
-    <h3 style="color:var(--primary);margin-bottom:1.5rem;" id="placements">📈 Placements & Épargne</h3>
+    <!-- Investments grid -->
+    <h3 style="color:var(--primary);margin-bottom:1.5rem;" id="investments" data-i18n="sections.investments">📈 Investments &amp; Savings</h3>
     <div class="articles-grid" style="margin-bottom:3rem;">
 
       <article class="card">
         <div class="card-img">🛡️</div>
         <div class="card-body">
-          <span class="card-category cat-placements">Placements</span>
-          <h3 class="card-title"><a href="articles/assurance-vie-comparatif.html">Assurance-vie : comparatif des meilleurs contrats en ligne (Linxea, Yomoni…)</a></h3>
-          <p class="card-excerpt">Fonds euros, unités de compte, frais de gestion… on décortique les meilleures offres du marché pour vous aider à choisir.</p>
+          <span class="card-category cat-placements" data-i18n="categories.investments">Investments</span>
+          <h3 class="card-title"><a href="articles/assurance-vie-comparatif.html">Life Insurance: Best Online Contracts Compared (2026)</a></h3>
+          <p class="card-excerpt">Euro funds, unit-linked contracts, management fees… We break down the best offers on the market to help you choose the right life insurance policy.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 10 min</span>
           </div>
-          <a href="articles/assurance-vie-comparatif.html" class="card-read-more">Lire →</a>
+          <a href="articles/assurance-vie-comparatif.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">🌍</div>
         <div class="card-body">
-          <span class="card-category cat-placements">Placements</span>
-          <h3 class="card-title"><a href="articles/etf-investir.html">ETF : comment investir sans se ruiner et sans stress</a></h3>
-          <p class="card-excerpt">MSCI World, S&P 500, CAC 40… Les ETF sont l'outil idéal pour les investisseurs passifs. Stratégie, frais et courtiers comparés.</p>
+          <span class="card-category cat-placements" data-i18n="categories.investments">Investments</span>
+          <h3 class="card-title"><a href="articles/etf-investir.html">ETFs: How to Invest Without Stress in 2026</a></h3>
+          <p class="card-excerpt">MSCI World, S&amp;P 500, CAC 40… ETFs are the ideal tool for passive investors. Strategy, fees and brokers compared.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 9 min</span>
           </div>
-          <a href="articles/etf-investir.html" class="card-read-more">Lire →</a>
+          <a href="articles/etf-investir.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">💰</div>
         <div class="card-body">
-          <span class="card-category cat-placements">Placements</span>
-          <h3 class="card-title"><a href="articles/livret-a-ldds-lep.html">Livret A, LDDS, LEP : le match des livrets réglementés en 2026</a></h3>
-          <p class="card-excerpt">Quels livrets ouvrir en priorité ? Taux, plafonds, conditions d'éligibilité : tout ce qu'il faut savoir avant d'épargner.</p>
+          <span class="card-category cat-placements" data-i18n="categories.investments">Investments</span>
+          <h3 class="card-title"><a href="articles/livret-a-ldds-lep.html">Savings Accounts: Which to Open First in 2026</a></h3>
+          <p class="card-excerpt">Which savings accounts to open first? Rates, caps, eligibility conditions: everything you need to know before saving.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 7 min</span>
           </div>
-          <a href="articles/livret-a-ldds-lep.html" class="card-read-more">Lire →</a>
+          <a href="articles/livret-a-ldds-lep.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">💸</div>
         <div class="card-body">
-          <span class="card-category cat-placements">Placements</span>
-          <h3 class="card-title"><a href="articles/devenir-rentier-dividendes.html">Devenir rentier avec les dividendes : stratégie et portefeuille type</a></h3>
-          <p class="card-excerpt">Est-il possible de vivre de ses dividendes en France ? Oui, avec la bonne stratégie. On vous donne un portefeuille exemple détaillé.</p>
+          <span class="card-category cat-placements" data-i18n="categories.investments">Investments</span>
+          <h3 class="card-title"><a href="articles/devenir-rentier-dividendes.html">Dividend Income Strategy: Sample Portfolio 2026</a></h3>
+          <p class="card-excerpt">Is it possible to live off dividends? Yes, with the right strategy. We give you a detailed example portfolio.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 11 min</span>
           </div>
-          <a href="articles/devenir-rentier-dividendes.html" class="card-read-more">Lire →</a>
+          <a href="articles/devenir-rentier-dividendes.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
     </div>
 
-    <!-- Adsense in-content -->
-    <!-- Bloc AdSense - Emplacement in-content milieu de page -->
+    <!-- AdSense in-content -->
     <div class="ad adsense-in-article">
-      <!-- Remplacez par votre code AdSense après approbation -->
+      <!-- Replace with your AdSense code after approval -->
     </div>
 
-    <!-- Grille immobilier -->
-    <h3 style="color:var(--primary);margin-bottom:1.5rem;margin-top:3rem;" id="immobilier">🏡 Immobilier</h3>
+    <!-- Real estate grid -->
+    <h3 style="color:var(--primary);margin-bottom:1.5rem;margin-top:3rem;" id="real-estate" data-i18n="sections.real-estate">🏡 Real Estate</h3>
     <div class="articles-grid" style="margin-bottom:3rem;">
 
       <article class="card">
         <div class="card-img">🏡</div>
         <div class="card-body">
-          <span class="card-category cat-immobilier">Immobilier</span>
-          <h3 class="card-title"><a href="articles/credit-immobilier-negocier.html">Crédit immobilier : négocier son taux comme un pro en 2026</a></h3>
-          <p class="card-excerpt">Taux fixes, courtiers, assurance emprunteur… Les taux remontent ? Voici comment obtenir le meilleur deal malgré tout.</p>
+          <span class="card-category cat-immobilier" data-i18n="categories.real-estate">Real Estate</span>
+          <h3 class="card-title"><a href="articles/credit-immobilier-negocier.html">Mortgage Rates: How to Negotiate Like a Pro in 2026</a></h3>
+          <p class="card-excerpt">Fixed rates, mortgage brokers, borrower insurance… Rates are stabilizing. Here's how to get the best deal.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 10 min</span>
           </div>
-          <a href="articles/credit-immobilier-negocier.html" class="card-read-more">Lire →</a>
+          <a href="articles/credit-immobilier-negocier.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">🏘️</div>
         <div class="card-body">
-          <span class="card-category cat-immobilier">Immobilier</span>
-          <h3 class="card-title"><a href="articles/revenus-locatifs-declaration.html">Comment déclarer ses revenus locatifs (micro-foncier vs réel)</a></h3>
-          <p class="card-excerpt">Propriétaire bailleur ? Choisir entre micro-foncier et régime réel peut vous faire économiser plusieurs milliers d'euros d'impôts.</p>
+          <span class="card-category cat-immobilier" data-i18n="categories.real-estate">Real Estate</span>
+          <h3 class="card-title"><a href="articles/revenus-locatifs-declaration.html">How to Declare Rental Income in 2026</a></h3>
+          <p class="card-excerpt">Landlord? Choosing between flat-rate and actual-cost regimes can save you thousands of euros in taxes.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 8 min</span>
           </div>
-          <a href="articles/revenus-locatifs-declaration.html" class="card-read-more">Lire →</a>
+          <a href="articles/revenus-locatifs-declaration.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">🏗️</div>
         <div class="card-body">
-          <span class="card-category cat-immobilier">Immobilier</span>
-          <h3 class="card-title"><a href="articles/crowdfunding-immobilier.html">Crowdfunding immobilier : rendement, risques et avis complet 2026</a></h3>
-          <p class="card-excerpt">8 à 12 % de rendement annuel annoncé… La réalité est plus nuancée. Notre avis complet sur les principales plateformes du marché.</p>
+          <span class="card-category cat-immobilier" data-i18n="categories.real-estate">Real Estate</span>
+          <h3 class="card-title"><a href="articles/crowdfunding-immobilier.html">Real Estate Crowdfunding 2026: Returns, Risks &amp; Review</a></h3>
+          <p class="card-excerpt">8–12% annual return announced… The reality is more nuanced. Our full review of the main platforms.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 9 min</span>
           </div>
-          <a href="articles/crowdfunding-immobilier.html" class="card-read-more">Lire →</a>
+          <a href="articles/crowdfunding-immobilier.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
     </div>
 
-    <!-- Grille fiscalité -->
-    <h3 style="color:var(--primary);margin-bottom:1.5rem;" id="fiscalite">📋 Fiscalité & Optimisation</h3>
+    <!-- Taxation grid -->
+    <h3 style="color:var(--primary);margin-bottom:1.5rem;" id="taxation" data-i18n="sections.taxation">📋 Taxation &amp; Optimization</h3>
     <div class="articles-grid" style="margin-bottom:3rem;">
 
       <article class="card">
         <div class="card-img">₿</div>
         <div class="card-body">
-          <span class="card-category cat-fiscalite">Fiscalité</span>
-          <h3 class="card-title"><a href="articles/fiscalite-cryptomonnaies.html">Fiscalité des crypto-monnaies : déclaration, imposition et optimisations légales</a></h3>
-          <p class="card-excerpt">Formulaire 2086, flat tax 30 %, cessions de crypto… Les règles ont changé. On fait le point sur votre déclaration 2026.</p>
+          <span class="card-category cat-fiscalite" data-i18n="categories.taxation">Taxation</span>
+          <h3 class="card-title"><a href="articles/fiscalite-cryptomonnaies.html">Cryptocurrency Tax 2026: Declaration &amp; Legal Optimization</a></h3>
+          <p class="card-excerpt">Capital gains tax on crypto, 30% flat tax, crypto disposals… The rules have changed. We break down your 2026 declaration.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 10 min</span>
           </div>
-          <a href="articles/fiscalite-cryptomonnaies.html" class="card-read-more">Lire →</a>
+          <a href="articles/fiscalite-cryptomonnaies.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">🏢</div>
         <div class="card-body">
-          <span class="card-category cat-fiscalite">Fiscalité</span>
-          <h3 class="card-title"><a href="articles/loi-pinel-2026.html">Peut-on encore défiscaliser avec la loi Pinel en 2026 ?</a></h3>
-          <p class="card-excerpt">La loi Pinel classique est terminée. Quelles alternatives restent disponibles pour réduire vos impôts via l'immobilier neuf ?</p>
+          <span class="card-category cat-fiscalite" data-i18n="categories.taxation">Taxation</span>
+          <h3 class="card-title"><a href="articles/loi-pinel-2026.html">Can You Still Get Tax Breaks on New Property in 2026?</a></h3>
+          <p class="card-excerpt">The classic Pinel scheme is over. What alternatives remain for reducing your taxes through new real estate?</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 8 min</span>
           </div>
-          <a href="articles/loi-pinel-2026.html" class="card-read-more">Lire →</a>
+          <a href="articles/loi-pinel-2026.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">🧓</div>
         <div class="card-body">
-          <span class="card-category cat-fiscalite">Fiscalité</span>
-          <h3 class="card-title"><a href="articles/per-plan-epargne-retraite.html">PER (Plan d'Épargne Retraite) : avantages fiscaux et pièges à éviter</a></h3>
-          <p class="card-excerpt">Déductible des revenus imposables, le PER est l'un des rares avantages fiscaux encore généreux. Mais attention aux pièges à la sortie.</p>
+          <span class="card-category cat-fiscalite" data-i18n="categories.taxation">Taxation</span>
+          <h3 class="card-title"><a href="articles/per-plan-epargne-retraite.html">Retirement Savings Plan (PER): Tax Benefits &amp; Pitfalls</a></h3>
+          <p class="card-excerpt">Deductible from taxable income, the PER is one of the most generous tax advantages left. But beware of the traps at exit.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 9 min</span>
           </div>
-          <a href="articles/per-plan-epargne-retraite.html" class="card-read-more">Lire →</a>
+          <a href="articles/per-plan-epargne-retraite.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
       <article class="card">
         <div class="card-img">📜</div>
         <div class="card-body">
-          <span class="card-category cat-fiscalite">Fiscalité</span>
-          <h3 class="card-title"><a href="articles/succession-donation.html">Succession et donation : optimiser la transmission de son patrimoine</a></h3>
-          <p class="card-excerpt">Abattements, donations tous les 15 ans, assurance-vie, SCI… Les outils légaux pour transmettre un maximum en franchise d'impôt.</p>
+          <span class="card-category cat-fiscalite" data-i18n="categories.taxation">Taxation</span>
+          <h3 class="card-title"><a href="articles/succession-donation.html">Inheritance &amp; Gifts: Optimizing Wealth Transfer in 2026</a></h3>
+          <p class="card-excerpt">Allowances, gifts every 15 years, life insurance, SCI… Legal tools to transfer maximum assets tax-free.</p>
           <div class="card-meta">
-            <span class="card-meta-item">📅 Avril 2026</span>
+            <span class="card-meta-item">📅 April 2026</span>
             <span class="card-meta-item">⏱️ 10 min</span>
           </div>
-          <a href="articles/succession-donation.html" class="card-read-more">Lire →</a>
+          <a href="articles/succession-donation.html" class="card-read-more" data-i18n="sections.read">Read →</a>
         </div>
       </article>
 
     </div>
-
   </div>
 </section>
 
@@ -405,11 +428,11 @@
 <section class="section--sm" style="background:var(--border-light);">
   <div class="container">
     <div class="newsletter-banner">
-      <h2>📬 Rejoignez 4 800 lecteurs</h2>
-      <p>Recevez nos meilleures analyses patrimoniales chaque semaine. Gratuit, sans spam, désinscription en un clic.</p>
-      <form class="newsletter-banner-form" action="https://formspree.io/f/VOTRE_ID" method="POST" data-feedback>
-        <input type="email" name="email" placeholder="votre@email.fr" required aria-label="Votre adresse email">
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
+      <h2 data-i18n="newsletter.title">📬 Join <span id="nlSubscribers">4,800</span> readers</h2>
+      <p data-i18n="newsletter.subtitle">Get our best wealth analyses every week. Free, no spam, unsubscribe in one click.</p>
+      <form class="newsletter-banner-form" action="https://formspree.io/f/VOTRE_FORMSPREE_ID" method="POST" data-feedback>
+        <input type="email" name="email" data-i18n-placeholder="newsletter.placeholder" placeholder="your@email.com" required aria-label="Your email address">
+        <button type="submit" class="btn btn-primary" data-i18n="newsletter.button">Subscribe</button>
       </form>
     </div>
   </div>
@@ -421,78 +444,85 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="/" class="logo">
-          <div class="logo-icon">₿</div>
-          Patrimoine<span>Expert</span>
+          <div class="logo-icon">💰</div>
+          Smart Wealth<span>Blog</span>
         </a>
-        <p>Analyses patrimoniales indépendantes pour les investisseurs particuliers. Contenu à titre informatif uniquement, ne constitue pas un conseil en investissement.</p>
+        <p data-i18n="footer.tagline">Independent wealth management analyses for individual investors. For informational purposes only.</p>
       </div>
       <div class="footer-col">
-        <h4>Placements</h4>
+        <h4 data-i18n="footer.col-investments">Investments</h4>
         <nav class="footer-links">
-          <a href="articles/investir-bourse-debutants.html">Bourse débutants</a>
-          <a href="articles/etf-investir.html">ETF</a>
-          <a href="articles/assurance-vie-comparatif.html">Assurance-vie</a>
-          <a href="articles/livret-a-ldds-lep.html">Livrets 2026</a>
-          <a href="articles/devenir-rentier-dividendes.html">Dividendes</a>
+          <a href="articles/investir-bourse-debutants.html" data-i18n="footer.f-beginners">Stock Market Beginners</a>
+          <a href="articles/etf-investir.html" data-i18n="footer.f-etf">ETFs</a>
+          <a href="articles/assurance-vie-comparatif.html" data-i18n="footer.f-lifeins">Life Insurance</a>
+          <a href="articles/livret-a-ldds-lep.html" data-i18n="footer.f-savings">Savings 2026</a>
+          <a href="articles/devenir-rentier-dividendes.html" data-i18n="footer.f-dividends">Dividends</a>
         </nav>
       </div>
       <div class="footer-col">
-        <h4>Immobilier & Fiscalité</h4>
+        <h4 data-i18n="footer.col-realestate">Real Estate &amp; Taxation</h4>
         <nav class="footer-links">
-          <a href="articles/credit-immobilier-negocier.html">Crédit immobilier</a>
-          <a href="articles/revenus-locatifs-declaration.html">Revenus locatifs</a>
-          <a href="articles/fiscalite-cryptomonnaies.html">Crypto-monnaies</a>
-          <a href="articles/per-plan-epargne-retraite.html">PER retraite</a>
-          <a href="articles/succession-donation.html">Succession</a>
+          <a href="articles/credit-immobilier-negocier.html" data-i18n="footer.f-mortgage">Mortgage</a>
+          <a href="articles/revenus-locatifs-declaration.html" data-i18n="footer.f-rental">Rental Income</a>
+          <a href="articles/fiscalite-cryptomonnaies.html" data-i18n="footer.f-crypto">Crypto Tax</a>
+          <a href="articles/per-plan-epargne-retraite.html" data-i18n="footer.f-retirement">Retirement Plan</a>
+          <a href="articles/succession-donation.html" data-i18n="footer.f-inheritance">Inheritance</a>
         </nav>
       </div>
       <div class="footer-col">
-        <h4>Le site</h4>
+        <h4 data-i18n="footer.col-site">Site</h4>
         <nav class="footer-links">
-          <a href="a-propos.html">À propos</a>
-          <a href="contact.html">Contact</a>
-          <a href="mentions-legales.html">Mentions légales</a>
-          <a href="politique-confidentialite.html">Confidentialité</a>
-          <a href="plan-du-site.html">Plan du site</a>
+          <a href="a-propos.html" data-i18n="footer.f-about">About</a>
+          <a href="contact.html" data-i18n="footer.f-contact">Contact</a>
+          <a href="mentions-legales.html" data-i18n="footer.f-legal">Legal Notice</a>
+          <a href="politique-confidentialite.html" data-i18n="footer.f-privacy">Privacy Policy</a>
+          <a href="plan-du-site.html" data-i18n="footer.f-sitemap">Sitemap</a>
         </nav>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Patrimoine Expert. Tous droits réservés.</span>
-      <span>Hébergé sur <a href="https://render.com" target="_blank" rel="noopener">Render</a></span>
-      <span><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a></span>
+      <span data-i18n="footer.copyright">© 2026 Wealth Expert. All rights reserved.</span>
+      <span><span data-i18n="footer.hosted">Hosted on</span> <a href="https://render.com" target="_blank" rel="noopener">Render</a></span>
+      <span><a href="mentions-legales.html" data-i18n="footer.legal-link">Legal Notice</a> · <a href="politique-confidentialite.html" data-i18n="footer.privacy-link">Privacy</a></span>
     </div>
   </div>
 </footer>
 
 <!-- ======== COOKIE BANNER ======== -->
-<div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Gestion des cookies">
-  <div class="cookie-title">🍪 Nous utilisons des cookies</div>
-  <p class="cookie-text">Ce site utilise des cookies pour améliorer votre expérience et afficher des publicités personnalisées via Google AdSense. Consultez notre <a href="politique-confidentialite.html">politique de confidentialité</a>.</p>
+<div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie settings">
+  <div class="cookie-title" data-i18n="cookie.title">🍪 We use cookies</div>
+  <p class="cookie-text"><span data-i18n="cookie.text">This site uses cookies to improve your experience and display personalised ads via Google AdSense. See our</span> <a href="politique-confidentialite.html" data-i18n="cookie.policy">privacy policy</a>.</p>
   <div class="cookie-actions">
-    <button id="cookieAccept" class="cookie-btn cookie-accept">✓ Tout accepter</button>
-    <button id="cookieRefuse" class="cookie-btn cookie-refuse">✗ Refuser</button>
-    <button id="cookieCustomize" class="cookie-btn cookie-customize">⚙️ Personnaliser</button>
+    <button id="cookieAccept" class="cookie-btn cookie-accept" data-i18n="cookie.accept">✓ Accept all</button>
+    <button id="cookieRefuse" class="cookie-btn cookie-refuse" data-i18n="cookie.refuse">✗ Decline</button>
+    <button id="cookieCustomize" class="cookie-btn cookie-customize" data-i18n="cookie.customize">⚙️ Customize</button>
   </div>
 </div>
 
-<!-- Bannière anchor mobile -->
+<!-- Mobile anchor ad -->
 <div id="adAnchor" class="ad-anchor">
-  <span class="ad-anchor-label">Publicité</span>
-  <!-- Bloc AdSense - Bannière anchor mobile -->
-  <div style="flex:1;text-align:center;font-size:.75rem;color:var(--text-muted);">Espace publicitaire — À configurer avec votre code AdSense</div>
-  <button id="adAnchorClose" class="ad-anchor-close" aria-label="Fermer la publicité">✕</button>
+  <span class="ad-anchor-label" data-i18n="ad.label">Advertisement</span>
+  <div style="flex:1;text-align:center;font-size:.75rem;color:var(--text-muted);">Ad space — Configure with your AdSense code</div>
+  <button id="adAnchorClose" class="ad-anchor-close" aria-label="Close ad">✕</button>
 </div>
 
-<!-- Overlay recherche -->
-<div id="searchOverlay" class="search-overlay" role="dialog" aria-label="Recherche">
+<!-- Search overlay -->
+<div id="searchOverlay" class="search-overlay" role="dialog" aria-label="Search">
   <div class="search-box">
-    <button id="searchClose" style="float:right;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);">✕</button>
-    <input id="searchInput" type="search" placeholder="Rechercher un article…" aria-label="Recherche">
+    <button id="searchClose" style="float:right;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-muted);" data-i18n="search.close">✕</button>
+    <input id="searchInput" type="search" data-i18n-placeholder="search.placeholder" placeholder="Search an article…" aria-label="Search">
     <div id="searchResults" class="search-results"></div>
   </div>
 </div>
 
+<!-- Header: extra styles for header-right layout -->
+<style>
+  .header-right { display: flex; align-items: center; gap: .75rem; }
+  .header-search { display: flex; align-items: center; gap: .5rem; }
+</style>
+
+<script src="assets/js/site-config.js"></script>
+<script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
 </body>
 </html>

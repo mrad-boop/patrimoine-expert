@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "investments": "Placements",
+    "real-estate": "Immobilier",
+    "taxation": "Fiscalité",
+    "about": "À propos",
+    "contact": "Contact",
+    "search": "Rechercher un article…",
+    "sub": {
+      "beginners": "Bourse pour débutants",
+      "etf": "ETF — Comment investir",
+      "life-insurance": "Comparatif assurance-vie",
+      "savings": "Livrets réglementés 2026",
+      "dividends": "Stratégie dividendes",
+      "mortgage": "Crédit immobilier",
+      "rental": "Revenus locatifs",
+      "crowdfunding": "Crowdfunding immobilier",
+      "crypto": "Fiscalité crypto",
+      "tax-breaks": "Défiscalisation 2026",
+      "retirement": "Plan d'épargne retraite",
+      "inheritance": "Succession & Donation"
+    }
+  },
+  "hero": {
+    "badge": "🎯 Nouveau — Édition 2026",
+    "title": "Votre patrimoine, enfin sous contrôle",
+    "subtitle": "Investissement, fiscalité, immobilier, retraite : des analyses concrètes et actionnables pour les 25-45 ans qui veulent faire fructifier leur argent, légalement et intelligemment.",
+    "cta-primary": "📚 Lire les articles",
+    "cta-secondary": "Qui sommes-nous ?",
+    "stat1": "Guides piliers",
+    "stat2": "Mis à jour",
+    "stat3": "Gratuit",
+    "topics-title": "Thèmes couverts",
+    "topic1": "Bourse, ETF & Dividendes",
+    "topic2": "Immobilier & Crédit",
+    "topic3": "Fiscalité & Optimisation",
+    "topic4": "Assurance-vie & PER",
+    "topic5": "Crypto & Nouveaux actifs"
+  },
+  "stats": {
+    "s1-num": "3,2 M€",
+    "s1-label": "Patrimoine médian visé à 50 ans",
+    "s2-num": "30 %",
+    "s2-label": "Flat tax sur les revenus du capital",
+    "s3-num": "3,5 %",
+    "s3-label": "Taux du Livret A en 2026",
+    "s4-num": "152 500 €",
+    "s4-label": "Abattement assurance-vie par bénéficiaire"
+  },
+  "sections": {
+    "label": "Articles piliers",
+    "title": "Tout ce qu'il faut savoir pour investir en 2026",
+    "desc": "Des guides complets, rédigés par un expert certifié, pour vous aider à prendre les bonnes décisions financières.",
+    "all": "🗂️ Tous les articles",
+    "investments": "📈 Placements & Épargne",
+    "real-estate": "🏡 Immobilier",
+    "taxation": "📋 Fiscalité & Optimisation",
+    "featured-badge": "⭐ Article vedette · Placements",
+    "read-more": "Lire l'article complet →",
+    "read": "Lire →"
+  },
+  "newsletter": {
+    "title": "📬 Rejoignez 4 800 lecteurs",
+    "subtitle": "Recevez nos meilleures analyses patrimoniales chaque semaine. Gratuit, sans spam, désinscription en un clic.",
+    "placeholder": "votre@email.fr",
+    "button": "S'inscrire"
+  },
+  "footer": {
+    "tagline": "Analyses patrimoniales indépendantes pour les investisseurs particuliers. Contenu à titre informatif uniquement.",
+    "col-investments": "Placements",
+    "col-realestate": "Immobilier & Fiscalité",
+    "col-site": "Le site",
+    "f-beginners": "Bourse débutants",
+    "f-etf": "ETF",
+    "f-lifeins": "Assurance-vie",
+    "f-savings": "Livrets 2026",
+    "f-dividends": "Dividendes",
+    "f-mortgage": "Crédit immobilier",
+    "f-rental": "Revenus locatifs",
+    "f-crypto": "Fiscalité crypto",
+    "f-retirement": "PER retraite",
+    "f-inheritance": "Succession",
+    "f-about": "À propos",
+    "f-contact": "Contact",
+    "f-legal": "Mentions légales",
+    "f-privacy": "Confidentialité",
+    "f-sitemap": "Plan du site",
+    "copyright": "© 2026 Wealth Expert. Tous droits réservés.",
+    "hosted": "Hébergé sur",
+    "legal-link": "Mentions légales",
+    "privacy-link": "Confidentialité"
+  },
+  "cookie": {
+    "title": "🍪 Nous utilisons des cookies",
+    "text": "Ce site utilise des cookies pour améliorer votre expérience et afficher des publicités via Google AdSense. Consultez notre",
+    "policy": "politique de confidentialité",
+    "accept": "✓ Tout accepter",
+    "refuse": "✗ Refuser",
+    "customize": "⚙️ Personnaliser"
+  },
+  "search": {
+    "placeholder": "Rechercher un article…",
+    "no-results": "Aucun résultat trouvé.",
+    "close": "✕"
+  },
+  "article": {
+    "updated": "Mis à jour",
+    "by": "Par",
+    "min-read": "min de lecture",
+    "share": "Partager :",
+    "twitter": "🐦 Twitter",
+    "linkedin": "💼 LinkedIn",
+    "facebook": "📘 Facebook",
+    "copy": "🔗 Copier le lien",
+    "copied": "✓ Copié !",
+    "toc": "Table des matières",
+    "disclaimer": "⚠️ Avertissement : Ce contenu est fourni à titre informatif uniquement et ne constitue pas un conseil en investissement. Les performances passées ne garantissent pas les performances futures. Consultez un professionnel agréé."
+  },
+  "categories": {
+    "investments": "Placements",
+    "real-estate": "Immobilier",
+    "taxation": "Fiscalité"
+  },
+  "ad": {
+    "label": "Publicité"
+  },
+  "mobile-nav": {
+    "investments": "Placements",
+    "real-estate": "Immobilier",
+    "taxation": "Fiscalité"
+  }
+}

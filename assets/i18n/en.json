@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Home",
+    "investments": "Investments",
+    "real-estate": "Real Estate",
+    "taxation": "Taxation",
+    "about": "About",
+    "contact": "Contact",
+    "search": "Search an article…",
+    "sub": {
+      "beginners": "Stock Market for Beginners",
+      "etf": "ETF — How to Invest",
+      "life-insurance": "Life Insurance Comparison",
+      "savings": "Savings Accounts 2026",
+      "dividends": "Dividend Income Strategy",
+      "mortgage": "Mortgage & Rates",
+      "rental": "Rental Income Declaration",
+      "crowdfunding": "Real Estate Crowdfunding",
+      "crypto": "Crypto Tax Guide",
+      "tax-breaks": "Tax Breaks 2026",
+      "retirement": "Retirement Savings Plan",
+      "inheritance": "Inheritance & Gifts"
+    }
+  },
+  "hero": {
+    "badge": "🎯 New — 2026 Edition",
+    "title": "Your wealth, finally under control",
+    "subtitle": "Investments, taxation, real estate, retirement: concrete and actionable analyses for 25–45 year olds who want to grow their money, legally and intelligently.",
+    "cta-primary": "📚 Read Articles",
+    "cta-secondary": "Who are we?",
+    "stat1": "Pillar guides",
+    "stat2": "Updated",
+    "stat3": "Free",
+    "topics-title": "Topics covered",
+    "topic1": "Stocks, ETFs & Dividends",
+    "topic2": "Real Estate & Mortgages",
+    "topic3": "Taxation & Optimization",
+    "topic4": "Life Insurance & Retirement",
+    "topic5": "Crypto & New Assets"
+  },
+  "stats": {
+    "s1-num": "$3.2M",
+    "s1-label": "Median target wealth at 50",
+    "s2-num": "30%",
+    "s2-label": "Flat tax on capital income",
+    "s3-num": "3.5%",
+    "s3-label": "Savings account rate 2026",
+    "s4-num": "$152,500",
+    "s4-label": "Life insurance allowance per beneficiary"
+  },
+  "sections": {
+    "label": "Pillar articles",
+    "title": "Everything you need to know to invest in 2026",
+    "desc": "Comprehensive guides, written by a certified expert, to help you make the right financial decisions.",
+    "all": "🗂️ All articles",
+    "investments": "📈 Investments & Savings",
+    "real-estate": "🏡 Real Estate",
+    "taxation": "📋 Taxation & Optimization",
+    "featured-badge": "⭐ Featured · Investments",
+    "read-more": "Read full article →",
+    "read": "Read →"
+  },
+  "newsletter": {
+    "title": "📬 Join 4,800 readers",
+    "subtitle": "Get our best wealth analyses every week. Free, no spam, unsubscribe in one click.",
+    "placeholder": "your@email.com",
+    "button": "Subscribe"
+  },
+  "footer": {
+    "tagline": "Independent wealth management analyses for individual investors. For informational purposes only.",
+    "col-investments": "Investments",
+    "col-realestate": "Real Estate & Taxation",
+    "col-site": "Site",
+    "f-beginners": "Stock Market Beginners",
+    "f-etf": "ETFs",
+    "f-lifeins": "Life Insurance",
+    "f-savings": "Savings 2026",
+    "f-dividends": "Dividends",
+    "f-mortgage": "Mortgage",
+    "f-rental": "Rental Income",
+    "f-crypto": "Crypto Tax",
+    "f-retirement": "Retirement Plan",
+    "f-inheritance": "Inheritance",
+    "f-about": "About",
+    "f-contact": "Contact",
+    "f-legal": "Legal Notice",
+    "f-privacy": "Privacy Policy",
+    "f-sitemap": "Sitemap",
+    "copyright": "© 2026 Wealth Expert. All rights reserved.",
+    "hosted": "Hosted on",
+    "legal-link": "Legal Notice",
+    "privacy-link": "Privacy"
+  },
+  "cookie": {
+    "title": "🍪 We use cookies",
+    "text": "This site uses cookies to improve your experience and display personalised ads via Google AdSense. See our",
+    "policy": "privacy policy",
+    "accept": "✓ Accept all",
+    "refuse": "✗ Decline",
+    "customize": "⚙️ Customize"
+  },
+  "search": {
+    "placeholder": "Search an article…",
+    "no-results": "No results found.",
+    "close": "✕"
+  },
+  "article": {
+    "updated": "Updated",
+    "by": "By",
+    "min-read": "min read",
+    "share": "Share:",
+    "twitter": "🐦 Twitter",
+    "linkedin": "💼 LinkedIn",
+    "facebook": "📘 Facebook",
+    "copy": "🔗 Copy link",
+    "copied": "✓ Copied!",
+    "toc": "Table of Contents",
+    "disclaimer": "⚠️ Disclaimer: This content is for informational purposes only and does not constitute investment advice. Past performance is not indicative of future results. Always consult a qualified financial advisor."
+  },
+  "categories": {
+    "investments": "Investments",
+    "real-estate": "Real Estate",
+    "taxation": "Taxation"
+  },
+  "ad": {
+    "label": "Advertisement"
+  },
+  "mobile-nav": {
+    "investments": "Investments",
+    "real-estate": "Real Estate",
+    "taxation": "Taxation"
+  }
+}

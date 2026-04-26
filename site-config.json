@@ -1,0 +1,87 @@
+{
+  "brand": {
+    "name": "Smart Wealth Blog",
+    "tagline": "Smart wealth management for everyone",
+    "logoIcon": "💰",
+    "domain": "https://smartwealthblog.com",
+    "social": {
+      "twitter": "",
+      "linkedin": "",
+      "facebook": "",
+      "instagram": ""
+    }
+  },
+  "colors": {
+    "primary": "#1B3A6B",
+    "primaryDark": "#122850",
+    "primaryLight": "#2A5298",
+    "gold": "#C9A84C",
+    "goldLight": "#E8C86A",
+    "green": "#2D9B6F",
+    "greenLight": "#3DC48D",
+    "bg": "#FAFAFA",
+    "text": "#2C2C2C"
+  },
+  "author": {
+    "name": "Thomas Mercier",
+    "title": "Independent Wealth Management Advisor (CGPI) · AMF Certified",
+    "avatar": "👨‍💼",
+    "bio": "Certified wealth management advisor with 15 years of experience helping individuals build and protect their financial assets."
+  },
+  "hero": {
+    "badge": "🎯 New — 2026 Edition",
+    "stat1": { "num": "12", "label": "Pillar guides" },
+    "stat2": { "num": "2026", "label": "Updated" },
+    "stat3": { "num": "100%", "label": "Free" }
+  },
+  "statsBand": [
+    { "num": "$3.2M", "label": "Median target wealth at 50" },
+    { "num": "30%", "label": "Flat tax on capital gains" },
+    { "num": "3.5%", "label": "Savings account rate 2026" },
+    { "num": "$152,500", "label": "Life insurance allowance per beneficiary" }
+  ],
+  "newsletter": {
+    "subscribers": "4,800",
+    "formspreeId": "VOTRE_FORMSPREE_ID"
+  },
+  "ads": {
+    "adsenseId": "",
+    "enabled": false
+  },
+  "analytics": {
+    "ga4": ""
+  },
+  "categories": {
+    "investments": { "label": "Investments", "emoji": "📈" },
+    "real-estate": { "label": "Real Estate", "emoji": "🏡" },
+    "taxation": { "label": "Taxation", "emoji": "📋" }
+  },
+  "nav": {
+    "links": [
+      { "label": "Home", "href": "/" },
+      { "label": "Investments", "href": "#investments", "children": [
+        { "label": "Stock Market for Beginners", "href": "articles/investir-bourse-debutants.html" },
+        { "label": "ETF — How to Invest", "href": "articles/etf-investir.html" },
+        { "label": "Life Insurance", "href": "articles/assurance-vie-comparatif.html" },
+        { "label": "Savings Accounts 2026", "href": "articles/livret-a-ldds-lep.html" },
+        { "label": "Dividend Income", "href": "articles/devenir-rentier-dividendes.html" }
+      ]},
+      { "label": "Real Estate", "href": "#real-estate", "children": [
+        { "label": "Mortgage & Rates", "href": "articles/credit-immobilier-negocier.html" },
+        { "label": "Rental Income Tax", "href": "articles/revenus-locatifs-declaration.html" },
+        { "label": "Real Estate Crowdfunding", "href": "articles/crowdfunding-immobilier.html" }
+      ]},
+      { "label": "Taxation", "href": "#taxation", "children": [
+        { "label": "Crypto Tax Guide", "href": "articles/fiscalite-cryptomonnaies.html" },
+        { "label": "Tax Breaks 2026", "href": "articles/loi-pinel-2026.html" },
+        { "label": "Retirement Savings Plan", "href": "articles/per-plan-epargne-retraite.html" },
+        { "label": "Inheritance & Gifts", "href": "articles/succession-donation.html" }
+      ]},
+      { "label": "About", "href": "a-propos.html" }
+    ]
+  },
+  "footer": {
+    "tagline": "Independent wealth management analyses for individual investors. For informational purposes only.",
+    "disclaimer": "Content does not constitute investment advice. Past performance is not indicative of future results. Always consult a qualified financial advisor."
+  }
+}

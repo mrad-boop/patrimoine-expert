@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "investments": "Investitionen",
+    "real-estate": "Immobilien",
+    "taxation": "Steuern",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "search": "Artikel suchen…",
+    "sub": {
+      "beginners": "Börse für Anfänger",
+      "etf": "ETF — So investieren Sie",
+      "life-insurance": "Lebensversicherung Vergleich",
+      "savings": "Sparkonten 2026",
+      "dividends": "Dividendenstrategie",
+      "mortgage": "Immobilienkredit",
+      "rental": "Mieteinnahmen versteuern",
+      "crowdfunding": "Immobilien-Crowdfunding",
+      "crypto": "Krypto Steuerguide",
+      "tax-breaks": "Steuervorteile 2026",
+      "retirement": "Altersvorsorge",
+      "inheritance": "Erbschaft & Schenkung"
+    }
+  },
+  "hero": {
+    "badge": "🎯 Neu — Ausgabe 2026",
+    "title": "Ihr Vermögen, endlich unter Kontrolle",
+    "subtitle": "Investitionen, Steuern, Immobilien, Rente: konkrete und umsetzbare Analysen für 25–45-Jährige, die ihr Geld legal und intelligent vermehren möchten.",
+    "cta-primary": "📚 Artikel lesen",
+    "cta-secondary": "Wer sind wir?",
+    "stat1": "Hauptleitfäden",
+    "stat2": "Aktualisiert",
+    "stat3": "Kostenlos",
+    "topics-title": "Abgedeckte Themen",
+    "topic1": "Aktien, ETFs & Dividenden",
+    "topic2": "Immobilien & Hypotheken",
+    "topic3": "Steuern & Optimierung",
+    "topic4": "Lebensversicherung & Rente",
+    "topic5": "Krypto & Neue Anlagen"
+  },
+  "stats": {
+    "s1-num": "3,2 Mio. €",
+    "s1-label": "Medianes Vermögensziel mit 50",
+    "s2-num": "30%",
+    "s2-label": "Pauschalsteuer auf Kapitalerträge",
+    "s3-num": "3,5%",
+    "s3-label": "Sparzinssatz 2026",
+    "s4-num": "152.500 €",
+    "s4-label": "Lebensversicherungs-Freibetrag pro Begünstigten"
+  },
+  "sections": {
+    "label": "Hauptartikel",
+    "title": "Alles, was Sie wissen müssen, um 2026 zu investieren",
+    "desc": "Umfassende Leitfäden, verfasst von einem zertifizierten Experten, um Ihnen bei der richtigen Finanzentscheidung zu helfen.",
+    "all": "🗂️ Alle Artikel",
+    "investments": "📈 Investitionen & Sparen",
+    "real-estate": "🏡 Immobilien",
+    "taxation": "📋 Steuern & Optimierung",
+    "featured-badge": "⭐ Highlight · Investitionen",
+    "read-more": "Ganzen Artikel lesen →",
+    "read": "Lesen →"
+  },
+  "newsletter": {
+    "title": "📬 Treten Sie 4.800 Lesern bei",
+    "subtitle": "Erhalten Sie unsere besten Vermögensanalysen jede Woche. Kostenlos, kein Spam, Abmeldung mit einem Klick.",
+    "placeholder": "ihre@email.de",
+    "button": "Abonnieren"
+  },
+  "footer": {
+    "tagline": "Unabhängige Vermögensverwaltungsanalysen für Privatanleger. Nur zu Informationszwecken.",
+    "col-investments": "Investitionen",
+    "col-realestate": "Immobilien & Steuern",
+    "col-site": "Website",
+    "f-beginners": "Börse für Anfänger",
+    "f-etf": "ETFs",
+    "f-lifeins": "Lebensversicherung",
+    "f-savings": "Sparen 2026",
+    "f-dividends": "Dividenden",
+    "f-mortgage": "Immobilienkredit",
+    "f-rental": "Mieteinnahmen",
+    "f-crypto": "Krypto Steuern",
+    "f-retirement": "Altersvorsorge",
+    "f-inheritance": "Erbschaft",
+    "f-about": "Über uns",
+    "f-contact": "Kontakt",
+    "f-legal": "Impressum",
+    "f-privacy": "Datenschutz",
+    "f-sitemap": "Sitemap",
+    "copyright": "© 2026 Wealth Expert. Alle Rechte vorbehalten.",
+    "hosted": "Gehostet auf",
+    "legal-link": "Impressum",
+    "privacy-link": "Datenschutz"
+  },
+  "cookie": {
+    "title": "🍪 Wir verwenden Cookies",
+    "text": "Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern und personalisierte Werbung über Google AdSense anzuzeigen. Weitere Informationen in unserer",
+    "policy": "Datenschutzrichtlinie",
+    "accept": "✓ Alle akzeptieren",
+    "refuse": "✗ Ablehnen",
+    "customize": "⚙️ Anpassen"
+  },
+  "search": {
+    "placeholder": "Artikel suchen…",
+    "no-results": "Keine Ergebnisse gefunden.",
+    "close": "✕"
+  },
+  "article": {
+    "updated": "Aktualisiert",
+    "by": "Von",
+    "min-read": "Min. Lesezeit",
+    "share": "Teilen:",
+    "twitter": "🐦 Twitter",
+    "linkedin": "💼 LinkedIn",
+    "facebook": "📘 Facebook",
+    "copy": "🔗 Link kopieren",
+    "copied": "✓ Kopiert!",
+    "toc": "Inhaltsverzeichnis",
+    "disclaimer": "⚠️ Haftungsausschluss: Dieser Inhalt dient nur zu Informationszwecken und stellt keine Anlageberatung dar. Vergangene Leistungen sind kein Indikator für zukünftige Ergebnisse. Konsultieren Sie einen qualifizierten Finanzberater."
+  },
+  "categories": {
+    "investments": "Investitionen",
+    "real-estate": "Immobilien",
+    "taxation": "Steuern"
+  },
+  "ad": {
+    "label": "Werbung"
+  },
+  "mobile-nav": {
+    "investments": "Investitionen",
+    "real-estate": "Immobilien",
+    "taxation": "Steuern"
+  }
+}

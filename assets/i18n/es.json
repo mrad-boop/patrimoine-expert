@@ -1,0 +1,133 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "investments": "Inversiones",
+    "real-estate": "Inmobiliario",
+    "taxation": "Fiscalidad",
+    "about": "Sobre nosotros",
+    "contact": "Contacto",
+    "search": "Buscar un artículo…",
+    "sub": {
+      "beginners": "Bolsa para principiantes",
+      "etf": "ETF — Cómo invertir",
+      "life-insurance": "Comparativa de seguros de vida",
+      "savings": "Cuentas de ahorro 2026",
+      "dividends": "Estrategia de dividendos",
+      "mortgage": "Crédito inmobiliario",
+      "rental": "Declaración de rentas de alquiler",
+      "crowdfunding": "Crowdfunding inmobiliario",
+      "crypto": "Fiscalidad de criptomonedas",
+      "tax-breaks": "Deducciones fiscales 2026",
+      "retirement": "Plan de pensiones",
+      "inheritance": "Herencia y donaciones"
+    }
+  },
+  "hero": {
+    "badge": "🎯 Nuevo — Edición 2026",
+    "title": "Tu patrimonio, finalmente bajo control",
+    "subtitle": "Inversiones, fiscalidad, inmobiliario, jubilación: análisis concretos y aplicables para los 25-45 años que quieren hacer crecer su dinero de forma legal e inteligente.",
+    "cta-primary": "📚 Leer artículos",
+    "cta-secondary": "¿Quiénes somos?",
+    "stat1": "Guías pilares",
+    "stat2": "Actualizado",
+    "stat3": "Gratis",
+    "topics-title": "Temas cubiertos",
+    "topic1": "Bolsa, ETF y Dividendos",
+    "topic2": "Inmobiliario e Hipotecas",
+    "topic3": "Fiscalidad y Optimización",
+    "topic4": "Seguros de vida y Pensiones",
+    "topic5": "Cripto y Nuevos activos"
+  },
+  "stats": {
+    "s1-num": "3,2 M€",
+    "s1-label": "Patrimonio mediano objetivo a los 50",
+    "s2-num": "30%",
+    "s2-label": "Impuesto fijo sobre rentas de capital",
+    "s3-num": "3,5%",
+    "s3-label": "Tasa de cuenta de ahorro 2026",
+    "s4-num": "152.500 €",
+    "s4-label": "Deducción de seguro de vida por beneficiario"
+  },
+  "sections": {
+    "label": "Artículos pilares",
+    "title": "Todo lo que necesitas saber para invertir en 2026",
+    "desc": "Guías completas, escritas por un experto certificado, para ayudarte a tomar las mejores decisiones financieras.",
+    "all": "🗂️ Todos los artículos",
+    "investments": "📈 Inversiones y Ahorro",
+    "real-estate": "🏡 Inmobiliario",
+    "taxation": "📋 Fiscalidad y Optimización",
+    "featured-badge": "⭐ Destacado · Inversiones",
+    "read-more": "Leer artículo completo →",
+    "read": "Leer →"
+  },
+  "newsletter": {
+    "title": "📬 Únete a 4.800 lectores",
+    "subtitle": "Recibe nuestros mejores análisis patrimoniales cada semana. Gratis, sin spam, baja con un clic.",
+    "placeholder": "tu@email.com",
+    "button": "Suscribirme"
+  },
+  "footer": {
+    "tagline": "Análisis independientes de gestión patrimonial para inversores particulares. Solo con fines informativos.",
+    "col-investments": "Inversiones",
+    "col-realestate": "Inmobiliario y Fiscalidad",
+    "col-site": "El sitio",
+    "f-beginners": "Bolsa principiantes",
+    "f-etf": "ETF",
+    "f-lifeins": "Seguro de vida",
+    "f-savings": "Ahorro 2026",
+    "f-dividends": "Dividendos",
+    "f-mortgage": "Hipoteca",
+    "f-rental": "Rentas alquiler",
+    "f-crypto": "Cripto fiscal",
+    "f-retirement": "Plan pensiones",
+    "f-inheritance": "Herencia",
+    "f-about": "Sobre nosotros",
+    "f-contact": "Contacto",
+    "f-legal": "Aviso legal",
+    "f-privacy": "Privacidad",
+    "f-sitemap": "Mapa del sitio",
+    "copyright": "© 2026 Wealth Expert. Todos los derechos reservados.",
+    "hosted": "Alojado en",
+    "legal-link": "Aviso legal",
+    "privacy-link": "Privacidad"
+  },
+  "cookie": {
+    "title": "🍪 Usamos cookies",
+    "text": "Este sitio usa cookies para mejorar tu experiencia y mostrar anuncios personalizados mediante Google AdSense. Consulta nuestra",
+    "policy": "política de privacidad",
+    "accept": "✓ Aceptar todo",
+    "refuse": "✗ Rechazar",
+    "customize": "⚙️ Personalizar"
+  },
+  "search": {
+    "placeholder": "Buscar un artículo…",
+    "no-results": "No se han encontrado resultados.",
+    "close": "✕"
+  },
+  "article": {
+    "updated": "Actualizado",
+    "by": "Por",
+    "min-read": "min de lectura",
+    "share": "Compartir:",
+    "twitter": "🐦 Twitter",
+    "linkedin": "💼 LinkedIn",
+    "facebook": "📘 Facebook",
+    "copy": "🔗 Copiar enlace",
+    "copied": "✓ ¡Copiado!",
+    "toc": "Tabla de contenidos",
+    "disclaimer": "⚠️ Aviso: Este contenido es solo informativo y no constituye asesoramiento de inversión. El rendimiento pasado no garantiza resultados futuros. Consulta a un asesor financiero cualificado."
+  },
+  "categories": {
+    "investments": "Inversiones",
+    "real-estate": "Inmobiliario",
+    "taxation": "Fiscalidad"
+  },
+  "ad": {
+    "label": "Publicidad"
+  },
+  "mobile-nav": {
+    "investments": "Inversiones",
+    "real-estate": "Inmobiliario",
+    "taxation": "Fiscalidad"
+  }
+}

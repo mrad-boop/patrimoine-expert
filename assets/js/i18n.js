@@ -144,6 +144,7 @@
 
     var t = await loadTranslations(lang);
     applyToDOM(t);
+    applyArticleLabels();
   }
 
   function buildSwitcher(container) {
@@ -231,50 +232,104 @@
   window._buildI18nSwitcher = buildSwitcher;
 
   function applyArticleLabels() {
-    // Apply translations to known structural selectors present in existing articles
-    // This lets i18n work even without data-i18n attributes in old HTML files
     var t = _translations;
     if (!t || !Object.keys(t).length) return;
 
     function tget(key) {
       var parts = key.split('.'), v = t;
-      for (var i = 0; i < parts.length; i++) { if (v && typeof v === 'object') v = v[parts[i]]; else return ''; }
+      for (var i = 0; i < parts.length; i++) {
+        if (v && typeof v === 'object') v = v[parts[i]]; else return '';
+      }
       return typeof v === 'string' ? v : '';
     }
 
-    // "Updated" date label
-    document.querySelectorAll('.article-date-label, .date-label, .updated-label').forEach(function(el){
-      var v = tget('article.updated'); if (v) el.textContent = v;
-    });
-
-    // "min read"
-    document.querySelectorAll('.reading-time-label, .read-time-unit').forEach(function(el){
-      var v = tget('article.min-read'); if (v) el.textContent = v;
-    });
-
-    // Disclaimer box — only update if it exists and lang is not EN (keep EN default)
-    if (_lang !== 'en') {
-      var disc = tget('article.disclaimer');
-      document.querySelectorAll('.article-disclaimer').forEach(function(el){
-        if (disc) el.innerHTML = disc;
-      });
+    function setText(sel, key) {
+      var v = tget(key); if (!v) return;
+      document.querySelectorAll(sel).forEach(function(el){ el.textContent = v; });
+    }
+    function setHTML(sel, key) {
+      var v = tget(key); if (!v) return;
+      document.querySelectorAll(sel).forEach(function(el){ el.innerHTML = v; });
+    }
+    function setAttr(sel, attr, key) {
+      var v = tget(key); if (!v) return;
+      document.querySelectorAll(sel).forEach(function(el){ el.setAttribute(attr, v); });
     }
 
-    // Share label
-    document.querySelectorAll('.share-label').forEach(function(el){
-      var v = tget('article.share'); if (v) el.textContent = v;
+    /* ── Nav labels (catch any that don't use data-i18n) ── */
+    var navMap = {
+      'a[href="/"], a[href="../"], a[href="./"]':       'nav.home',
+      'a[href="#investments"], a[href="../#investments"]': 'nav.investments',
+      'a[href="#real-estate"], a[href="../#real-estate"]': 'nav.real-estate',
+      'a[href="#taxation"],    a[href="../#taxation"]':    'nav.taxation'
+    };
+    Object.keys(navMap).forEach(function(sel) {
+      var v = tget(navMap[sel]); if (!v) return;
+      document.querySelectorAll('.main-nav ' + sel + ', .mobile-nav ' + sel).forEach(function(el){
+        // Only replace if not a logo
+        if (!el.classList.contains('logo')) el.textContent = v;
+      });
     });
 
-    // Cookie banner
-    var cookieTitle = document.querySelector('.cookie-title');
-    var cookieText  = document.querySelector('.cookie-text');
-    var cookieAccept = document.getElementById('cookieAccept');
-    var cookieRefuse = document.getElementById('cookieRefuse');
-    if (cookieTitle && tget('cookie.title')) cookieTitle.textContent = tget('cookie.title');
-    if (cookieAccept && tget('cookie.accept')) cookieAccept.textContent = tget('cookie.accept');
-    if (cookieRefuse && tget('cookie.refuse')) cookieRefuse.textContent = tget('cookie.refuse');
+    /* ── Category chips ── */
+    var catMap = {
+      '.cat-placements, .cat-investments':              'categories.investments',
+      '.cat-immobilier, .cat-real-estate':              'categories.real-estate',
+      '.cat-fiscalite, .cat-taxation':                  'categories.taxation'
+    };
+    Object.keys(catMap).forEach(function(sel) {
+      setText(sel, catMap[sel]);
+    });
 
-    // Nav links — translate known text if data-i18n is present
-    // (already handled by main [data-i18n] loop above)
+    /* ── Article chrome ── */
+    setText('.article-updated, .updated-label',            'article.updated');
+    setText('.reading-time-label, .read-time-unit',        'article.min-read');
+    setText('.share-label, .social-share-label',           'article.share');
+    setText('.toc-title, .sidebar-toc-title',              'article.toc');
+    setText('.article-disclaimer-label',                   'article.disclaimer');
+
+    // Full disclaimer box (only non-EN since FR articles have French disclaimer)
+    if (_lang !== 'en' && _lang !== 'fr') {
+      setHTML('.article-disclaimer:not([data-i18n-html])', 'article.disclaimer');
+    }
+
+    // Share buttons
+    var shareMap = {
+      '.share-twitter, .social-twitter':  'article.twitter',
+      '.share-linkedin, .social-linkedin': 'article.linkedin',
+      '.share-facebook, .social-facebook': 'article.facebook',
+      '.share-copy, .copy-link-btn':      'article.copy'
+    };
+    Object.keys(shareMap).forEach(function(sel) {
+      setText(sel, shareMap[sel]);
+    });
+
+    /* ── Footer columns ── */
+    setText('.footer-col-investments h4, .f-col-invest', 'footer.col-investments');
+    setText('.footer-col-realestate h4, .f-col-re',      'footer.col-realestate');
+    setText('.footer-col-site h4, .f-col-site',          'footer.col-site');
+    setText('.footer-tagline p',                          'footer.tagline');
+
+    /* ── Cookie banner ── */
+    setText('.cookie-title',                              'cookie.title');
+    setText('#cookieAccept',                              'cookie.accept');
+    setText('#cookieRefuse',                              'cookie.refuse');
+    setText('#cookieCustomize',                           'cookie.customize');
+
+    /* ── Search placeholder ── */
+    setAttr('.header-search input, input[type="search"]', 'placeholder', 'nav.search');
+
+    /* ── HTML dir for RTL ── */
+    document.documentElement.setAttribute('lang', _lang);
+    document.documentElement.setAttribute('dir', RTL_LANGS.includes(_lang) ? 'rtl' : 'ltr');
+
+    /* ── Update lang switcher button face ── */
+    document.querySelectorAll('.lang-current').forEach(function(btn) {
+      btn.innerHTML = LANG_FLAGS[_lang] + ' <span>' + _lang.toUpperCase() + '</span>'
+        + ' <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m6 9 6 6 6-6"/></svg>';
+    });
+    document.querySelectorAll('.lang-option').forEach(function(btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === _lang);
+    });
   }
 })();

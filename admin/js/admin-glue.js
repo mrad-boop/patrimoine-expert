@@ -72,8 +72,11 @@ function insertTip(type) {
 }
 
 /* ── Editor actions ─────────────────────────────────────────── */
-function saveDraft()     { WEAdmin.saveDraft(); }
-function publishArticle(){ WEAdmin.publishArticle(); }
+function saveDraft()        { WEAdmin.saveDraft(); }
+function publishArticle()   { WEAdmin.publishArticle(); }
+function editArticle(slug)  { WEAdmin.editArticle(slug); }
+function deleteDraft(slug)  { WEAdmin.deleteDraft(slug); }
+function deleteArticle(slug){ WEAdmin.deleteArticle(slug); }
 
 /* ── AI Generator ───────────────────────────────────────────── */
 function generateAI()       { WEAdmin.runAIGenerate(); }
@@ -206,4 +209,26 @@ document.addEventListener('DOMContentLoaded', function () {
   // Show first site-editor panel by default
   var firstPanel = document.querySelector('.se-panel');
   if (firstPanel) firstPanel.style.display = 'block';
+
+  // When language changes in editor, auto-update slug suffix
+  var langSel = document.getElementById('artLang');
+  var slugEl  = document.getElementById('artSlug');
+  if (langSel && slugEl) {
+    langSel.addEventListener('change', function() {
+      var lang = langSel.value;
+      var slug = slugEl.value;
+      if (!slug) return;
+      // Strip existing lang suffix (-en, -fr, -ar, -es, -de)
+      slug = slug.replace(/-(en|fr|ar|es|de)$/, '');
+      // Add new suffix only if not French (French = original, no suffix)
+      slugEl.value = lang !== 'fr' ? slug + '-' + lang : slug;
+      // Clear the article body so user writes the translation fresh
+      var body = document.getElementById('articleBody');
+      if (body && lang !== 'fr' && body.value.trim()) {
+        if (confirm('Clear the content area to write a fresh translation? (French original stays visible above)')) {
+          body.value = '';
+        }
+      }
+    });
+  }
 });

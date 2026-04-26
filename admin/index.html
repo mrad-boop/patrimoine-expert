@@ -434,9 +434,19 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
               </div>
             </div>
 
+            <!-- French original reference — shown when editing/translating an existing article -->
+            <div id="refPanel" style="display:none;margin-bottom:1rem;border:1.5px solid rgba(201,168,76,.4);border-radius:8px;overflow:hidden">
+              <div onclick="var b=document.getElementById('refBody');b.style.display=b.style.display==='none'?'':'none';this.querySelector('.ref-chevron').textContent=b.style.display===''?'▾':'▸'" style="display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:rgba(201,168,76,.08);cursor:pointer;user-select:none">
+                <span style="font-weight:700;font-size:.82rem;color:#92700e">🇫🇷 French original — for reference while translating</span>
+                <span class="ref-chevron" style="font-size:.75rem;color:#92700e">▾</span>
+              </div>
+              <div id="refTitle" style="padding:.4rem 1rem;font-size:.82rem;font-weight:600;background:rgba(201,168,76,.04);border-bottom:1px solid rgba(201,168,76,.2)"></div>
+              <div id="refBody" style="max-height:340px;overflow-y:auto;padding:1rem;font-size:.82rem;line-height:1.75;color:var(--text)"></div>
+            </div>
+
             <div class="field-card">
               <div class="field-card-title">📝 Article content</div>
-              <p style="font-size:.75rem;color:var(--muted);margin-bottom:.75rem">Write in HTML or use the AI generator.</p>
+              <p style="font-size:.75rem;color:var(--muted);margin-bottom:.75rem">Write in HTML or use the AI generator. When translating: select the target language above, write your translation here, then save.</p>
               <div class="toolbar">
                 <button class="toolbar-btn" onclick="insert('<h2 id=&quot;&quot;>','</h2>')">H2</button>
                 <button class="toolbar-btn" onclick="insert('<h3>','</h3>')">H3</button>

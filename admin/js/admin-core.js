@@ -512,6 +512,40 @@
     };
   }
 
+  function extractArticleBody(html) {
+    var si = html.indexOf('class="article-body"');
+    if (si === -1) return '';
+    var tagEnd = html.indexOf('>', si) + 1;
+    var depth = 1, i = tagEnd;
+    while (i < html.length && depth > 0) {
+      var no = html.indexOf('<div', i);
+      var nc = html.indexOf('</div', i);
+      if (nc === -1) break;
+      if (no !== -1 && no < nc) { depth++; i = no + 4; }
+      else { depth--; if (depth === 0) return html.substring(tagEnd, nc).trim(); i = nc + 5; }
+    }
+    return html.substring(tagEnd).trim();
+  }
+
+  function extractFields(html, slug) {
+    var content = extractArticleBody(html);
+    var titleM  = html.match(/<h1[^>]*class="article-title"[^>]*>([\s\S]*?)<\/h1>/);
+    var title   = titleM ? titleM[1].replace(/<[^>]+>/g,'').trim() : slug;
+    var descM   = html.match(/<meta\s+name="description"\s+content="([^"]+)"/);
+    var emojiM  = html.match(/<span[^>]*class="[^"]*article-emoji[^"]*"[^>]*>([^<]+)<\/span>/);
+    var catM    = html.match(/class="[^"]*cat-([\w-]+)"/);
+    var rtM     = html.match(/(\d+)\s*min/i);
+    return {
+      slug:     slug,
+      title:    title,
+      content:  content || '',
+      metaDesc: descM  ? descM[1]  : '',
+      emoji:    emojiM ? emojiM[1].trim() : '📄',
+      category: catM   ? catM[1]   : '',
+      readTime: rtM    ? rtM[1]    : ''
+    };
+  }
+
   function editArticle(slug) {
     showView('editor');
     // Try drafts first
@@ -520,61 +554,35 @@
       loadIntoEditor(drafts[slug]);
       return;
     }
+
+    // Hide reference panel while loading
+    var panel = document.getElementById('refPanel');
+    if (panel) panel.style.display = 'none';
     toast('Loading article…', 'success');
 
-    function extractArticleBody(html) {
-      // Find <div class="article-body"> then count nested divs to find its matching </div>
-      var startMarker = 'class="article-body"';
-      var si = html.indexOf(startMarker);
-      if (si === -1) return '';
-      var tagEnd = html.indexOf('>', si) + 1;
-      var depth = 1, i = tagEnd;
-      while (i < html.length && depth > 0) {
-        var no = html.indexOf('<div', i);
-        var nc = html.indexOf('</div', i);
-        if (nc === -1) break;
-        if (no !== -1 && no < nc) { depth++; i = no + 4; }
-        else { depth--; if (depth === 0) return html.substring(tagEnd, nc).trim(); i = nc + 5; }
-      }
-      return html.substring(tagEnd).trim();
+    function doLoad(html) {
+      var fields = extractFields(html, slug);
+      // Store French original for reference panel
+      fields.lang       = 'fr';
+      fields.originalFr = fields.content;
+      fields.originalTitle = fields.title;
+      loadIntoEditor(fields);
+      toast('✅ Article loaded — edit or translate below.', 'success');
     }
 
-    function extractFields(html) {
-      var content  = extractArticleBody(html);
-      var titleM   = html.match(/<h1[^>]*class="article-title"[^>]*>([\s\S]*?)<\/h1>/);
-      var title    = titleM ? titleM[1].replace(/<[^>]+>/g,'').trim() : slug;
-      var descM    = html.match(/<meta\s+name="description"\s+content="([^"]+)"/);
-      var emojiM   = html.match(/<span[^>]*class="[^"]*article-emoji[^"]*"[^>]*>([^<]+)<\/span>/);
-      var catM     = html.match(/class="[^"]*cat-([\w-]+)"/);
-      var rtM      = html.match(/(\d+)\s*min/i);
-      return {
-        slug:     slug,
-        title:    title,
-        content:  content || '(Could not extract body — edit full HTML manually)',
-        metaDesc: descM  ? descM[1]  : '',
-        emoji:    emojiM ? emojiM[1].trim() : '📄',
-        category: catM   ? catM[1]   : '',
-        readTime: rtM    ? rtM[1]    : ''
-      };
-    }
-
-    // 1. Direct fetch (works without PAT)
+    // 1. Direct fetch (no PAT needed)
     fetch('../articles/' + slug + '.html?t=' + Date.now())
       .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.text();
       })
-      .then(function(html) {
-        loadIntoEditor(extractFields(html));
-        toast('Article loaded.', 'success');
-      })
+      .then(doLoad)
       .catch(function() {
         // 2. Fallback: GitHub API
         ghRequest('/contents/articles/' + slug + '.html')
           .then(function(data) {
             var html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-            loadIntoEditor(extractFields(html));
-            toast('Article loaded.', 'success');
+            doLoad(html);
           })
           .catch(function(e) { toast('Could not load article: ' + e.message, 'error'); });
       });
@@ -582,18 +590,36 @@
 
   function loadIntoEditor(data) {
     function set(id, val) { var el = document.getElementById(id); if (el) el.value = val || ''; }
-    set('edTitle',    data.title);
-    set('edSlug',     data.slug);
-    set('edCategory', data.category);
-    set('edLang',     data.lang);
-    set('edEmoji',    data.emoji);
-    set('edReadTime', data.readTime);
-    set('edMetaDesc', data.metaDesc);
-    set('edKeyword',  data.keyword);
-    set('edTags',     data.tags);
-    set('edContent',  data.content);
-    var slugEl = document.getElementById('edSlug');
+    function setOpt(id, val) {
+      var el = document.getElementById(id);
+      if (!el || !val) return;
+      var opt = Array.from(el.options).find(function(o){ return o.value.toLowerCase() === val.toLowerCase() || o.value === val; });
+      if (opt) el.value = opt.value;
+    }
+    set('artTitle',       data.title);
+    set('artSlug',        data.slug);
+    setOpt('artCategory', data.category);
+    setOpt('artLang',     data.lang || 'fr');
+    set('artEmoji',       data.emoji);
+    set('artReadingTime', data.readTime);
+    set('artMeta',        data.metaDesc);
+    set('artFocusKw',     data.keyword);
+    set('artTags',        data.tags);
+    set('articleBody',    data.content);
+
+    var slugEl = document.getElementById('artSlug');
     if (slugEl) slugEl.dataset.manual = '1';
+
+    // Show reference panel with original French content
+    if (data.originalFr) {
+      var panel = document.getElementById('refPanel');
+      var body  = document.getElementById('refBody');
+      var title = document.getElementById('refTitle');
+      if (panel) panel.style.display = '';
+      if (title) title.textContent = data.originalTitle || data.title || '';
+      if (body)  body.innerHTML = data.originalFr || '';
+    }
+
     updatePreview();
   }
 

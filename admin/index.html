@@ -346,14 +346,14 @@ html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--t
       <!-- ARTICLES -->
       <div class="view" id="view-articles">
         <div style="display:flex;gap:.75rem;margin-bottom:1.25rem;align-items:center;flex-wrap:wrap">
-          <input class="field-input" id="searchArticles" placeholder="🔍 Search articles…" style="max-width:260px" oninput="filterArticles(this.value)">
-          <select class="field-input field-select" id="filterCat" style="max-width:170px" onchange="filterArticles(document.getElementById('searchArticles').value)">
+          <input class="field-input" id="searchArticles" placeholder="🔍 Search articles…" style="max-width:260px" oninput="filterArticles()">
+          <select class="field-input field-select" id="filterCat" style="max-width:170px" onchange="filterArticles()">
             <option value="">All categories</option>
             <option value="Investments">Investments</option>
             <option value="Real Estate">Real Estate</option>
             <option value="Taxation">Taxation</option>
           </select>
-          <select class="field-input field-select" id="filterLang" style="max-width:140px" onchange="filterArticles(document.getElementById('searchArticles').value)">
+          <select class="field-input field-select" id="filterLang" style="max-width:140px" onchange="filterArticles()">
             <option value="">All languages</option>
             <option value="en">🇬🇧 English</option>
             <option value="fr">🇫🇷 Français</option>

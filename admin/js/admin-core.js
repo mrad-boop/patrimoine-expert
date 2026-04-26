@@ -866,8 +866,8 @@
     return map[cat] || (cat || 'investments').toLowerCase().replace(/\s+/g,'-');
   }
 
-  function filterArticles(query) {
-    var search = (query !== undefined ? query : ((document.getElementById('searchArticles') || {}).value || '')).toLowerCase();
+  function filterArticles() {
+    var search = ((document.getElementById('searchArticles') || {}).value || '').toLowerCase();
     var cat    = ((document.getElementById('filterCat')  || {}).value || '');
     var lang   = ((document.getElementById('filterLang') || {}).value || '');
     var container = document.getElementById('articlesTableBody');

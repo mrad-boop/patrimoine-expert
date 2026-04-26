@@ -71,6 +71,9 @@ function insertTip(type) {
   WEAdmin.insertTag('<div class="tip-box ' + cls + '"><strong>' + icon + ' Note:</strong> ', '</div>');
 }
 
+/* ── Articles list ──────────────────────────────────────────── */
+function filterArticles()   { WEAdmin.filterArticles(); }
+
 /* ── Editor actions ─────────────────────────────────────────── */
 function saveDraft()        { WEAdmin.saveDraft(); }
 function publishArticle()   { WEAdmin.publishArticle(); }

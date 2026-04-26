@@ -121,12 +121,12 @@
 
   function showLogin() {
     document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminApp').style.display   = 'none';
+    document.getElementById('app').style.display        = 'none';
   }
 
   function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminApp').style.display   = 'flex';
+    document.getElementById('app').style.display        = 'flex';
   }
 
   function doLogin(password) {
@@ -158,8 +158,10 @@
     _currentView = name;
 
     document.querySelectorAll('.nav-item').forEach(function (li) {
-      li.classList.toggle('active', li.dataset.view === name);
+      li.classList.remove('active');
     });
+    var activeNav = document.getElementById('nav-' + name);
+    if (activeNav) activeNav.classList.add('active');
 
     // Lazy-init views
     if (name === 'dashboard')    renderDashboard();
@@ -872,10 +874,7 @@
 
   /* ── Init ──────────────────────────────────────────────── */
   function initApp() {
-    // Wire nav items
-    document.querySelectorAll('.nav-item[data-view]').forEach(function(li) {
-      li.addEventListener('click', function() { showView(li.dataset.view); });
-    });
+    // Nav items use inline onclick="showView(...)" — nothing to wire here
 
     // Wire editor events
     var edTitle = document.getElementById('edTitle');
@@ -896,9 +895,7 @@
       if (el) el.addEventListener('input', filterArticles);
     });
 
-    // Wire logout
-    var logoutBtn = document.getElementById('btnLogout');
-    if (logoutBtn) logoutBtn.addEventListener('click', doLogout);
+    // Logout is wired via inline onclick="adminLogout()"
 
     // Show default view
     showView('dashboard');
@@ -908,22 +905,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     if (!checkAccessToken()) return;
 
-    // Login form
-    var loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-      loginForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var pw = document.getElementById('loginPassword');
-        if (!pw) return;
-        if (doLogin(pw.value)) {
-          pw.value = '';
-        } else {
-          var err = document.getElementById('loginError');
-          if (err) { err.textContent = 'Incorrect password.'; err.style.display = 'block'; }
-          pw.value = '';
-        }
-      });
-    }
+    // Login is handled by global adminLogin() called via inline onclick
 
     if (isLoggedIn()) {
       showApp();

@@ -205,17 +205,101 @@
   }
 
   async function init() {
-    // Build all lang switchers
+    // Build declared lang switchers
     document.querySelectorAll('.lang-switcher').forEach(buildSwitcher);
+
+    // Auto-inject lang switcher if none present (e.g. existing article pages)
+    if (!document.querySelector('.lang-switcher')) {
+      autoInjectSwitcher();
+    }
 
     // Load and apply translations
     var t = await loadTranslations(_lang);
     applyToDOM(t);
+
+    // Apply article-level i18n even without data-i18n attributes
+    applyArticleLabels();
 
     // Click handlers for any [data-lang] buttons added after
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('[data-lang]');
       if (btn) setLanguage(btn.getAttribute('data-lang'));
     });
+  }
+
+  function autoInjectSwitcher() {
+    // Try to inject into known nav selectors used by existing articles
+    var target = document.querySelector('.main-nav, .navbar, .site-header .container, header nav, .nav-right, .nav-actions');
+    if (!target) return;
+    var wrapper = document.createElement('div');
+    wrapper.className = 'lang-switcher lang-switcher-auto';
+    // Style inline so it works without extra CSS
+    wrapper.style.cssText = 'position:relative;display:inline-flex;align-items:center;margin-left:auto';
+    target.appendChild(wrapper);
+    buildSwitcher(wrapper);
+
+    // Inject minimal CSS if not already in page
+    if (!document.getElementById('we-i18n-auto-css')) {
+      var style = document.createElement('style');
+      style.id = 'we-i18n-auto-css';
+      style.textContent = [
+        '.lang-switcher-auto { margin-left: 8px; }',
+        '.lang-switcher-auto .lang-current { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: inherit; border-radius: 6px; padding: 4px 8px; cursor: pointer; font-size: .8rem; display:inline-flex; align-items:center; gap:4px; }',
+        '.lang-switcher-auto .lang-dropdown { position:absolute; top:calc(100% + 4px); right:0; background:#fff; border:1px solid #e5e7eb; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.12); z-index:999; min-width:130px; padding:4px; display:none; }',
+        '.lang-switcher-auto .lang-dropdown.open { display:block; }',
+        '.lang-switcher-auto .lang-option { display:flex; align-items:center; gap:8px; width:100%; padding:6px 10px; background:none; border:none; cursor:pointer; border-radius:4px; font-size:.85rem; color:#374151; }',
+        '.lang-switcher-auto .lang-option:hover { background:#f3f4f6; }',
+        '.lang-switcher-auto .lang-option.active { background:#EEF2FF; color:#1B3A6B; font-weight:600; }'
+      ].join('\n');
+      document.head.appendChild(style);
+    }
+  }
+
+  function applyArticleLabels() {
+    // Apply translations to known structural selectors present in existing articles
+    // This lets i18n work even without data-i18n attributes in old HTML files
+    var t = _translations;
+    if (!t || !Object.keys(t).length) return;
+
+    function tget(key) {
+      var parts = key.split('.'), v = t;
+      for (var i = 0; i < parts.length; i++) { if (v && typeof v === 'object') v = v[parts[i]]; else return ''; }
+      return typeof v === 'string' ? v : '';
+    }
+
+    // "Updated" date label
+    document.querySelectorAll('.article-date-label, .date-label, .updated-label').forEach(function(el){
+      var v = tget('article.updated'); if (v) el.textContent = v;
+    });
+
+    // "min read"
+    document.querySelectorAll('.reading-time-label, .read-time-unit').forEach(function(el){
+      var v = tget('article.min-read'); if (v) el.textContent = v;
+    });
+
+    // Disclaimer box — only update if it exists and lang is not EN (keep EN default)
+    if (_lang !== 'en') {
+      var disc = tget('article.disclaimer');
+      document.querySelectorAll('.article-disclaimer').forEach(function(el){
+        if (disc) el.innerHTML = disc;
+      });
+    }
+
+    // Share label
+    document.querySelectorAll('.share-label').forEach(function(el){
+      var v = tget('article.share'); if (v) el.textContent = v;
+    });
+
+    // Cookie banner
+    var cookieTitle = document.querySelector('.cookie-title');
+    var cookieText  = document.querySelector('.cookie-text');
+    var cookieAccept = document.getElementById('cookieAccept');
+    var cookieRefuse = document.getElementById('cookieRefuse');
+    if (cookieTitle && tget('cookie.title')) cookieTitle.textContent = tget('cookie.title');
+    if (cookieAccept && tget('cookie.accept')) cookieAccept.textContent = tget('cookie.accept');
+    if (cookieRefuse && tget('cookie.refuse')) cookieRefuse.textContent = tget('cookie.refuse');
+
+    // Nav links — translate known text if data-i18n is present
+    // (already handled by main [data-i18n] loop above)
   }
 })();

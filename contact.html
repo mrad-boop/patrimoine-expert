@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — Patrimoine Expert</title>
-  <meta name="description" content="Contactez l'équipe de Patrimoine Expert pour toute question sur nos articles, partenariat ou suggestion de sujet.">
-  <link rel="canonical" href="https://patrimoine-expert.fr/contact.html">
-  <meta property="og:title" content="Contact — Patrimoine Expert">
+  <title>Contact — Smart Wealth Blog</title>
+  <meta name="description" content="Contactez l'équipe de Smart Wealth Blog pour toute question sur nos articles, partenariat ou suggestion de sujet.">
+  <link rel="canonical" href="https://smartwealthblog.com/contact.html">
+  <meta property="og:title" content="Contact — Smart Wealth Blog">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,19 +15,72 @@
 </head>
 <body>
 
-<header class="site-header">
+<header class="site-header" role="banner" id="siteHeader">
   <div class="container">
     <div class="header-inner">
-      <a href="/" class="logo"><div class="logo-icon">₿</div>Patrimoine<span>Expert</span></a>
-      <nav class="main-nav">
-        <a href="/" class="nav-link">Accueil</a>
-        <a href="a-propos.html" class="nav-link">À propos</a>
-        <a href="contact.html" class="nav-link active">Contact</a>
+      <a href="/" class="logo" aria-label="Smart Wealth Blog — Home">
+        <div class="logo-icon">💰</div>
+        Smart Wealth<span>Blog</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/" class="nav-link" data-i18n="nav.home">Home</a>
+        <div class="nav-dropdown">
+          <a href="/#investments" class="nav-link" data-i18n="nav.investments">Investments ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="/articles/investir-bourse-debutants.html" data-i18n="nav.sub.beginners">Stock Market for Beginners</a>
+            <a href="/articles/etf-investir.html" data-i18n="nav.sub.etf">ETF — How to Invest</a>
+            <a href="/articles/assurance-vie-comparatif.html" data-i18n="nav.sub.life-insurance">Life Insurance</a>
+            <a href="/articles/livret-a-ldds-lep.html" data-i18n="nav.sub.savings">Savings Accounts 2026</a>
+            <a href="/articles/devenir-rentier-dividendes.html" data-i18n="nav.sub.dividends">Dividend Income</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="/#real-estate" class="nav-link" data-i18n="nav.real-estate">Real Estate ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="/articles/credit-immobilier-negocier.html" data-i18n="nav.sub.mortgage">Mortgage &amp; Rates</a>
+            <a href="/articles/revenus-locatifs-declaration.html" data-i18n="nav.sub.rental">Rental Income</a>
+            <a href="/articles/crowdfunding-immobilier.html" data-i18n="nav.sub.crowdfunding">Real Estate Crowdfunding</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="/#taxation" class="nav-link" data-i18n="nav.taxation">Taxation ▾</a>
+          <div class="nav-dropdown-menu">
+            <a href="/articles/fiscalite-cryptomonnaies.html" data-i18n="nav.sub.crypto">Crypto Tax Guide</a>
+            <a href="/articles/loi-pinel-2026.html" data-i18n="nav.sub.tax-breaks">Tax Breaks 2026</a>
+            <a href="/articles/per-plan-epargne-retraite.html" data-i18n="nav.sub.retirement">Retirement Savings Plan</a>
+            <a href="/articles/succession-donation.html" data-i18n="nav.sub.inheritance">Inheritance &amp; Gifts</a>
+          </div>
+        </div>
+        <a href="/a-propos.html" class="nav-link" data-i18n="nav.about">About</a>
       </nav>
-      <button id="burger" class="burger" aria-label="Menu" aria-expanded="false"><span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>
+      <div class="header-right">
+        <div class="lang-switcher" id="langSwitcher" aria-label="Language selector"></div>
+        <div class="header-search" role="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="search" data-i18n-placeholder="nav.search" placeholder="Search an article..." aria-label="Search" readonly>
+        </div>
+        <button id="burger" class="burger" aria-label="Mobile menu" aria-expanded="false" aria-controls="mobileNav">
+          <span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span>
+        </button>
+      </div>
     </div>
   </div>
-  <nav id="mobileNav" class="mobile-nav"><a href="/">🏠 Accueil</a><a href="a-propos.html">👤 À propos</a><a href="contact.html">✉️ Contact</a></nav>
+  <nav id="mobileNav" class="mobile-nav" aria-label="Mobile menu">
+    <a href="/">Home</a>
+    <a href="/articles/investir-bourse-debutants.html">Stock Market for Beginners</a>
+    <a href="/articles/etf-investir.html">ETF</a>
+    <a href="/articles/assurance-vie-comparatif.html">Life Insurance</a>
+    <a href="/articles/livret-a-ldds-lep.html">Savings Accounts</a>
+    <a href="/articles/devenir-rentier-dividendes.html">Dividend Income</a>
+    <a href="/articles/credit-immobilier-negocier.html">Mortgage</a>
+    <a href="/articles/revenus-locatifs-declaration.html">Rental Income</a>
+    <a href="/articles/crowdfunding-immobilier.html">Crowdfunding</a>
+    <a href="/articles/fiscalite-cryptomonnaies.html">Crypto Tax</a>
+    <a href="/articles/loi-pinel-2026.html">Tax Breaks 2026</a>
+    <a href="/articles/per-plan-epargne-retraite.html">Retirement Plan</a>
+    <a href="/articles/succession-donation.html">Inheritance</a>
+    <a href="/a-propos.html">About</a>
+  </nav>
 </header>
 
 <section class="page-hero">
@@ -76,7 +129,7 @@
           </div>
           <div class="form-group" style="display:flex;align-items:flex-start;gap:.75rem;">
             <input type="checkbox" id="rgpd" name="rgpd" required style="margin-top:.2rem;flex-shrink:0;">
-            <label for="rgpd" style="font-size:.85rem;color:var(--text-light);">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html">politique de confidentialité</a> de Patrimoine Expert.</label>
+            <label for="rgpd" style="font-size:.85rem;color:var(--text-light);">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html">politique de confidentialité</a> de Smart Wealth Blog.</label>
           </div>
           <button type="submit" class="btn btn-primary">✉️ Envoyer le message</button>
         </form>
@@ -89,7 +142,7 @@
             <div class="cert-icon">📧</div>
             <div>
               <div class="cert-name">Email</div>
-              <div class="cert-desc"><a href="mailto:contact@patrimoine-expert.fr">contact@patrimoine-expert.fr</a></div>
+              <div class="cert-desc"><a href="mailto:contact@smartwealthblog.com">contact@smartwealthblog.com</a></div>
             </div>
           </div>
           <div class="cert-item">
@@ -133,15 +186,16 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand"><a href="/" class="logo"><div class="logo-icon">₿</div>Patrimoine<span>Expert</span></a><p>Analyses patrimoniales indépendantes.</p></div>
+      <div class="footer-brand"><a href="/" class="logo"><div class="logo-icon">💰</div>`n        Smart Wealth<span>Blog</span>`n      </a><p>Analyses patrimoniales indépendantes.</p></div>
       <div class="footer-col"><h4>Navigation</h4><nav class="footer-links"><a href="/">Accueil</a><a href="a-propos.html">À propos</a><a href="contact.html">Contact</a><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a></nav></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 Patrimoine Expert.</span><span><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a></span></div>
+    <div class="footer-bottom"><span>© 2026 Smart Wealth Blog.</span><span><a href="mentions-legales.html">Mentions légales</a> · <a href="politique-confidentialite.html">Confidentialité</a></span></div>
   </div>
 </footer>
 
 <div id="cookieBanner" class="cookie-banner"><div class="cookie-title">🍪 Nous utilisons des cookies</div><p class="cookie-text">Ce site utilise des cookies. <a href="politique-confidentialite.html">En savoir plus</a>.</p><div class="cookie-actions"><button id="cookieAccept" class="cookie-btn cookie-accept">✓ Accepter</button><button id="cookieRefuse" class="cookie-btn cookie-refuse">✗ Refuser</button><button id="cookieCustomize" class="cookie-btn cookie-customize">⚙️ Personnaliser</button></div></div>
 
-<script src="assets/js/main.js"></script>
+<script src="assets/js/site-config.js"></script>`n<script src="assets/js/i18n.js"></script>`n<script src="assets/js/tracker.js"></script>`n<script src="assets/js/main.js"></script>
 </body>
 </html>
+

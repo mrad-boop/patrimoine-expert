@@ -513,23 +513,53 @@
   }
 
   function editArticle(slug) {
+    showView('editor');
     // Try drafts first
     var drafts = ls(STORAGE_KEYS.drafts) || {};
     if (drafts[slug]) {
       loadIntoEditor(drafts[slug]);
-    } else {
-      toast('Loading from GitHub…', 'success');
-      ghRequest('/contents/articles/' + slug + '.html').then(function (data) {
-        var html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
-        // Extract body content between article-body divs
-        var m = html.match(/<div class="article-body"[^>]*>([\s\S]*?)<\/div>\s*<!-- ── Disclaimer/);
-        var content = m ? m[1].trim() : '';
-        var titleM = html.match(/<h1 class="article-title"[^>]*>([\s\S]*?)<\/h1>/);
-        var title = titleM ? titleM[1].replace(/<[^>]+>/g,'').trim() : slug;
-        loadIntoEditor({ slug: slug, title: title, content: content });
-      }).catch(function (e) { toast(e.message, 'error'); });
+      return;
     }
-    showView('editor');
+    toast('Loading article…', 'success');
+
+    function extractFields(html) {
+      var bodyM    = html.match(/<div class="article-body"[^>]*>([\s\S]*?)<\/div>\s*(?:<!--|\s*<(?:div|section|aside))/);
+      var content  = bodyM ? bodyM[1].trim() : html;
+      var titleM   = html.match(/<h1[^>]*class="article-title"[^>]*>([\s\S]*?)<\/h1>/);
+      var title    = titleM ? titleM[1].replace(/<[^>]+>/g,'').trim() : slug;
+      var descM    = html.match(/<meta\s+name="description"\s+content="([^"]+)"/);
+      var emojiM   = html.match(/<span[^>]*class="article-emoji[^"]*"[^>]*>([^<]+)<\/span>/);
+      var catM     = html.match(/class="[^"]*cat-(\w[\w-]*)"/);
+      return {
+        slug:     slug,
+        title:    title,
+        content:  content,
+        metaDesc: descM  ? descM[1]  : '',
+        emoji:    emojiM ? emojiM[1].trim() : '📄',
+        category: catM   ? catM[1]   : ''
+      };
+    }
+
+    // 1. Direct fetch (works without PAT)
+    fetch('../articles/' + slug + '.html?t=' + Date.now())
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(html) {
+        loadIntoEditor(extractFields(html));
+        toast('Article loaded.', 'success');
+      })
+      .catch(function() {
+        // 2. Fallback: GitHub API
+        ghRequest('/contents/articles/' + slug + '.html')
+          .then(function(data) {
+            var html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
+            loadIntoEditor(extractFields(html));
+            toast('Article loaded.', 'success');
+          })
+          .catch(function(e) { toast('Could not load article: ' + e.message, 'error'); });
+      });
   }
 
   function loadIntoEditor(data) {

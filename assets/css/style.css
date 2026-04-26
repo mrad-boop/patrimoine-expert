@@ -132,7 +132,7 @@ em { font-style: italic; }
 .nav-dropdown-menu {
   display: none;
   position: absolute;
-  top: calc(100% + .5rem);
+  top: 100%;
   left: 0;
   background: #fff;
   border-radius: var(--radius-md);
@@ -140,8 +140,19 @@ em { font-style: italic; }
   min-width: 220px;
   padding: .5rem 0;
   z-index: 200;
+  /* Invisible bridge so mouse can travel from trigger to menu without losing hover */
+  margin-top: 0;
+  padding-top: .75rem;
 }
 .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+.nav-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: .75rem;
+}
 .nav-dropdown-menu a {
   display: block;
   padding: .6rem 1.2rem;

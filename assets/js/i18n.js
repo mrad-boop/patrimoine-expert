@@ -205,19 +205,14 @@
   }
 
   async function init() {
-    // Build declared lang switchers
+    // Build all declared lang switchers
     document.querySelectorAll('.lang-switcher').forEach(buildSwitcher);
-
-    // Auto-inject lang switcher if none present (e.g. existing article pages)
-    if (!document.querySelector('.lang-switcher')) {
-      autoInjectSwitcher();
-    }
 
     // Load and apply translations
     var t = await loadTranslations(_lang);
     applyToDOM(t);
 
-    // Apply article-level i18n even without data-i18n attributes
+    // Apply article-level i18n for pages without data-i18n
     applyArticleLabels();
 
     // Click handlers for any [data-lang] buttons added after
@@ -225,35 +220,15 @@
       var btn = e.target.closest('[data-lang]');
       if (btn) setLanguage(btn.getAttribute('data-lang'));
     });
+
+    // When nav.js builds the nav after us, rebuild the switcher
+    document.addEventListener('nav:ready', function () {
+      document.querySelectorAll('.lang-switcher').forEach(buildSwitcher);
+    });
   }
 
-  function autoInjectSwitcher() {
-    // Try to inject into known nav selectors used by existing articles
-    var target = document.querySelector('.main-nav, .navbar, .site-header .container, header nav, .nav-right, .nav-actions');
-    if (!target) return;
-    var wrapper = document.createElement('div');
-    wrapper.className = 'lang-switcher lang-switcher-auto';
-    // Style inline so it works without extra CSS
-    wrapper.style.cssText = 'position:relative;display:inline-flex;align-items:center;margin-left:auto';
-    target.appendChild(wrapper);
-    buildSwitcher(wrapper);
-
-    // Inject minimal CSS if not already in page
-    if (!document.getElementById('we-i18n-auto-css')) {
-      var style = document.createElement('style');
-      style.id = 'we-i18n-auto-css';
-      style.textContent = [
-        '.lang-switcher-auto { margin-left: 8px; }',
-        '.lang-switcher-auto .lang-current { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: inherit; border-radius: 6px; padding: 4px 8px; cursor: pointer; font-size: .8rem; display:inline-flex; align-items:center; gap:4px; }',
-        '.lang-switcher-auto .lang-dropdown { position:absolute; top:calc(100% + 4px); right:0; background:#fff; border:1px solid #e5e7eb; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.12); z-index:999; min-width:130px; padding:4px; display:none; }',
-        '.lang-switcher-auto .lang-dropdown.open { display:block; }',
-        '.lang-switcher-auto .lang-option { display:flex; align-items:center; gap:8px; width:100%; padding:6px 10px; background:none; border:none; cursor:pointer; border-radius:4px; font-size:.85rem; color:#374151; }',
-        '.lang-switcher-auto .lang-option:hover { background:#f3f4f6; }',
-        '.lang-switcher-auto .lang-option.active { background:#EEF2FF; color:#1B3A6B; font-weight:600; }'
-      ].join('\n');
-      document.head.appendChild(style);
-    }
-  }
+  // Expose buildSwitcher so nav.js can call it
+  window._buildI18nSwitcher = buildSwitcher;
 
   function applyArticleLabels() {
     // Apply translations to known structural selectors present in existing articles

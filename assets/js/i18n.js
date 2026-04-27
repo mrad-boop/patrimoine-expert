@@ -259,12 +259,11 @@
     // Build all declared lang switchers
     document.querySelectorAll('.lang-switcher').forEach(buildSwitcher);
 
-    // On article pages: redirect immediately if the stored lang differs from the article's own lang
-    // This handles navigation via links (not via the lang switcher)
-    var articleLang = document.body.getAttribute('data-lang');
-    if (articleLang && articleLang !== _lang) {
+    // On article pages: always try to redirect to the translated version on load.
+    // Works even on old articles that don't have data-lang on <body>.
+    // tryArticleRedirect is a no-op if already on the correct slug or no translation exists.
+    if (window.location.pathname.includes('/articles/')) {
       await tryArticleRedirect(_lang);
-      // If we didn't redirect (no translated version), keep going normally
     }
 
     // Load and apply translations

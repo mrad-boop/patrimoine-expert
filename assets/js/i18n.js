@@ -52,21 +52,28 @@
   }
 
   function updateNavLinks(lang) {
-    // Add ?lang=XX to all internal links (same origin) so language is preserved when navigating
+    // Stamp ?lang=XX on all internal links so language is preserved when navigating.
+    // For English (DEFAULT_LANG) we still stamp it on /articles/ links so the
+    // article init() can detect the mismatch and redirect to the translated version.
     var origin = window.location.origin;
     document.querySelectorAll('a[href]').forEach(function (a) {
       var href = a.getAttribute('href');
-      // Skip: anchors, external, mailto, javascript, admin, already has data-no-lang
       if (!href || href.startsWith('#') || href.startsWith('mailto') || href.startsWith('javascript') || a.hasAttribute('data-no-lang')) return;
-      // Skip external links
       try {
         var abs = new URL(href, window.location.href);
         if (abs.origin !== origin) return;
-        // Skip admin pages
         if (abs.pathname.includes('/admin/')) return;
-        // Set or remove lang param
-        if (lang !== DEFAULT_LANG) abs.searchParams.set('lang', lang);
-        else abs.searchParams.delete('lang');
+        if (lang !== DEFAULT_LANG) {
+          abs.searchParams.set('lang', lang);
+        } else {
+          // English: remove lang param from regular pages but keep on article links
+          // so init() on the destination article can trigger tryArticleRedirect
+          if (abs.pathname.includes('/articles/')) {
+            abs.searchParams.set('lang', lang);
+          } else {
+            abs.searchParams.delete('lang');
+          }
+        }
         a.setAttribute('href', abs.pathname + (abs.search || '') + (abs.hash || ''));
       } catch (e) {}
     });
@@ -252,6 +259,14 @@
     // Build all declared lang switchers
     document.querySelectorAll('.lang-switcher').forEach(buildSwitcher);
 
+    // On article pages: redirect immediately if the stored lang differs from the article's own lang
+    // This handles navigation via links (not via the lang switcher)
+    var articleLang = document.body.getAttribute('data-lang');
+    if (articleLang && articleLang !== _lang) {
+      await tryArticleRedirect(_lang);
+      // If we didn't redirect (no translated version), keep going normally
+    }
+
     // Load and apply translations
     var t = await loadTranslations(_lang);
     applyToDOM(t);
@@ -268,9 +283,10 @@
       if (btn) setLanguage(btn.getAttribute('data-lang'));
     });
 
-    // When nav.js builds the nav after us, rebuild the switcher
+    // When nav.js builds the nav after us, rebuild switcher AND re-stamp links
     document.addEventListener('nav:ready', function () {
       document.querySelectorAll('.lang-switcher').forEach(buildSwitcher);
+      updateNavLinks(_lang);
     });
   }
 

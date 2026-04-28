@@ -832,13 +832,16 @@ em { font-style: italic; }
   cursor: pointer;
   text-decoration: none;
 }
-.share-twitter { background: #1DA1F2; color: #fff; }
-.share-twitter:hover { background: #1991E0; color: #fff; }
-.share-linkedin { background: #0077B5; color: #fff; }
-.share-linkedin:hover { background: #006A9E; color: #fff; }
+.share-twitter  { background: #000; color: #fff; }
+.share-twitter:hover  { background: #222; color: #fff; }
 .share-facebook { background: #1877F2; color: #fff; }
 .share-facebook:hover { background: #166FE5; color: #fff; }
+.share-linkedin { background: #0077B5; color: #fff; }
+.share-linkedin:hover { background: #006A9E; color: #fff; }
+.share-whatsapp { background: #25D366; color: #fff; }
+.share-whatsapp:hover { background: #1ebe5c; color: #fff; }
 .share-copy { background: var(--border); color: var(--text); }
+.share-copy:hover { background: var(--text-muted); color: #fff; }
 .share-copy:hover { background: var(--primary); color: #fff; }
 
 /* ---------- BACK TO TOP ---------- */

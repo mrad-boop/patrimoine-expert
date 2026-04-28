@@ -176,9 +176,10 @@
         if (net === 'twitter')  shareUrl = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + title;
         if (net === 'linkedin') shareUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
         if (net === 'facebook') shareUrl = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+        if (net === 'whatsapp') shareUrl = 'https://wa.me/?text=' + title + '%20' + url;
         if (net === 'copy') {
           navigator.clipboard.writeText(decodeURIComponent(url))
-            .then(() => { btn.textContent = '✓ Copié !'; setTimeout(() => { btn.textContent = '🔗 Copier'; }, 2000); })
+            .then(() => { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.innerHTML = '🔗 Copy Link'; }, 2000); })
             .catch(() => {});
           return;
         }

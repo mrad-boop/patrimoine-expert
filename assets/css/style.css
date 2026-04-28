@@ -30,48 +30,6 @@
   --transition:    .25s ease;
 }
 
-/* ---------- DARK MODE VARIABLES ---------- */
-/* Keep --primary / header unchanged — only swap backgrounds & text */
-[data-theme="dark"] {
-  --gold:          #E8C86A;
-  --gold-light:    #F5D98A;
-  --green:         #3DC48D;
-  --bg:            #0D1B2A;
-  --bg-card:       #152032;
-  --text:          #E2EAF4;
-  --text-light:    #8FA8C0;
-  --text-muted:    #5E7A94;
-  --border:        #1E3248;
-  --border-light:  #172840;
-  --shadow-sm:     0 1px 3px rgba(0,0,0,.4);
-  --shadow-md:     0 4px 16px rgba(0,0,0,.5);
-  --shadow-lg:     0 8px 32px rgba(0,0,0,.6);
-}
-
-/* Make card image gradient subtler in dark mode */
-[data-theme="dark"] .card-img {
-  background: linear-gradient(135deg, #1a3a5c 0%, #1B3A6B 100%);
-}
-
-/* Dark mode toggle button — always readable on the dark navy header */
-.theme-toggle {
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 20px;
-  cursor: pointer;
-  padding: .3rem .8rem;
-  font-size: .85rem;
-  font-weight: 600;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-  transition: background var(--transition);
-  white-space: nowrap;
-  line-height: 1;
-}
-.theme-toggle:hover { background: rgba(255,255,255,.22); }
-.theme-toggle .toggle-icon { font-size: 1rem; line-height: 1; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

@@ -32,6 +32,25 @@
 /articles/livret-a-ldds-lep-2026            /livret-a-ldds-lep-2026            301
 /articles/living-off-dividends-2026          /living-off-dividends-2026          301
 
+# Strip .html from current English filenames → clean URL
+/about.html                         /about                               301
+/contact.html                       /contact                             301
+/legal-notice.html                  /legal-notice                        301
+/privacy-policy.html                /privacy-policy                      301
+/sitemap.html                       /sitemap                             301
+/stock-market-beginners-2026.html   /stock-market-beginners-2026         301
+/life-insurance-comparison.html     /life-insurance-comparison           301
+/etf-investing-2026.html            /etf-investing-2026                  301
+/mortgage-rates-france-2026.html    /mortgage-rates-france-2026          301
+/crypto-tax-france-2026.html        /crypto-tax-france-2026              301
+/property-tax-breaks-2026.html      /property-tax-breaks-2026            301
+/per-retirement-plan-2026.html      /per-retirement-plan-2026            301
+/declaring-rental-income-2026.html  /declaring-rental-income-2026        301
+/inheritance-gifts-france-2026.html /inheritance-gifts-france-2026       301
+/real-estate-crowdfunding-2026.html /real-estate-crowdfunding-2026       301
+/livret-a-ldds-lep-2026.html       /livret-a-ldds-lep-2026             301
+/living-off-dividends-2026.html     /living-off-dividends-2026           301
+
 # Old French filenames → new English clean URLs
 /a-propos.html                              /about                               301
 /mentions-legales.html                      /legal-notice                        301

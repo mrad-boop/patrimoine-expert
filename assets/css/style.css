@@ -589,12 +589,70 @@ em { font-style: italic; }
 .toc-link.toc-h3 { padding-left: 1rem; font-size: .825rem; }
 .toc-link.active { color: var(--primary); font-weight: 700; }
 
-.related-list { padding: 0; }
-.related-item { display: flex; gap: .75rem; padding: .75rem 0; border-bottom: 1px solid var(--border-light); }
-.related-item:last-child { border-bottom: none; }
-.related-icon { font-size: 1.5rem; flex-shrink: 0; }
-.related-title { font-size: .85rem; font-weight: 600; color: var(--primary); line-height: 1.35; }
-.related-cat { font-size: .75rem; color: var(--text-muted); margin-top: .2rem; }
+/* Related articles — full-width card grid */
+.related-section {
+  background: var(--border-light);
+  padding: 3rem 0;
+  margin-top: 3rem;
+}
+.related-section-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--text);
+  margin-bottom: 1.75rem;
+}
+.related-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.related-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.related-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.related-card-img {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+}
+.related-card-body { padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
+.related-card-cat {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--gold);
+}
+.related-card-title {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  flex: 1;
+}
+.related-card-link {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: .5rem;
+}
+.related-card:hover .related-card-link { color: var(--gold); }
+@media (max-width: 768px) {
+  .related-cards { grid-template-columns: 1fr; }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .related-cards { grid-template-columns: repeat(2, 1fr); }
+}
 
 .sidebar-widget--newsletter {
   background: var(--primary-dark, #1a2e4a);

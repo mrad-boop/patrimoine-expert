@@ -1,8 +1,6 @@
 User-agent: *
 Allow: /
-
-# Interdire les pages à faible valeur SEO
+Disallow: /admin/
 Disallow: /assets/
 
-# Sitemap
-Sitemap: https://patrimoine-expert.fr/sitemap.xml
+Sitemap: https://smartwealth-blog.pages.dev/sitemap.xml

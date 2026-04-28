@@ -5,6 +5,31 @@
 (function () {
   'use strict';
 
+  /* ---- Dark / Light mode toggle ---- */
+  (function () {
+    const STORAGE_KEY = 'swb-theme';
+    const root = document.documentElement;
+
+    function applyTheme(dark) {
+      root.setAttribute('data-theme', dark ? 'dark' : 'light');
+      document.querySelectorAll('.toggle-icon').forEach(el => { el.textContent = dark ? '☀️' : '🌙'; });
+      document.querySelectorAll('.toggle-label').forEach(el => { el.textContent = dark ? 'Light' : 'Dark'; });
+    }
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const prefersDark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark);
+
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('.theme-toggle');
+      if (!btn) return;
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      const next = !isDark;
+      applyTheme(next);
+      localStorage.setItem(STORAGE_KEY, next ? 'dark' : 'light');
+    });
+  })();
+
   /* ---- Burger menu ---- */
   const burger = document.getElementById('burger');
   const mobileNav = document.getElementById('mobileNav');

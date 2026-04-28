@@ -30,6 +30,44 @@
   --transition:    .25s ease;
 }
 
+/* ---------- DARK MODE VARIABLES ---------- */
+[data-theme="dark"] {
+  --primary:       #4A7FD4;
+  --primary-dark:  #2A5298;
+  --primary-light: #6B9FE8;
+  --gold:          #E8C86A;
+  --gold-light:    #F5D98A;
+  --green:         #3DC48D;
+  --bg:            #0F1923;
+  --bg-card:       #1A2535;
+  --text:          #E8EDF3;
+  --text-light:    #9BADC0;
+  --text-muted:    #6B7E94;
+  --border:        #2A3A4E;
+  --border-light:  #1F2E40;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:     0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg:     0 8px 32px rgba(0,0,0,.5);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  padding: .3rem .7rem;
+  font-size: .95rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  transition: background var(--transition), border-color var(--transition);
+  white-space: nowrap;
+}
+.theme-toggle:hover { background: var(--border-light); }
+.theme-toggle .toggle-icon { font-size: 1rem; }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; font-size: 16px; }

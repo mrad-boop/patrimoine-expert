@@ -1,38 +1,51 @@
-# Clean URLs — strip .html from all pages
+# Clean URLs — no .html, no /articles/ prefix
 /about                              /about.html                              200
 /contact                            /contact.html                            200
 /legal-notice                       /legal-notice.html                       200
 /privacy-policy                     /privacy-policy.html                     200
 /sitemap                            /sitemap.html                            200
 
-# Articles — clean slugs
-/articles/stock-market-beginners-2026       /articles/stock-market-beginners-2026.html       200
-/articles/life-insurance-comparison         /articles/life-insurance-comparison.html         200
-/articles/etf-investing-2026               /articles/etf-investing-2026.html               200
-/articles/mortgage-rates-france-2026        /articles/mortgage-rates-france-2026.html        200
-/articles/crypto-tax-france-2026            /articles/crypto-tax-france-2026.html            200
-/articles/property-tax-breaks-2026          /articles/property-tax-breaks-2026.html          200
-/articles/per-retirement-plan-2026          /articles/per-retirement-plan-2026.html          200
-/articles/declaring-rental-income-2026      /articles/declaring-rental-income-2026.html      200
-/articles/inheritance-gifts-france-2026     /articles/inheritance-gifts-france-2026.html     200
-/articles/real-estate-crowdfunding-2026     /articles/real-estate-crowdfunding-2026.html     200
-/articles/livret-a-ldds-lep-2026           /articles/livret-a-ldds-lep-2026.html           200
-/articles/living-off-dividends-2026         /articles/living-off-dividends-2026.html         200
+/stock-market-beginners-2026        /stock-market-beginners-2026.html        200
+/life-insurance-comparison          /life-insurance-comparison.html          200
+/etf-investing-2026                 /etf-investing-2026.html                 200
+/mortgage-rates-france-2026         /mortgage-rates-france-2026.html         200
+/crypto-tax-france-2026             /crypto-tax-france-2026.html             200
+/property-tax-breaks-2026           /property-tax-breaks-2026.html           200
+/per-retirement-plan-2026           /per-retirement-plan-2026.html           200
+/declaring-rental-income-2026       /declaring-rental-income-2026.html       200
+/inheritance-gifts-france-2026      /inheritance-gifts-france-2026.html      200
+/real-estate-crowdfunding-2026      /real-estate-crowdfunding-2026.html      200
+/livret-a-ldds-lep-2026            /livret-a-ldds-lep-2026.html            200
+/living-off-dividends-2026          /living-off-dividends-2026.html          200
 
-# Old French URLs → permanent redirect to new English slugs (preserves backlinks/SEO)
-/a-propos.html                      /about                                   301
-/mentions-legales.html              /legal-notice                            301
-/politique-confidentialite.html     /privacy-policy                          301
-/plan-du-site.html                  /sitemap                                 301
-/articles/assurance-vie-comparatif.html         /articles/life-insurance-comparison         301
-/articles/credit-immobilier-negocier.html       /articles/mortgage-rates-france-2026        301
-/articles/crowdfunding-immobilier.html          /articles/real-estate-crowdfunding-2026     301
-/articles/devenir-rentier-dividendes.html       /articles/living-off-dividends-2026         301
-/articles/etf-investir.html                     /articles/etf-investing-2026                301
-/articles/fiscalite-cryptomonnaies.html         /articles/crypto-tax-france-2026            301
-/articles/investir-bourse-debutants.html        /articles/stock-market-beginners-2026       301
-/articles/livret-a-ldds-lep.html               /articles/livret-a-ldds-lep-2026            301
-/articles/loi-pinel-2026.html                   /articles/property-tax-breaks-2026          301
-/articles/per-plan-epargne-retraite.html        /articles/per-retirement-plan-2026          301
-/articles/revenus-locatifs-declaration.html     /articles/declaring-rental-income-2026      301
-/articles/succession-donation.html              /articles/inheritance-gifts-france-2026     301
+# Old /articles/ URLs → root (anyone who bookmarked them)
+/articles/stock-market-beginners-2026        /stock-market-beginners-2026        301
+/articles/life-insurance-comparison          /life-insurance-comparison          301
+/articles/etf-investing-2026                 /etf-investing-2026                 301
+/articles/mortgage-rates-france-2026         /mortgage-rates-france-2026         301
+/articles/crypto-tax-france-2026             /crypto-tax-france-2026             301
+/articles/property-tax-breaks-2026           /property-tax-breaks-2026           301
+/articles/per-retirement-plan-2026           /per-retirement-plan-2026           301
+/articles/declaring-rental-income-2026       /declaring-rental-income-2026       301
+/articles/inheritance-gifts-france-2026      /inheritance-gifts-france-2026      301
+/articles/real-estate-crowdfunding-2026      /real-estate-crowdfunding-2026      301
+/articles/livret-a-ldds-lep-2026            /livret-a-ldds-lep-2026            301
+/articles/living-off-dividends-2026          /living-off-dividends-2026          301
+
+# Old French filenames → new English clean URLs
+/a-propos.html                              /about                               301
+/mentions-legales.html                      /legal-notice                        301
+/politique-confidentialite.html             /privacy-policy                      301
+/plan-du-site.html                          /sitemap                             301
+/articles/assurance-vie-comparatif.html     /life-insurance-comparison           301
+/articles/credit-immobilier-negocier.html   /mortgage-rates-france-2026          301
+/articles/crowdfunding-immobilier.html      /real-estate-crowdfunding-2026       301
+/articles/devenir-rentier-dividendes.html   /living-off-dividends-2026           301
+/articles/etf-investir.html                 /etf-investing-2026                  301
+/articles/fiscalite-cryptomonnaies.html     /crypto-tax-france-2026              301
+/articles/investir-bourse-debutants.html    /stock-market-beginners-2026         301
+/articles/livret-a-ldds-lep.html           /livret-a-ldds-lep-2026             301
+/articles/loi-pinel-2026.html               /property-tax-breaks-2026            301
+/articles/per-plan-epargne-retraite.html    /per-retirement-plan-2026            301
+/articles/revenus-locatifs-declaration.html /declaring-rental-income-2026        301
+/articles/succession-donation.html          /inheritance-gifts-france-2026       301

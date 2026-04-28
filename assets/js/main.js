@@ -197,18 +197,18 @@
   const searchResults = document.getElementById('searchResults');
 
   const ARTICLES = [
-    { title: 'Investir en bourse pour les débutants : le guide complet 2026', url: 'articles/stock-market-beginners-2026.html', cat: 'Placements' },
-    { title: 'Assurance-vie : comparatif des meilleurs contrats en ligne', url: 'articles/life-insurance-comparison.html', cat: 'Placements' },
-    { title: 'ETF : comment investir sans se ruiner et sans stress', url: 'articles/etf-investing-2026.html', cat: 'Placements' },
-    { title: 'Crédit immobilier : négocier son taux comme un pro en 2026', url: 'articles/mortgage-rates-france-2026.html', cat: 'Immobilier' },
-    { title: 'Fiscalité des crypto-monnaies : déclaration et optimisations', url: 'articles/crypto-tax-france-2026.html', cat: 'Fiscalité' },
-    { title: 'Peut-on encore défiscaliser avec la loi Pinel en 2026 ?', url: 'articles/property-tax-breaks-2026.html', cat: 'Fiscalité' },
-    { title: 'PER (Plan d\'Épargne Retraite) : avantages fiscaux et pièges', url: 'articles/per-retirement-plan-2026.html', cat: 'Fiscalité' },
-    { title: 'Comment déclarer ses revenus locatifs (micro-foncier vs réel)', url: 'articles/declaring-rental-income-2026.html', cat: 'Immobilier' },
-    { title: 'Succession et donation : optimiser la transmission du patrimoine', url: 'articles/inheritance-gifts-france-2026.html', cat: 'Fiscalité' },
-    { title: 'Crowdfunding immobilier : rendement, risques et avis complet', url: 'articles/real-estate-crowdfunding-2026.html', cat: 'Immobilier' },
-    { title: 'Livret A, LDDS, LEP : le match des livrets réglementés 2026', url: 'articles/livret-a-ldds-lep-2026.html', cat: 'Placements' },
-    { title: 'Devenir rentier avec les dividendes : stratégie et portefeuille', url: 'articles/living-off-dividends-2026.html', cat: 'Placements' },
+    { title: 'Investir en bourse pour les débutants : le guide complet 2026', url: 'stock-market-beginners-2026.html', cat: 'Placements' },
+    { title: 'Assurance-vie : comparatif des meilleurs contrats en ligne', url: 'life-insurance-comparison.html', cat: 'Placements' },
+    { title: 'ETF : comment investir sans se ruiner et sans stress', url: 'etf-investing-2026.html', cat: 'Placements' },
+    { title: 'Crédit immobilier : négocier son taux comme un pro en 2026', url: 'mortgage-rates-france-2026.html', cat: 'Immobilier' },
+    { title: 'Fiscalité des crypto-monnaies : déclaration et optimisations', url: 'crypto-tax-france-2026.html', cat: 'Fiscalité' },
+    { title: 'Peut-on encore défiscaliser avec la loi Pinel en 2026 ?', url: 'property-tax-breaks-2026.html', cat: 'Fiscalité' },
+    { title: 'PER (Plan d\'Épargne Retraite) : avantages fiscaux et pièges', url: 'per-retirement-plan-2026.html', cat: 'Fiscalité' },
+    { title: 'Comment déclarer ses revenus locatifs (micro-foncier vs réel)', url: 'declaring-rental-income-2026.html', cat: 'Immobilier' },
+    { title: 'Succession et donation : optimiser la transmission du patrimoine', url: 'inheritance-gifts-france-2026.html', cat: 'Fiscalité' },
+    { title: 'Crowdfunding immobilier : rendement, risques et avis complet', url: 'real-estate-crowdfunding-2026.html', cat: 'Immobilier' },
+    { title: 'Livret A, LDDS, LEP : le match des livrets réglementés 2026', url: 'livret-a-ldds-lep-2026.html', cat: 'Placements' },
+    { title: 'Devenir rentier avec les dividendes : stratégie et portefeuille', url: 'living-off-dividends-2026.html', cat: 'Placements' },
   ];
 
   function renderResults(query) {

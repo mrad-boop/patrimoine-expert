@@ -225,12 +225,12 @@
   async function loadManifest() {
     // Try direct fetch first — works without GitHub PAT
     try {
-      var r = await fetch('../articles/manifest.json?t=' + Date.now());
+      var r = await fetch('../manifest.json?t=' + Date.now());
       if (r.ok) return await r.json();
     } catch (e) {}
     // Fallback: GitHub API (requires PAT)
     try {
-      var data = await ghRequest('/contents/articles/manifest.json');
+      var data = await ghRequest('/contents/manifest.json');
       var json = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
       return JSON.parse(json);
     } catch (e) {
@@ -246,7 +246,7 @@
     } else {
       manifest.unshift(article);
     }
-    await pushFile('articles/manifest.json', JSON.stringify(manifest, null, 2), 'Update manifest: ' + article.slug);
+    await pushFile('manifest.json', JSON.stringify(manifest, null, 2), 'Update manifest: ' + article.slug);
     return manifest;
   }
   window.WEAdmin.loadManifest   = loadManifest;
@@ -269,7 +269,7 @@
     var readTime    = data.readTime || '8';
     var dateStr     = new Date().toISOString().split('T')[0];
     var content     = data.content || '';
-    var canonical   = domain + '/articles/' + slug + '.html';
+    var canonical   = domain + '/' + slug + '.html';
     var dir         = lang === 'ar' ? 'rtl' : 'ltr';
 
     function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -289,7 +289,7 @@
     // hreflang alternates
     var hreflangLinks = ['fr','en','ar','es','de'].map(function(l) {
       var lSlug = l === 'fr' ? baseSlug : baseSlug + '-' + l;
-      return '  <link rel="alternate" hreflang="' + l + '" href="' + domain + '/articles/' + lSlug + '.html">';
+      return '  <link rel="alternate" hreflang="' + l + '" href="' + domain + '/' + lSlug + '.html">';
     }).join('\n');
 
     var schemaJson = JSON.stringify({
@@ -338,28 +338,28 @@
 + '        <div class="nav-dropdown">\n'
 + '          <a href="../#investments" class="nav-link" data-i18n="nav.investments">Investments ▾</a>\n'
 + '          <div class="nav-dropdown-menu">\n'
-+ '            <a href="../articles/stock-market-beginners-2026.html" data-i18n="nav.sub.beginners">Stock Market for Beginners</a>\n'
-+ '            <a href="../articles/etf-investing-2026.html" data-i18n="nav.sub.etf">ETF — How to Invest</a>\n'
-+ '            <a href="../articles/life-insurance-comparison.html" data-i18n="nav.sub.life-insurance">Life Insurance</a>\n'
-+ '            <a href="../articles/livret-a-ldds-lep-2026.html" data-i18n="nav.sub.savings">Savings Accounts 2026</a>\n'
-+ '            <a href="../articles/living-off-dividends-2026.html" data-i18n="nav.sub.dividends">Dividend Income</a>\n'
++ '            <a href="../stock-market-beginners-2026.html" data-i18n="nav.sub.beginners">Stock Market for Beginners</a>\n'
++ '            <a href="../etf-investing-2026.html" data-i18n="nav.sub.etf">ETF — How to Invest</a>\n'
++ '            <a href="../life-insurance-comparison.html" data-i18n="nav.sub.life-insurance">Life Insurance</a>\n'
++ '            <a href="../livret-a-ldds-lep-2026.html" data-i18n="nav.sub.savings">Savings Accounts 2026</a>\n'
++ '            <a href="../living-off-dividends-2026.html" data-i18n="nav.sub.dividends">Dividend Income</a>\n'
 + '          </div>\n'
 + '        </div>\n'
 + '        <div class="nav-dropdown">\n'
 + '          <a href="../#real-estate" class="nav-link" data-i18n="nav.real-estate">Real Estate ▾</a>\n'
 + '          <div class="nav-dropdown-menu">\n'
-+ '            <a href="../articles/mortgage-rates-france-2026.html" data-i18n="nav.sub.mortgage">Mortgage &amp; Rates</a>\n'
-+ '            <a href="../articles/declaring-rental-income-2026.html" data-i18n="nav.sub.rental">Rental Income</a>\n'
-+ '            <a href="../articles/real-estate-crowdfunding-2026.html" data-i18n="nav.sub.crowdfunding">Real Estate Crowdfunding</a>\n'
++ '            <a href="../mortgage-rates-france-2026.html" data-i18n="nav.sub.mortgage">Mortgage &amp; Rates</a>\n'
++ '            <a href="../declaring-rental-income-2026.html" data-i18n="nav.sub.rental">Rental Income</a>\n'
++ '            <a href="../real-estate-crowdfunding-2026.html" data-i18n="nav.sub.crowdfunding">Real Estate Crowdfunding</a>\n'
 + '          </div>\n'
 + '        </div>\n'
 + '        <div class="nav-dropdown">\n'
 + '          <a href="../#taxation" class="nav-link" data-i18n="nav.taxation">Taxation ▾</a>\n'
 + '          <div class="nav-dropdown-menu">\n'
-+ '            <a href="../articles/crypto-tax-france-2026.html" data-i18n="nav.sub.crypto">Crypto Tax Guide</a>\n'
-+ '            <a href="../articles/property-tax-breaks-2026.html" data-i18n="nav.sub.tax-breaks">Tax Breaks 2026</a>\n'
-+ '            <a href="../articles/per-retirement-plan-2026.html" data-i18n="nav.sub.retirement">Retirement Savings Plan</a>\n'
-+ '            <a href="../articles/inheritance-gifts-france-2026.html" data-i18n="nav.sub.inheritance">Inheritance &amp; Gifts</a>\n'
++ '            <a href="../crypto-tax-france-2026.html" data-i18n="nav.sub.crypto">Crypto Tax Guide</a>\n'
++ '            <a href="../property-tax-breaks-2026.html" data-i18n="nav.sub.tax-breaks">Tax Breaks 2026</a>\n'
++ '            <a href="../per-retirement-plan-2026.html" data-i18n="nav.sub.retirement">Retirement Savings Plan</a>\n'
++ '            <a href="../inheritance-gifts-france-2026.html" data-i18n="nav.sub.inheritance">Inheritance &amp; Gifts</a>\n'
 + '          </div>\n'
 + '        </div>\n'
 + '        <a href="../about.html" class="nav-link" data-i18n="nav.about">About</a>\n'
@@ -378,18 +378,18 @@
 + '  </div>\n'
 + '  <nav id="mobileNav" class="mobile-nav" aria-label="Mobile menu">\n'
 + '    <a href="../">Home</a>\n'
-+ '    <a href="../articles/stock-market-beginners-2026.html">Stock Market for Beginners</a>\n'
-+ '    <a href="../articles/etf-investing-2026.html">ETF</a>\n'
-+ '    <a href="../articles/life-insurance-comparison.html">Life Insurance</a>\n'
-+ '    <a href="../articles/livret-a-ldds-lep-2026.html">Savings Accounts</a>\n'
-+ '    <a href="../articles/living-off-dividends-2026.html">Dividend Income</a>\n'
-+ '    <a href="../articles/mortgage-rates-france-2026.html">Mortgage</a>\n'
-+ '    <a href="../articles/declaring-rental-income-2026.html">Rental Income</a>\n'
-+ '    <a href="../articles/real-estate-crowdfunding-2026.html">Crowdfunding</a>\n'
-+ '    <a href="../articles/crypto-tax-france-2026.html">Crypto Tax</a>\n'
-+ '    <a href="../articles/property-tax-breaks-2026.html">Tax Breaks 2026</a>\n'
-+ '    <a href="../articles/per-retirement-plan-2026.html">Retirement Plan</a>\n'
-+ '    <a href="../articles/inheritance-gifts-france-2026.html">Inheritance</a>\n'
++ '    <a href="../stock-market-beginners-2026.html">Stock Market for Beginners</a>\n'
++ '    <a href="../etf-investing-2026.html">ETF</a>\n'
++ '    <a href="../life-insurance-comparison.html">Life Insurance</a>\n'
++ '    <a href="../livret-a-ldds-lep-2026.html">Savings Accounts</a>\n'
++ '    <a href="../living-off-dividends-2026.html">Dividend Income</a>\n'
++ '    <a href="../mortgage-rates-france-2026.html">Mortgage</a>\n'
++ '    <a href="../declaring-rental-income-2026.html">Rental Income</a>\n'
++ '    <a href="../real-estate-crowdfunding-2026.html">Crowdfunding</a>\n'
++ '    <a href="../crypto-tax-france-2026.html">Crypto Tax</a>\n'
++ '    <a href="../property-tax-breaks-2026.html">Tax Breaks 2026</a>\n'
++ '    <a href="../per-retirement-plan-2026.html">Retirement Plan</a>\n'
++ '    <a href="../inheritance-gifts-france-2026.html">Inheritance</a>\n'
 + '    <a href="../about.html">About</a>\n'
 + '  </nav>\n'
 + '</header>\n'
@@ -507,7 +507,7 @@
       if (!data.slug)  throw new Error('Slug is required.');
 
       var html = generateArticleHTML(data);
-      var path = 'articles/' + data.slug + '.html';
+      var path = '' + data.slug + '.html';
       await pushFile(path, html, 'Publish article: ' + data.slug);
       var baseSlug = data.slug.replace(/-(en|fr|ar|es|de)$/, '');
       await updateManifest({
@@ -669,7 +669,7 @@
     }
 
     // 1. Direct fetch (no PAT needed)
-    fetch('../articles/' + slug + '.html?t=' + Date.now())
+    fetch('../' + slug + '.html?t=' + Date.now())
       .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.text();
@@ -677,7 +677,7 @@
       .then(doLoad)
       .catch(function() {
         // 2. Fallback: GitHub API
-        ghRequest('/contents/articles/' + slug + '.html')
+        ghRequest('/contents/' + slug + '.html')
           .then(function(data) {
             var html = decodeURIComponent(escape(atob(data.content.replace(/\n/g,''))));
             doLoad(html);
@@ -991,13 +991,13 @@
       var rt      = a.readingTime || a.readTime || '?';
       html += '<div class="table-row">'
         + '<div><span class="article-emoji-sm">' + (a.emoji||'📄') + '</span> '
-        + '<a href="../articles/' + slug + '.html" target="_blank" style="color:var(--primary);font-weight:600">' + escapeHtml(a.title||slug) + '</a></div>'
+        + '<a href="../' + slug + '.html" target="_blank" style="color:var(--primary);font-weight:600">' + escapeHtml(a.title||slug) + '</a></div>'
         + '<div><span class="badge badge-' + catNorm + '">' + (a.category||catNorm) + '</span></div>'
         + '<div>' + lang + '</div>'
         + '<div style="font-size:.8rem;color:var(--muted)">' + date + ' · ' + rt + ' min</div>'
         + '<div class="row-actions">'
         + '<button class="btn btn-primary btn-sm" onclick="editArticle(\'' + slug + '\')">✏️</button>'
-        + '<a class="btn btn-outline btn-sm" href="../articles/' + slug + '.html" target="_blank">👁️</a>'
+        + '<a class="btn btn-outline btn-sm" href="../' + slug + '.html" target="_blank">👁️</a>'
         + '<button class="btn btn-outline btn-sm" onclick="deleteArticle(\'' + slug + '\')">🗑️</button>'
         + '</div></div>';
     });
@@ -1018,15 +1018,15 @@
   function deleteArticle(slug) {
     openModal('Delete article', 'Delete <strong>' + escapeHtml(slug) + '</strong> from GitHub? This cannot be undone.', async function() {
       try {
-        var sha = await getFileSHA('articles/' + slug + '.html');
-        if (sha) await ghRequest('/contents/articles/' + slug + '.html', 'DELETE', {
+        var sha = await getFileSHA('' + slug + '.html');
+        if (sha) await ghRequest('/contents/' + slug + '.html', 'DELETE', {
           message: 'Delete article: ' + slug,
           sha:     sha,
           branch:  getGithub().branch || 'main'
         });
         var manifest = await loadManifest();
         manifest = manifest.filter(function(a){ return a.slug !== slug; });
-        await pushFile('articles/manifest.json', JSON.stringify(manifest, null, 2), 'Remove from manifest: ' + slug);
+        await pushFile('manifest.json', JSON.stringify(manifest, null, 2), 'Remove from manifest: ' + slug);
         _manifest = manifest;
         filterArticles();
         toast('Article deleted.', 'success');

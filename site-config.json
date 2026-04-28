@@ -60,24 +60,24 @@
     "links": [
       { "label": "Home", "href": "/" },
       { "label": "Investments", "href": "#investments", "children": [
-        { "label": "Stock Market for Beginners", "href": "articles/investir-bourse-debutants.html" },
-        { "label": "ETF — How to Invest", "href": "articles/etf-investir.html" },
-        { "label": "Life Insurance", "href": "articles/assurance-vie-comparatif.html" },
-        { "label": "Savings Accounts 2026", "href": "articles/livret-a-ldds-lep.html" },
-        { "label": "Dividend Income", "href": "articles/devenir-rentier-dividendes.html" }
+        { "label": "Stock Market for Beginners", "href": "articles/stock-market-beginners-2026.html" },
+        { "label": "ETF — How to Invest", "href": "articles/etf-investing-2026.html" },
+        { "label": "Life Insurance", "href": "articles/life-insurance-comparison.html" },
+        { "label": "Savings Accounts 2026", "href": "articles/livret-a-ldds-lep-2026.html" },
+        { "label": "Dividend Income", "href": "articles/living-off-dividends-2026.html" }
       ]},
       { "label": "Real Estate", "href": "#real-estate", "children": [
-        { "label": "Mortgage & Rates", "href": "articles/credit-immobilier-negocier.html" },
-        { "label": "Rental Income Tax", "href": "articles/revenus-locatifs-declaration.html" },
-        { "label": "Real Estate Crowdfunding", "href": "articles/crowdfunding-immobilier.html" }
+        { "label": "Mortgage & Rates", "href": "articles/mortgage-rates-france-2026.html" },
+        { "label": "Rental Income Tax", "href": "articles/declaring-rental-income-2026.html" },
+        { "label": "Real Estate Crowdfunding", "href": "articles/real-estate-crowdfunding-2026.html" }
       ]},
       { "label": "Taxation", "href": "#taxation", "children": [
-        { "label": "Crypto Tax Guide", "href": "articles/fiscalite-cryptomonnaies.html" },
-        { "label": "Tax Breaks 2026", "href": "articles/loi-pinel-2026.html" },
-        { "label": "Retirement Savings Plan", "href": "articles/per-plan-epargne-retraite.html" },
-        { "label": "Inheritance & Gifts", "href": "articles/succession-donation.html" }
+        { "label": "Crypto Tax Guide", "href": "articles/crypto-tax-france-2026.html" },
+        { "label": "Tax Breaks 2026", "href": "articles/property-tax-breaks-2026.html" },
+        { "label": "Retirement Savings Plan", "href": "articles/per-retirement-plan-2026.html" },
+        { "label": "Inheritance & Gifts", "href": "articles/inheritance-gifts-france-2026.html" }
       ]},
-      { "label": "About", "href": "a-propos.html" }
+      { "label": "About", "href": "about.html" }
     ]
   },
   "footer": {

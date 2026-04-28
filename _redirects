@@ -1,19 +1,38 @@
-# Render.com clean URL rules
-# Hide .html extensions from the URL bar
+# Clean URLs — strip .html from all pages
+/about                              /about.html                              200
+/contact                            /contact.html                            200
+/legal-notice                       /legal-notice.html                       200
+/privacy-policy                     /privacy-policy.html                     200
+/sitemap                            /sitemap.html                            200
 
-# Admin (always redirect to directory index, hide /index.html)
-/admin              /admin/index.html   200
-/admin/             /admin/index.html   200
+# Articles — clean slugs
+/articles/stock-market-beginners-2026       /articles/stock-market-beginners-2026.html       200
+/articles/life-insurance-comparison         /articles/life-insurance-comparison.html         200
+/articles/etf-investing-2026               /articles/etf-investing-2026.html               200
+/articles/mortgage-rates-france-2026        /articles/mortgage-rates-france-2026.html        200
+/articles/crypto-tax-france-2026            /articles/crypto-tax-france-2026.html            200
+/articles/property-tax-breaks-2026          /articles/property-tax-breaks-2026.html          200
+/articles/per-retirement-plan-2026          /articles/per-retirement-plan-2026.html          200
+/articles/declaring-rental-income-2026      /articles/declaring-rental-income-2026.html      200
+/articles/inheritance-gifts-france-2026     /articles/inheritance-gifts-france-2026.html     200
+/articles/real-estate-crowdfunding-2026     /articles/real-estate-crowdfunding-2026.html     200
+/articles/livret-a-ldds-lep-2026           /articles/livret-a-ldds-lep-2026.html           200
+/articles/living-off-dividends-2026         /articles/living-off-dividends-2026.html         200
 
-# Static pages
-/about              /about.html         200
-/contact            /contact.html       200
-/legal              /legal.html         200
-/privacy            /privacy.html       200
-/sitemap            /sitemap.xml        200
-
-# Articles: /articles/slug → /articles/slug.html
-/articles/:slug     /articles/:slug.html   200
-
-# Home
-/                   /index.html         200
+# Old French URLs → permanent redirect to new English slugs (preserves backlinks/SEO)
+/a-propos.html                      /about                                   301
+/mentions-legales.html              /legal-notice                            301
+/politique-confidentialite.html     /privacy-policy                          301
+/plan-du-site.html                  /sitemap                                 301
+/articles/assurance-vie-comparatif.html         /articles/life-insurance-comparison         301
+/articles/credit-immobilier-negocier.html       /articles/mortgage-rates-france-2026        301
+/articles/crowdfunding-immobilier.html          /articles/real-estate-crowdfunding-2026     301
+/articles/devenir-rentier-dividendes.html       /articles/living-off-dividends-2026         301
+/articles/etf-investir.html                     /articles/etf-investing-2026                301
+/articles/fiscalite-cryptomonnaies.html         /articles/crypto-tax-france-2026            301
+/articles/investir-bourse-debutants.html        /articles/stock-market-beginners-2026       301
+/articles/livret-a-ldds-lep.html               /articles/livret-a-ldds-lep-2026            301
+/articles/loi-pinel-2026.html                   /articles/property-tax-breaks-2026          301
+/articles/per-plan-epargne-retraite.html        /articles/per-retirement-plan-2026          301
+/articles/revenus-locatifs-declaration.html     /articles/declaring-rental-income-2026      301
+/articles/succession-donation.html              /articles/inheritance-gifts-france-2026     301

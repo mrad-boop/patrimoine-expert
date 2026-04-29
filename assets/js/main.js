@@ -222,6 +222,7 @@
     { title: 'Crowdfunding immobilier : rendement, risques et avis complet', url: 'real-estate-crowdfunding-2026.html', cat: 'Immobilier' },
     { title: 'Livret A, LDDS, LEP : le match des livrets réglementés 2026', url: 'livret-a-ldds-lep-2026.html', cat: 'Placements' },
     { title: 'Devenir rentier avec les dividendes : stratégie et portefeuille', url: 'living-off-dividends-2026.html', cat: 'Placements' },
+    { title: 'SCPI in France 2026: Invest in Real Estate Without the Hassle', url: 'scpi-real-estate-investment-2026.html', cat: 'Placements' },
   ];
 
   function renderResults(query) {

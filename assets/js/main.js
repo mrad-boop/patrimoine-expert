@@ -226,6 +226,7 @@
     { title: 'PEA vs CTO in France 2026: Which Stock Account Should You Choose?', url: 'pea-vs-cto-france-2026.html', cat: 'Placements' },
     { title: 'How to Build an Investment Portfolio from Scratch (2026 Guide)', url: 'build-investment-portfolio-2026.html', cat: 'Placements' },
     { title: 'Investing in Gold in 2026: Bars, ETFs or Coins — Which Form to Choose?', url: 'investing-in-gold-2026.html', cat: 'Placements' },
+    { title: 'Stocks vs Real Estate: Where to Invest €100,000 in 2026?', url: 'stocks-vs-real-estate-2026.html', cat: 'Placements' },
   ];
 
   function renderResults(query) {

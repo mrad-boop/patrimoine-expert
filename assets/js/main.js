@@ -224,6 +224,7 @@
     { title: 'Devenir rentier avec les dividendes : stratégie et portefeuille', url: 'living-off-dividends-2026.html', cat: 'Placements' },
     { title: 'SCPI in France 2026: Invest in Real Estate Without the Hassle', url: 'scpi-real-estate-investment-2026.html', cat: 'Placements' },
     { title: 'PEA vs CTO in France 2026: Which Stock Account Should You Choose?', url: 'pea-vs-cto-france-2026.html', cat: 'Placements' },
+    { title: 'How to Build an Investment Portfolio from Scratch (2026 Guide)', url: 'build-investment-portfolio-2026.html', cat: 'Placements' },
   ];
 
   function renderResults(query) {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Main pages -->
   <url>
     <loc>https://smartwealth-blog.pages.dev/</loc>
     <lastmod>2026-04-28</lastmod>
@@ -39,7 +38,6 @@
     <priority>0.3</priority>
   </url>
 
-  <!-- Articles — Investments -->
   <url>
     <loc>https://smartwealth-blog.pages.dev/stock-market-beginners-2026</loc>
     <lastmod>2026-04-28</lastmod>
@@ -101,7 +99,6 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- Articles — Real Estate -->
   <url>
     <loc>https://smartwealth-blog.pages.dev/mortgage-rates-france-2026</loc>
     <lastmod>2026-04-28</lastmod>
@@ -121,7 +118,6 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Articles — Taxation -->
   <url>
     <loc>https://smartwealth-blog.pages.dev/crypto-tax-france-2026</loc>
     <lastmod>2026-04-28</lastmod>

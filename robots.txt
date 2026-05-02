@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-Disallow: /assets/
 
 Sitemap: https://smartwealth-blog.pages.dev/sitemap.xml
